@@ -1,0 +1,4 @@
+history
+/target
+*.bak
+/.vscode/settings.json

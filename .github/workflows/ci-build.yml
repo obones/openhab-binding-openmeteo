@@ -1,0 +1,70 @@
+name: Build Open Meteo binding
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        java: [ '17' ]
+        maven: [ '3.9.4' ]
+        os: [ 'ubuntu-22.04' ]
+        addons-ref: [ '4.0.x', 'main' ]
+        include:
+          - java: 11.0.19
+            addons-ref: 3.4.x
+            os: ubuntu-22.04
+            maven: 3.9.4 
+          - java: 17.0.7
+            addons-ref: 3.4.x
+            os: ubuntu-22.04
+            maven: 3.9.4 
+    name: Build on ${{ matrix.addons-ref }} (Java ${{ matrix.java }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout openhab-addons
+        uses: actions/checkout@v3
+        with:
+          repository: openhab/openhab-addons
+          path: openhab-addons
+          ref: ${{ matrix.addons-ref }}
+
+      - name: Checkout addon
+        uses: actions/checkout@v3
+        with:
+          path: openhab-addons/bundles/com.obones.binding.openmeteo
+
+      - name: Set up Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2/repository
+            !~/.m2/repository/org/openhab
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Set up Java ${{ matrix.java }}
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+
+      - name: Set up Maven ${{ matrix.maven }}
+        uses: stCarolas/setup-maven@v4.5
+        with:
+          maven-version: ${{ matrix.maven }}
+
+      - name: Build with maven
+        run: 'cd openhab-addons/bundles/com.obones.binding.openmeteo ; mvn clean install -DskipChecks'
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: com.obones.binding.openmeteo-openhab_${{ matrix.addons-ref }}-java_${{ matrix.java }}
+          path: |
+            openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*.jar
+            !openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*-sources.jar
+    

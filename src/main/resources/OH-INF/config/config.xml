@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Open Meteo Binding -->
+<config-description:config-descriptions
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:config-description="https://openhab.org/schemas/config-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/config-description/v1.0.0
+	https://openhab.org/schemas/config-description-1.0.0.xsd">
+	<!-- -->
+	<!-- Open Meteo Bridge -->
+	<!-- -->
+	<config-description uri="bridge-type:openmeteo:bridge">
+		<parameter name="timeoutMsecs" type="integer" min="500" step="1" max="10000" required="false">
+			<label>@text/config.openmeteo.bridge.timeoutMsecs.label</label>
+			<description>@text/config.openmeteo.bridge.timeoutMsecs.description</description>
+			<default>3000</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="retries" type="integer" min="0" step="1" max="10" required="false">
+			<label>@text/config.openmeteo.bridge.retries.label</label>
+			<description>@text/config.openmeteo.bridge.retries.description</description>
+			<default>5</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="refreshMsecs" type="integer" min="5000" step="1" max="60000" required="false">
+			<label>@text/config.openmeteo.bridge.refreshMsecs.label</label>
+			<description>@text/config.openmeteo.bridge.refreshMsecs.description</description>
+			<default>10000</default>
+			<advanced>true</advanced>
+		</parameter>
+	</config-description>
+	<!-- -->
+	<!-- Open Meteo Locations -->
+	<!-- -->
+
+</config-description:config-descriptions>

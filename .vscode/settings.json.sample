@@ -1,0 +1,26 @@
+SAMPLE SETTINGS FILE FOR VSCODE
+
+Copy file to settings.json, replace below values with valid content and remove this header
+
+{
+    "mvn_bin_path": "C:\\Path\\To\\java\\apache-maven-3.9.6\\bin",
+    "Custom_JAVA_HOME": "C:\\Path\\To\\java\\jdk-17.0.7+7",
+    "openhab_home": "C:\\Path\\To\\ohab4.2.0snapshot",
+    "openhab_runtime": "C:\\Path\\To\\ohab4.2.0snapshot\\runtime",
+    "openhab_addons": "C:\\Path\\To\\ohab4.2.0snapshot\\addons",
+    "openhab_logs": "C:\\Path\\To\\ohab4.2.0snapshot\\userdata\\logs",
+
+    "maven.executable.preferMavenWrapper": false,
+    "maven.terminal.customEnv": [
+        {
+            "environmentVariable": "JAVA_HOME",                
+            "value": "${config:Custom_JAVA_HOME}"
+        }
+    ],
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "cSpell.words": [
+    ],
+    "cSpell.ignoreWords": [
+    ]
+}

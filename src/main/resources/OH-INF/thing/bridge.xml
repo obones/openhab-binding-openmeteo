@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Open Meteo Bridge Things Binding -->
+<thing:thing-descriptions bindingId="openmeteo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<!-- Open Meteo Bridge Binding -->
+	<bridge-type id="openmeteo">
+		<label>@text/bridge-type.openmeteo.openmeteo.label</label>
+		<description>@text/bridge-type.openmeteo.openmeteo.description</description>
+
+		<channels>
+		</channels>
+
+		<properties>
+			<property name="vendor">Open Meteo</property>
+			<property name="apiVersion"/>
+		</properties>
+
+		<config-description-ref uri="bridge-type:openmeteo:bridge"/>
+
+	</bridge-type>
+
+</thing:thing-descriptions>
