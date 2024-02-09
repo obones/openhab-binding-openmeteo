@@ -4,7 +4,7 @@
 
 	<feature name="openhab-binding-openmeteo" description="Open Meteo Binding" version="${project.version}">
 		<feature>openhab-runtime-base</feature>
-		<bundle start-level="80">mvn:org.openhab.addons.bundles/com.obones.binding.openmeteo/${project.version}</bundle>
 		<bundle dependency="true">mvn:com.google.flatbuffers/flatbuffers-java/23.5.9</bundle>
+		<bundle start-level="80">mvn:org.openhab.addons.bundles/com.obones.binding.openmeteo/${project.version}</bundle>
 	</feature>
 </features>
