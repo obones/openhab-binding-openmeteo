@@ -19,6 +19,18 @@
     </dependency>
   </dependencies>
 
+  <properties>
+    <!--
+      com.open-meteo depends on findbugs which has an invalid javax.annotation import requirement as it references a version
+      that does not exist
+      To workaround this, we replace the version requirement on the fly, as suggested on these pages:
+
+      https://github.com/LibrePDF/OpenPDF/issues/512
+      https://stackoverflow.com/questions/64568455/why-does-findbugs-jsr305-break-osgi-package-export-of-javax-annotations-in-redha
+    -->
+    <bnd.importpackage>javax.annotation;version="[1,4)"</bnd.importpackage>
+  </properties>
+
   <artifactId>com.obones.binding.openmeteo</artifactId>
 
   <name>openHAB Add-ons :: Bundles :: Open Meteo Binding</name>
