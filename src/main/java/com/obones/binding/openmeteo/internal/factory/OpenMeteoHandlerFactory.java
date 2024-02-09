@@ -15,6 +15,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.i18n.LocaleProvider;
 import org.openhab.core.i18n.TranslationProvider;
+import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.binding.BaseThingHandlerFactory;
@@ -27,6 +28,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants;
+import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 
 /**
@@ -54,6 +57,12 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
                     localeProvider, i18nProvider);
             localization = new Localization(localeProvider, i18nProvider);
         }
+    }
+
+    private @Nullable ThingHandler createBridgeHandler(Thing thing) {
+        logger.trace("createBridgeHandler({}) called for thing named '{}'.", thing.getUID(), thing.getLabel());
+        OpenMeteoBridgeHandler openMeteoBridgeHandler = new OpenMeteoBridgeHandler((Bridge) thing, localization);
+        return openMeteoBridgeHandler;
     }
 
     // Constructor
@@ -95,6 +104,11 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         ThingTypeUID thingTypeUID = thing.getThingTypeUID();
 
         // Handle Binding creation
+        // Handle Bridge creation
+        if (OpenMeteoBindingConstants.SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID)) {
+            resultHandler = createBridgeHandler(thing);
+        }
+
         return resultHandler;
     }
 
