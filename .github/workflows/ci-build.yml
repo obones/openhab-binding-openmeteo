@@ -16,19 +16,19 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout openhab-addons
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: openhab/openhab-addons
           path: openhab-addons
           ref: ${{ matrix.addons-ref }}
 
       - name: Checkout addon
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: openhab-addons/bundles/com.obones.binding.openmeteo
 
       - name: Set up Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.m2/repository
@@ -38,13 +38,13 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Set up Java ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
 
       - name: Set up Maven ${{ matrix.maven }}
-        uses: stCarolas/setup-maven@v4.5
+        uses: stCarolas/setup-maven@v5
         with:
           maven-version: ${{ matrix.maven }}
 
@@ -52,7 +52,7 @@ jobs:
         run: 'cd openhab-addons/bundles/com.obones.binding.openmeteo ; mvn clean install -DskipChecks'
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: com.obones.binding.openmeteo-openhab_${{ matrix.addons-ref }}-java_${{ matrix.java }}
           path: |
