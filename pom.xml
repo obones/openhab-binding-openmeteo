@@ -17,6 +17,14 @@
       <version>1.4.0</version>
       <scope>compile</scope>
     </dependency>
+
+    <!-- force presence in final jar file, seems the "feature.xml" bundle dependency is not enough -->
+    <dependency>
+      <groupId>com.google.flatbuffers</groupId>
+      <artifactId>flatbuffers-java</artifactId>
+      <version>23.5.9</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <properties>
