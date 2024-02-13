@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OpenMeteo Binding -->
+<thing:thing-descriptions bindingId="openmeteo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<!-- -->
+	<!-- OpenMeteo forecast thing -->
+	<!-- -->
+	<thing-type id="forecast">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="openmeteo"/>
+		</supported-bridge-type-refs>
+		<label>@text/thing-type.openmeteo.forecast.label</label>
+		<description>@text/thing-type.openmeteo.forecast.description</description>
+		<category>forecast</category>
+		<properties>
+		</properties>
+		<representation-property>location</representation-property>
+		<config-description-ref uri="thing-type:openmeteo:forecast"/>
+	</thing-type>
+</thing:thing-descriptions>

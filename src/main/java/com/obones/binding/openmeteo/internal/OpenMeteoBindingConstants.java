@@ -36,12 +36,22 @@ public class OpenMeteoBindingConstants {
      * The Thing identification of the <B>OpenMeteo</B> bridge.
      */
     private static final String THING_OPENMETEO_BRIDGE = "openmeteo";
+    /**
+     * The Thing identification of a forecast defined on the <B>OpenMeteo</B> bridge.
+     */
+    private static final String THING_OPENMETEO_FORECAST = "forecast";
 
     // List of all Bridge Type UIDs
     public static final ThingTypeUID THING_TYPE_BRIDGE = new ThingTypeUID(BINDING_ID, THING_OPENMETEO_BRIDGE);
 
+    // List of all Thing Type UIDs beyond the bridge(s)
+    public static final ThingTypeUID THING_TYPE_OPENMETEO_FORECAST = new ThingTypeUID(BINDING_ID,
+            THING_OPENMETEO_FORECAST);
+
     // Definitions of different set of Things
     public static final Set<ThingTypeUID> SUPPORTED_THINGS_BRIDGE = new HashSet<>(Arrays.asList(THING_TYPE_BRIDGE));
+    public static final Set<ThingTypeUID> SUPPORTED_THINGS_ITEMS = new HashSet<>(
+            Arrays.asList(THING_TYPE_OPENMETEO_FORECAST));
 
     // List of all bridge channel ids
 

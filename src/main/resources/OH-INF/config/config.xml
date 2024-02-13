@@ -29,7 +29,15 @@
 		</parameter>
 	</config-description>
 	<!-- -->
-	<!-- Open Meteo Locations -->
+	<!-- Open Meteo Forecast -->
 	<!-- -->
+	<config-description uri="thing-type:openmeteo:forecast">
+		<parameter name="includeTemperature" type="boolean" required="true">
+			<label>@text/config.openmeteo.thing.forecast.includeTemperature.label</label>
+			<description>@text/config.openmeteo.thing.forecast.includeTemperature.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+	</config-description>
 
 </config-description:config-descriptions>

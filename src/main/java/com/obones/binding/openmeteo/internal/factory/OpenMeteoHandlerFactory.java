@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
+import com.obones.binding.openmeteo.internal.handler.OpenMeteoForecastThingHandler;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 
 /**
@@ -65,6 +66,11 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         return openMeteoBridgeHandler;
     }
 
+    private @Nullable ThingHandler createForecastThingHandler(Thing thing) {
+        logger.trace("createForecastThingHandler({}) called for thing named '{}'.", thing.getUID(), thing.getLabel());
+        return new OpenMeteoForecastThingHandler(thing, localization);
+    }
+
     // Constructor
 
     @Activate
@@ -93,7 +99,8 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
-        boolean result = OpenMeteoBindingConstants.SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID);
+        boolean result = OpenMeteoBindingConstants.SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID)
+                || OpenMeteoBindingConstants.SUPPORTED_THINGS_ITEMS.contains(thingTypeUID);
         logger.trace("supportsThingType({}) called and returns {}.", thingTypeUID, result);
         return result;
     }
@@ -107,6 +114,12 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         // Handle Bridge creation
         if (OpenMeteoBindingConstants.SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID)) {
             resultHandler = createBridgeHandler(thing);
+        }
+        // Handle creation of Things behind the Bridge
+        else if (OpenMeteoBindingConstants.THING_TYPE_OPENMETEO_FORECAST.equals(thingTypeUID)) {
+            resultHandler = createForecastThingHandler(thing);
+        } else {
+            logger.warn("createHandler({}) failed: ThingHandler not found for {}.", thingTypeUID, thing.getLabel());
         }
 
         return resultHandler;
