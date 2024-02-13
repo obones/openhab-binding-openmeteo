@@ -93,7 +93,7 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
-        boolean result = false;
+        boolean result = OpenMeteoBindingConstants.SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID);
         logger.trace("supportsThingType({}) called and returns {}.", thingTypeUID, result);
         return result;
     }
