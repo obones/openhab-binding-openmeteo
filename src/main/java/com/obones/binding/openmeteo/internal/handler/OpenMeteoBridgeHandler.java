@@ -76,6 +76,8 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
             return;
         }
 
+        updateStatus(ThingStatus.ONLINE);
+
         logger.trace("initialize(): initialize bridge configuration parameters.");
     }
 
@@ -103,6 +105,8 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
         logger.trace("handleCommand({}): command {} on channel {} will be scheduled.", Thread.currentThread(), command,
                 channelUID.getAsString());
         logger.debug("handleCommand({},{}) called.", channelUID.getAsString(), command);
+
+        updateStatus(ThingStatus.ONLINE);
 
         logger.trace("handleCommand({}) done.", Thread.currentThread());
     }
