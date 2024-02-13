@@ -43,6 +43,7 @@ import com.obones.binding.openmeteo.internal.utils.Localization;
  *
  * @author Olivier Sannier - Initial contribution.
  */
+@NonNullByDefault
 public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
 
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
