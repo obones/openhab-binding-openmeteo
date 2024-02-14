@@ -20,6 +20,7 @@ import org.openhab.core.config.core.Configuration;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
+import org.openhab.core.thing.DefaultSystemChannelTypeProvider;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingStatus;
 import org.openhab.core.thing.ThingStatusDetail;
@@ -31,7 +32,10 @@ import org.openhab.core.thing.binding.ThingHandlerCallback;
 import org.openhab.core.thing.binding.builder.ChannelBuilder;
 import org.openhab.core.thing.binding.builder.ThingBuilder;
 import org.openhab.core.thing.type.AutoUpdatePolicy;
+import org.openhab.core.thing.type.ChannelGroupDefinition;
 import org.openhab.core.thing.type.ChannelTypeUID;
+import org.openhab.core.thing.type.ThingType;
+import org.openhab.core.thing.type.ThingTypeRegistry;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 import org.slf4j.Logger;
@@ -44,12 +48,14 @@ import com.obones.binding.openmeteo.internal.utils.Localization;
 public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
+    private @Nullable ThingTypeRegistry thingTypeRegistry;
 
     public Localization localization;
 
-    public OpenMeteoForecastThingHandler(Thing thing, Localization localization) {
+    public OpenMeteoForecastThingHandler(Thing thing, Localization localization, ThingTypeRegistry thingTypeRegistry) {
         super(thing);
         this.localization = localization;
+        this.thingTypeRegistry = thingTypeRegistry;
         logger.trace("OpenMeteoForecastHandler(thing={},localization={}) constructor called.", thing, localization);
     }
 
@@ -65,7 +71,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         } else if (thisBridge.getStatus() == ThingStatus.ONLINE) {
             logger.trace("initialize() updating ThingStatus to ONLINE.");
-            createOptionalChannels();
+            initializeChannels();
             initializeProperties();
             updateStatus(ThingStatus.ONLINE);
         } else {
@@ -90,26 +96,48 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
     }
 
-    protected synchronized void createOptionalChannels() {
+    protected synchronized void initializeChannels() {
         Bridge bridge = getBridge();
         if (bridge != null) {
             OpenMeteoBridgeHandler bridgeHandler = (OpenMeteoBridgeHandler) bridge.getHandler();
             if (bridgeHandler == null) {
-                logger.warn("createOptionalChannels: Could not get bridge handler");
+                logger.warn("initializeOptionalChannels: Could not get bridge handler");
                 return;
             }
 
-            createOptionalChannels(bridgeHandler);
+            initializeChannels(bridgeHandler);
         }
     }
 
-    protected void createOptionalChannels(OpenMeteoBridgeHandler bridgeHandler) {
+    protected void initializeChannels(OpenMeteoBridgeHandler bridgeHandler) {
+        ThingHandlerCallback callback = getCallback();
+        if (callback == null) {
+            logger.warn("initializeOptionalChannels: Could not get callback.");
+            return;
+        }
+
+        OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
+
+        ThingBuilder builder = editThing();
+        ThingUID thingUID = thing.getUID();
+        ThingType thingType = thingTypeRegistry.getThingType(thing.getThingTypeUID());
+
+        for (ChannelGroupDefinition channelGroupDefinition : thingType.getChannelGroupDefinitions()) {
+            String channelId = "temperature";
+            String channelGroupId = channelGroupDefinition.getId();
+            ChannelTypeUID channelTypeUID = DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE;
+
+            initializeOptionalChannel(callback, builder, thingUID, channelGroupId, channelId, channelTypeUID,
+                    config.includeTemperature);
+        }
+
+        updateThing(builder.build());
     }
 
-    protected ThingBuilder createOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder, ThingUID thingUID,
-            String ChannelId, ChannelTypeUID channelTypeUID, AutoUpdatePolicy autoUpdatePolicy,
-            @Nullable String labelKey, @Nullable String descriptionKey) {
-        ChannelUID channelUID = new ChannelUID(thing.getUID(), ChannelId);
+    protected ThingBuilder initializeOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, String channelGroupId, String channelId, ChannelTypeUID channelTypeUID, boolean isActive,
+            AutoUpdatePolicy autoUpdatePolicy, @Nullable String labelKey, @Nullable String descriptionKey) {
+        ChannelUID channelUID = new ChannelUID(thing.getUID(), channelGroupId, channelId);
         ChannelBuilder channelBuilder = callback.createChannelBuilder(channelUID, channelTypeUID);
 
         channelBuilder.withAutoUpdatePolicy(autoUpdatePolicy);
@@ -120,26 +148,30 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         Channel channel = channelBuilder.build();
 
-        // Add channel (remove it beforehand to avoid duplicates, it's a no-op if it did not exist)
-        return builder.withoutChannel(channelUID).withChannel(channel);
+        builder = builder.withoutChannel(channelUID);
+
+        return (isActive) ? builder.withChannel(channel) : builder;
     }
 
-    protected ThingBuilder createOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder, ThingUID thingUID,
-            String ChannelId, ChannelTypeUID channelTypeUID, AutoUpdatePolicy autoUpdatePolicy) {
-        return createOptionalChannel(callback, builder, thingUID, ChannelId, channelTypeUID, autoUpdatePolicy, null,
-                null);
+    protected ThingBuilder initializeOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, String channelGroupId, String channelId, ChannelTypeUID channelTypeUID, boolean isActive,
+            AutoUpdatePolicy autoUpdatePolicy) {
+        return initializeOptionalChannel(callback, builder, thingUID, channelGroupId, channelId, channelTypeUID,
+                isActive, autoUpdatePolicy, null, null);
     }
 
-    protected ThingBuilder createOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder, ThingUID thingUID,
-            String ChannelId, ChannelTypeUID channelTypeUID, @Nullable String labelKey,
-            @Nullable String descriptionKey) {
-        return createOptionalChannel(callback, builder, thingUID, ChannelId, channelTypeUID, AutoUpdatePolicy.DEFAULT,
-                labelKey, descriptionKey);
+    protected ThingBuilder initializeOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, String channelGroupId, String channelId, ChannelTypeUID channelTypeUID, boolean isActive,
+            @Nullable String labelKey, @Nullable String descriptionKey) {
+        return initializeOptionalChannel(callback, builder, thingUID, channelGroupId, channelId, channelTypeUID,
+                isActive, AutoUpdatePolicy.DEFAULT, labelKey, descriptionKey);
     }
 
-    protected ThingBuilder createOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder, ThingUID thingUID,
-            String ChannelId, ChannelTypeUID channelTypeUID) {
-        return createOptionalChannel(callback, builder, thingUID, ChannelId, channelTypeUID, null, null);
+    protected ThingBuilder initializeOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, String channelGroupId, String channelId, ChannelTypeUID channelTypeUID,
+            boolean isActive) {
+        return initializeOptionalChannel(callback, builder, thingUID, channelGroupId, channelId, channelTypeUID,
+                isActive, null, null);
     }
 
     @Override
