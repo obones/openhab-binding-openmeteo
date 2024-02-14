@@ -21,6 +21,7 @@ import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.binding.BaseThingHandlerFactory;
 import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.thing.binding.ThingHandlerFactory;
+import org.openhab.core.thing.type.ThingTypeRegistry;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -46,6 +47,7 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
 
     private @NonNullByDefault({}) LocaleProvider localeProvider;
     private @NonNullByDefault({}) TranslationProvider i18nProvider;
+    private ThingTypeRegistry thingTypeRegistry;
     private Localization localization = Localization.UNKNOWN;
 
     private @Nullable static ThingHandlerFactory activeInstance = null;
@@ -68,17 +70,20 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
 
     private @Nullable ThingHandler createForecastThingHandler(Thing thing) {
         logger.trace("createForecastThingHandler({}) called for thing named '{}'.", thing.getUID(), thing.getLabel());
-        return new OpenMeteoForecastThingHandler(thing, localization);
+        return new OpenMeteoForecastThingHandler(thing, localization, thingTypeRegistry);
     }
 
     // Constructor
 
     @Activate
     public OpenMeteoHandlerFactory(final @Reference LocaleProvider givenLocaleProvider,
-            final @Reference TranslationProvider givenI18nProvider) {
-        logger.trace("AirZoneHandlerFactory(locale={},translation={}) called.", givenLocaleProvider, givenI18nProvider);
+            final @Reference TranslationProvider givenI18nProvider,
+            final @Reference ThingTypeRegistry givenThingTypeRegistry) {
+        logger.trace("OpenMeteoHandlerFactory(locale={},translation={}) called.", givenLocaleProvider,
+                givenI18nProvider);
         localeProvider = givenLocaleProvider;
         i18nProvider = givenI18nProvider;
+        thingTypeRegistry = givenThingTypeRegistry;
     }
 
     @Reference
