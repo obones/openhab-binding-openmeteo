@@ -9,6 +9,18 @@
 	<!-- Open Meteo Bridge -->
 	<!-- -->
 	<config-description uri="bridge-type:openmeteo:bridge">
+		<parameter name="baseURI" type="text" required="true">
+			<label>@text/config.openmeteo.bridge.baseURI.label</label>
+			<description>@text/config.openmeteo.bridge.baseURI.description</description>
+			<default>https://api.open-meteo.com/v1/</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="APIKey" type="text">
+			<label>@text/config.openmeteo.bridge.APIKey.label</label>
+			<description>@text/config.openmeteo.bridge.APIKey.description</description>
+			<default></default>
+			<advanced>true</advanced>
+		</parameter>
 		<parameter name="timeoutMsecs" type="integer" min="500" step="1" max="10000" required="false">
 			<label>@text/config.openmeteo.bridge.timeoutMsecs.label</label>
 			<description>@text/config.openmeteo.bridge.timeoutMsecs.description</description>
@@ -19,12 +31,6 @@
 			<label>@text/config.openmeteo.bridge.retries.label</label>
 			<description>@text/config.openmeteo.bridge.retries.description</description>
 			<default>5</default>
-			<advanced>true</advanced>
-		</parameter>
-		<parameter name="refreshMsecs" type="integer" min="5000" step="1" max="60000" required="false">
-			<label>@text/config.openmeteo.bridge.refreshMsecs.label</label>
-			<description>@text/config.openmeteo.bridge.refreshMsecs.description</description>
-			<default>10000</default>
 			<advanced>true</advanced>
 		</parameter>
 	</config-description>
