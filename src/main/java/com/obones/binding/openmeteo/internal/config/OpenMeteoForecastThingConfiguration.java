@@ -21,4 +21,8 @@ public class OpenMeteoForecastThingConfiguration {
      * Default values - should not be modified
      */
     public boolean includeTemperature = true;
+    public boolean includePressure = true;
+    public boolean includeHumidity = true;
+    public boolean includeWindSpeed = true;
+    public boolean includeWindDirection = true;
 }

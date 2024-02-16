@@ -38,6 +38,30 @@
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
+		<parameter name="includePressure" type="boolean" required="true">
+			<label>@text/config.openmeteo.thing.forecast.includePressure.label</label>
+			<description>@text/config.openmeteo.thing.forecast.includePressure.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeHumidity" type="boolean" required="true">
+			<label>@text/config.openmeteo.thing.forecast.includeHumidity.label</label>
+			<description>@text/config.openmeteo.thing.forecast.includeHumidity.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeWindSpeed" type="boolean" required="true">
+			<label>@text/config.openmeteo.thing.forecast.includeWindSpeed.label</label>
+			<description>@text/config.openmeteo.thing.forecast.includeWindSpeed.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeWindDirection" type="boolean" required="true">
+			<label>@text/config.openmeteo.thing.forecast.includeWindDirection.label</label>
+			<description>@text/config.openmeteo.thing.forecast.includeWindDirection.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
 	</config-description>
 
 </config-description:config-descriptions>

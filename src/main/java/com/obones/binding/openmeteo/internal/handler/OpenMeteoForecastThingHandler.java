@@ -41,6 +41,7 @@ import org.openhab.core.types.RefreshType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoForecastThingConfiguration;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 
@@ -123,12 +124,31 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         ThingType thingType = thingTypeRegistry.getThingType(thing.getThingTypeUID());
 
         for (ChannelGroupDefinition channelGroupDefinition : thingType.getChannelGroupDefinitions()) {
-            String channelId = "temperature";
             String channelGroupId = channelGroupDefinition.getId();
-            ChannelTypeUID channelTypeUID = DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE;
 
-            initializeOptionalChannel(callback, builder, thingUID, channelGroupId, channelId, channelTypeUID,
+            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                    OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE,
+                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE,
                     config.includeTemperature);
+
+            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                    OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE,
+                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE,
+                    config.includePressure);
+
+            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                    OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY,
+                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY,
+                    config.includeHumidity);
+
+            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                    OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED,
+                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed);
+
+            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                    OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION,
+                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION,
+                    config.includeWindDirection);
         }
 
         updateThing(builder.build());
