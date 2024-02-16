@@ -20,6 +20,10 @@ public class OpenMeteoForecastThingConfiguration {
     /*
      * Default values - should not be modified
      */
+    public int hourlyHours = 48;
+    public boolean hourlyTimeSeries = true;
+    public boolean hourlySplit = false;
+
     public boolean includeTemperature = true;
     public boolean includePressure = true;
     public boolean includeHumidity = true;

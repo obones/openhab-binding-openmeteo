@@ -38,6 +38,30 @@
 	<!-- Open Meteo Forecast -->
 	<!-- -->
 	<config-description uri="thing-type:openmeteo:forecast">
+		<!-- Hourly parameters -->
+		<parameter-group name="hourlyParameters">
+			<label>@text/config.openmeteo.thing.forecast.hourlyParameters.label</label>
+			<description>@text/config.openmeteo.thing.forecast.hourlyParameters.description</description>
+		</parameter-group>
+
+		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" step="1">
+			<label>@text/config.openmeteo.thing.forecast.hourlyHours.label</label>
+			<description>@text/config.openmeteo.thing.forecast.hourlyHours.description</description>
+			<advanced>false</advanced>
+			<default>48</default>
+		</parameter>
+		<parameter name="hourlyTimeSeries" type="boolean" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.forecast.hourlyTimeSeries.label</label>
+			<description>@text/config.openmeteo.thing.forecast.hourlyTimeSeries.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="hourlySplit" type="boolean" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.forecast.hourlySplit.label</label>
+			<description>@text/config.openmeteo.thing.forecast.hourlySplit.description</description>
+			<advanced>false</advanced>
+			<default>false</default>
+		</parameter>
 
 		<!-- Channel parameters -->
 		<parameter-group name="channelParameters">
