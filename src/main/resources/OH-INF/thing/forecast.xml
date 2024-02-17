@@ -17,6 +17,7 @@
 		<category>forecast</category>
 		<channel-groups>
 			<channel-group id="forecastHourly" typeId="hourlyTimeSeries"/>
+			<channel-group id="forecastHours04" typeId="hourly"/>
 		</channel-groups>
 		<properties>
 		</properties>

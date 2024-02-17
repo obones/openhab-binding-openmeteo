@@ -11,6 +11,7 @@
  */
 package com.obones.binding.openmeteo.internal.handler;
 
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -32,9 +33,7 @@ import org.openhab.core.thing.binding.ThingHandlerCallback;
 import org.openhab.core.thing.binding.builder.ChannelBuilder;
 import org.openhab.core.thing.binding.builder.ThingBuilder;
 import org.openhab.core.thing.type.AutoUpdatePolicy;
-import org.openhab.core.thing.type.ChannelGroupDefinition;
 import org.openhab.core.thing.type.ChannelTypeUID;
-import org.openhab.core.thing.type.ThingType;
 import org.openhab.core.thing.type.ThingTypeRegistry;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
@@ -121,37 +120,51 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         ThingBuilder builder = editThing();
         ThingUID thingUID = thing.getUID();
-        ThingType thingType = thingTypeRegistry.getThingType(thing.getThingTypeUID());
 
-        for (ChannelGroupDefinition channelGroupDefinition : thingType.getChannelGroupDefinitions()) {
-            String channelGroupId = channelGroupDefinition.getId();
+        // Remove every channel and rebuild only the required ones, this makes for easier to read code
+        // and has no impact until the build() method is called
+        builder.withoutChannels(thing.getChannels());
 
-            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                    OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE,
-                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE,
-                    config.includeTemperature);
+        if (config.hourlyTimeSeries)
+            initializeGroupOptionalChannels(callback, builder, thingUID, config,
+                    OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_TIME_SERIES);
 
-            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                    OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE,
-                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE,
-                    config.includePressure);
-
-            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                    OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY,
-                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY,
-                    config.includeHumidity);
-
-            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                    OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED,
-                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed);
-
-            initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                    OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION,
-                    DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION,
-                    config.includeWindDirection);
+        if (config.hourlySplit) {
+            DecimalFormat hourlyFormatter = new DecimalFormat("00");
+            for (int hour = 1; hour <= config.hourlyHours; hour++) {
+                initializeGroupOptionalChannels(callback, builder, thingUID, config,
+                        OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour));
+            }
         }
 
         updateThing(builder.build());
+    }
+
+    protected ThingBuilder initializeGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId) {
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE,
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE,
+                config.includeTemperature);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE,
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY,
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED,
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION,
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection);
+
+        return builder;
     }
 
     protected ThingBuilder initializeOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder,

@@ -46,4 +46,9 @@
 			<channel id="wind-direction" typeId="system.wind-direction"/>
 		</channels>
 	</channel-group-type>
+
+	<channel-group-type id="hourly">
+		<label>@text/channel-group-type.openmeteo.forecast.hourly.label</label>
+		<description>@text/channel-group-type.openmeteo.forecast.hourly.description</description>
+	</channel-group-type>
 </thing:thing-descriptions>

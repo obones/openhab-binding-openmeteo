@@ -58,6 +58,10 @@ public class OpenMeteoBindingConstants {
     /** Channel/Property identifier describing the current Bridge State. */
     public static final String PROPERTY_BRIDGE_API_VERSION = "apiVersion";
 
+    // List of all forecast channel group ids
+    public static final String CHANNEL_GROUP_HOURLY_TIME_SERIES = "forecastHourly";
+    public static final String CHANNEL_GROUP_HOURLY_PREFIX = "forecastHours";
+
     // List of all forecast channel/property ids
     public static final String CHANNEL_FORECAST_TEMPERATURE = "temperature";
     public static final String CHANNEL_FORECAST_PRESSURE = "pressure";
