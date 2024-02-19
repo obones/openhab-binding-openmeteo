@@ -8,7 +8,14 @@
 	<!-- -->
 	<!-- OpenMeteo forecast thing -->
 	<!-- -->
-	<thing-type id="forecast">
+	<!--
+
+		We don't use the XML definition because it is very tedious to create the numerous split channel group
+		definitions as there is no withChannelGroup on the ThingBuilder returned by editThing().
+		Instead, we use a ThingTypeProvider that creates the appropriate elements programatically.
+
+	-->
+	<thing-type id="__unused__forecast">
 		<supported-bridge-type-refs>
 			<bridge-type-ref id="openmeteo"/>
 		</supported-bridge-type-refs>
@@ -17,7 +24,10 @@
 		<category>forecast</category>
 		<channel-groups>
 			<channel-group id="forecastHourly" typeId="hourlyTimeSeries"/>
-			<channel-group id="forecastHours04" typeId="hourly"/>
+			<channel-group id="forecastHours01" typeId="hourly"/>
+			<channel-group id="forecastHours02" typeId="hourly"/>
+			...
+			<channel-group id="forecastHours384" typeId="hourly"/>
 		</channel-groups>
 		<properties>
 		</properties>

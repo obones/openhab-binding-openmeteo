@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.core.thing.ThingTypeUID;
+import org.openhab.core.thing.type.ChannelGroupTypeUID;
 
 /**
  * The {@link OpenMeteoBindingConstants} class defines common constants, which are
@@ -41,12 +42,22 @@ public class OpenMeteoBindingConstants {
      */
     private static final String THING_OPENMETEO_FORECAST = "forecast";
 
+    // Channel group type ids
+    private static final String CHANNEL_GROUP_TYPE_ID_HOURLY_TIME_SERIES = "hourlyTimeSeries";
+    private static final String CHANNEL_GROUP_TYPE_ID_HOURLY = "hourly";
+
     // List of all Bridge Type UIDs
     public static final ThingTypeUID THING_TYPE_BRIDGE = new ThingTypeUID(BINDING_ID, THING_OPENMETEO_BRIDGE);
 
     // List of all Thing Type UIDs beyond the bridge(s)
     public static final ThingTypeUID THING_TYPE_OPENMETEO_FORECAST = new ThingTypeUID(BINDING_ID,
             THING_OPENMETEO_FORECAST);
+
+    // List of all Channel Group Type UIDs
+    public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_HOURLY_TIME_SERIES = new ChannelGroupTypeUID(BINDING_ID,
+            CHANNEL_GROUP_TYPE_ID_HOURLY_TIME_SERIES);
+    public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_HOURLY = new ChannelGroupTypeUID(BINDING_ID,
+            CHANNEL_GROUP_TYPE_ID_HOURLY);
 
     // Definitions of different set of Things
     public static final Set<ThingTypeUID> SUPPORTED_THINGS_BRIDGE = new HashSet<>(Arrays.asList(THING_TYPE_BRIDGE));
