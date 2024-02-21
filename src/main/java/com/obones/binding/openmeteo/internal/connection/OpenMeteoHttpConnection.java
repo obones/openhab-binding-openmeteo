@@ -60,7 +60,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         UriBuilder builder = UriBuilder.fromPath(baseURI).path("forecast") //
                 .queryParam("format", "flatbuffers") //
                 .queryParam("latitude", location.getLatitude()) //
-                .queryParam("longitude", location.getLongitude());
+                .queryParam("longitude", location.getLongitude()) //
+                .queryParam("wind_speed_unit", "ms");
 
         if (location.getAltitude().longValue() != 0)
             builder.queryParam("elevation", location.getAltitude());
