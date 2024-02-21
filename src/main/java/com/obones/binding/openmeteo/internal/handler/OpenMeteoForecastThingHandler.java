@@ -431,22 +431,16 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             String channelGroupId = channelUID.getGroupId();
 
             if (hourlyForecast != null && hourlyForecast.variablesLength() > 0) {
-                VariablesSearch search = new VariablesSearch(hourlyForecast);
-                search = switch (channelId) {
-                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE ->
-                        search.variable(Variable.temperature);
-                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE ->
-                        search.variable(Variable.surface_pressure);
-                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY ->
-                        search.variable(Variable.relative_humidity);
-                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED -> //
-                        search.variable(Variable.wind_speed);
-                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION ->
-                        search.variable(Variable.wind_direction);
-                    default -> search;
+                int variable = switch (channelId) {
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE -> Variable.temperature;
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE -> Variable.surface_pressure;
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY -> Variable.relative_humidity;
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED -> Variable.wind_speed;
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION -> Variable.wind_direction;
+                    default -> 0;
                 };
 
-                VariableWithValues values = search.first();
+                VariableWithValues values = new VariablesSearch(hourlyForecast).variable(variable).first();
                 if (values != null) {
                     TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
                     long time = hourlyForecast.time();
@@ -461,6 +455,8 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                     logger.warn("Update channel '{}' of group '{}' with new time-series '{}'.", channelId,
                             channelGroupId, timeSeries);
                     sendTimeSeries(channelUID, timeSeries);
+                } else {
+                    logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
                 }
 
             }
