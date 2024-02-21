@@ -12,9 +12,12 @@
 package com.obones.binding.openmeteo.internal.handler;
 
 import java.text.DecimalFormat;
+import java.time.Instant;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.measure.Unit;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -22,6 +25,10 @@ import org.openhab.core.config.core.Configuration;
 import org.openhab.core.i18n.CommunicationException;
 import org.openhab.core.i18n.ConfigurationException;
 import org.openhab.core.library.types.PointType;
+import org.openhab.core.library.types.QuantityType;
+import org.openhab.core.library.unit.MetricPrefix;
+import org.openhab.core.library.unit.SIUnits;
+import org.openhab.core.library.unit.Units;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
@@ -42,6 +49,9 @@ import org.openhab.core.thing.type.ChannelTypeUID;
 import org.openhab.core.thing.type.ThingTypeRegistry;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
+import org.openhab.core.types.State;
+import org.openhab.core.types.TimeSeries;
+import org.openhab.core.types.UnDefType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +60,9 @@ import com.obones.binding.openmeteo.internal.config.OpenMeteoForecastThingConfig
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
 import com.obones.binding.openmeteo.internal.utils.Localization;
+import com.openmeteo.sdk.Variable;
+import com.openmeteo.sdk.VariableWithValues;
+import com.openmeteo.sdk.VariablesSearch;
 import com.openmeteo.sdk.WeatherApiResponse;
 
 @NonNullByDefault
@@ -413,14 +426,75 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         var forecastData = this.forecastData;
         if (forecastData != null) {
             var hourlyForecast = forecastData.hourly();
-            if (hourlyForecast != null && hourlyForecast.variablesLength() > 0) {
-                var variables = hourlyForecast.variablesVector();
-                for (int variableIndex = 0; variableIndex < variables.length(); variableIndex++) {
-                    var variable = variables.get(variableIndex);
 
-                    logger.info("working on variable {}, length = {}", variableIndex, variable.valuesLength());
+            String channelId = channelUID.getIdWithoutGroup();
+            String channelGroupId = channelUID.getGroupId();
+
+            if (hourlyForecast != null && hourlyForecast.variablesLength() > 0) {
+                VariablesSearch search = new VariablesSearch(hourlyForecast);
+                search = switch (channelId) {
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE ->
+                        search.variable(Variable.temperature);
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE ->
+                        search.variable(Variable.surface_pressure);
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY ->
+                        search.variable(Variable.relative_humidity);
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED -> //
+                        search.variable(Variable.wind_speed);
+                    case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION ->
+                        search.variable(Variable.wind_direction);
+                    default -> search;
+                };
+
+                VariableWithValues values = search.first();
+                if (values != null) {
+                    TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
+                    long time = hourlyForecast.time();
+                    for (int valueIndex = 0; valueIndex < values.valuesLength(); valueIndex++) {
+                        Instant timestamp = Instant.ofEpochSecond(time);
+                        State state = getForecastState(channelId, values, valueIndex);
+                        timeSeries.add(timestamp, state);
+
+                        time += hourlyForecast.interval();
+                    }
+
+                    logger.warn("Update channel '{}' of group '{}' with new time-series '{}'.", channelId,
+                            channelGroupId, timeSeries);
+                    sendTimeSeries(channelUID, timeSeries);
                 }
+
             }
         }
+    }
+
+    protected State getQuantityTypeState(@Nullable Number value, Unit<?> unit) {
+        return (value == null) ? UnDefType.UNDEF : new QuantityType<>(value, unit);
+    }
+
+    private State getForecastState(String channelId, VariableWithValues values, int valueIndex) {
+        State state = UnDefType.UNDEF;
+        float floatValue = values.values(valueIndex);
+        switch (channelId) {
+            case OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE:
+                state = getQuantityTypeState(floatValue, SIUnits.CELSIUS);
+                break;
+            case OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE:
+                state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
+                break;
+            case OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY:
+                state = getQuantityTypeState(floatValue, Units.PERCENT);
+                break;
+            case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED:
+                state = getQuantityTypeState(floatValue, Units.METRE_PER_SECOND);
+                break;
+            case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION:
+                state = getQuantityTypeState(floatValue, Units.DEGREE_ANGLE);
+                break;
+            default:
+                // This should not happen
+                logger.warn("Unknown channel id {} in hourly weather data", channelId);
+                break;
+        }
+        return state;
     }
 }
