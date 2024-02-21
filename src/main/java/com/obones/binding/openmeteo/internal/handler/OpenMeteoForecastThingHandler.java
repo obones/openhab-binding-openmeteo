@@ -12,12 +12,16 @@
 package com.obones.binding.openmeteo.internal.handler;
 
 import java.text.DecimalFormat;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.config.core.Configuration;
+import org.openhab.core.i18n.CommunicationException;
+import org.openhab.core.i18n.ConfigurationException;
+import org.openhab.core.library.types.PointType;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
@@ -33,6 +37,7 @@ import org.openhab.core.thing.binding.ThingHandlerCallback;
 import org.openhab.core.thing.binding.builder.ChannelBuilder;
 import org.openhab.core.thing.binding.builder.ThingBuilder;
 import org.openhab.core.thing.type.AutoUpdatePolicy;
+import org.openhab.core.thing.type.ChannelKind;
 import org.openhab.core.thing.type.ChannelTypeUID;
 import org.openhab.core.thing.type.ThingTypeRegistry;
 import org.openhab.core.types.Command;
@@ -42,15 +47,21 @@ import org.slf4j.LoggerFactory;
 
 import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoForecastThingConfiguration;
+import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
+import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
 import com.obones.binding.openmeteo.internal.utils.Localization;
+import com.openmeteo.sdk.WeatherApiResponse;
 
 @NonNullByDefault
 public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
     private @Nullable ThingTypeRegistry thingTypeRegistry;
+    private @Nullable WeatherApiResponse forecastData = null;
 
     public Localization localization;
+
+    protected @Nullable PointType location;
 
     public OpenMeteoForecastThingHandler(Thing thing, Localization localization, ThingTypeRegistry thingTypeRegistry) {
         super(thing);
@@ -70,10 +81,33 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_PENDING);
 
         } else if (thisBridge.getStatus() == ThingStatus.ONLINE) {
-            logger.trace("initialize() updating ThingStatus to ONLINE.");
-            initializeChannels();
-            initializeProperties();
-            updateStatus(ThingStatus.ONLINE);
+            logger.trace("initialize() checking for configuration validity.");
+
+            boolean configValid = true;
+            OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
+            if (config.location == null || config.location.trim().isEmpty()) {
+                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                        "@text/offline.conf-error-missing-location");
+                configValid = false;
+            }
+
+            try {
+                location = new PointType(config.location);
+            } catch (IllegalArgumentException e) {
+                logger.warn("Error parsing 'location' parameter: {}", e.getMessage());
+                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                        "@text/offline.conf-error-parsing-location");
+                location = null;
+                configValid = false;
+            }
+
+            if (configValid) {
+                initializeChannels();
+                initializeProperties();
+
+                logger.trace("initialize() updating ThingStatus to ONLINE.");
+                updateStatus(ThingStatus.ONLINE);
+            }
         } else {
             logger.trace("initialize() updating ThingStatus to OFFLINE/BRIDGE_OFFLINE.");
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
@@ -285,6 +319,107 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
                 if (!commandHandled)
                     bridgeHandler.handleCommand(channelUID, command);
+            }
+        }
+    }
+
+    /**
+     * Updates OpenMeteo data for this location.
+     *
+     * @param connection {@link OpenMeteoConnection} instance
+     */
+    public void updateData(OpenMeteoConnection connection) {
+        try {
+            if (requestData(connection)) {
+                updateChannels();
+                updateStatus(ThingStatus.ONLINE);
+            }
+        } catch (CommunicationException e) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR, e.getRawMessage());
+        } catch (ConfigurationException e) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR, e.getRawMessage());
+        }
+    }
+
+    /**
+     * Requests the data from Open Meteo API.
+     *
+     * @param connection {@link OpenMeteoConnection} instance
+     * @return true, if the request for the Open Meteo data was successful
+     * @throws CommunicationException if there is a problem retrieving the data
+     * @throws ConfigurationException if there is a configuration error
+     */
+    protected boolean requestData(OpenMeteoConnection connection)
+            throws CommunicationException, ConfigurationException {
+        logger.debug("Update weather and forecast data of thing '{}'.", getThing().getUID());
+
+        var location = this.location;
+        if (location != null)
+            forecastData = connection.getForecast(location, getForecastValues());
+
+        return true;
+    }
+
+    private EnumSet<OpenMeteoConnection.ForecastValue> getForecastValues() {
+        EnumSet<OpenMeteoConnection.ForecastValue> result = EnumSet.noneOf(OpenMeteoConnection.ForecastValue.class);
+        OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
+
+        if (config.includeTemperature)
+            result.add(ForecastValue.TEMPERATURE);
+        if (config.includePressure)
+            result.add(ForecastValue.PRESSURE);
+        if (config.includeHumidity)
+            result.add(ForecastValue.HUMIDITY);
+        if (config.includeWindSpeed)
+            result.add(ForecastValue.WIND_SPEED);
+        if (config.includeWindDirection)
+            result.add(ForecastValue.WING_DIRECTION);
+
+        return result;
+    }
+
+    /**
+     * Updates all channels of this handler from the latest Open Meteo data retrieved.
+     */
+    private void updateChannels() {
+        for (Channel channel : getThing().getChannels()) {
+            ChannelUID channelUID = channel.getUID();
+            if (ChannelKind.STATE.equals(channel.getKind()) && channelUID.isInGroup() && channelUID.getGroupId() != null
+                    && isLinked(channelUID)) {
+                updateChannel(channelUID);
+            }
+        }
+    }
+
+    /**
+     * Updates the channel with the given UID from the latest Open Meteo data retrieved.
+     *
+     * @param channelUID UID of the channel
+     */
+    protected void updateChannel(ChannelUID channelUID) {
+        String channelGroupId = channelUID.getGroupId();
+        logger.debug("OpenMeteoForecastThingHandler: updateChannel {}, groupID {}", channelUID, channelGroupId);
+
+        switch (channelGroupId) {
+            case OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_TIME_SERIES:
+                updateHourlyTimeSeries(channelUID);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void updateHourlyTimeSeries(ChannelUID channelUID) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            var hourlyForecast = forecastData.hourly();
+            if (hourlyForecast != null && hourlyForecast.variablesLength() > 0) {
+                var variables = hourlyForecast.variablesVector();
+                for (int variableIndex = 0; variableIndex < variables.length(); variableIndex++) {
+                    var variable = variables.get(variableIndex);
+
+                    logger.info("working on variable {}, length = {}", variableIndex, variable.valuesLength());
+                }
             }
         }
     }

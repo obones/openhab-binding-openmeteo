@@ -11,16 +11,27 @@
  */
 package com.obones.binding.openmeteo.internal.handler;
 
+import java.util.List;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.ChannelUID;
+import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingStatus;
 import org.openhab.core.thing.binding.BaseBridgeHandler;
+import org.openhab.core.thing.util.ThingHandlerHelper;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.obones.binding.openmeteo.internal.config.OpenMeteoBridgeConfiguration;
+import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
+import com.obones.binding.openmeteo.internal.connection.OpenMeteoHttpConnection;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 
 /**
@@ -50,6 +61,9 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
 
     public Localization localization;
 
+    private @Nullable ScheduledFuture<?> refreshJob;
+    private @Nullable OpenMeteoConnection connection;
+
     /*
      * ************************
      * ***** Constructors *****
@@ -76,9 +90,31 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
             return;
         }
 
-        updateStatus(ThingStatus.ONLINE);
+        int refreshInterval = 10;
+
+        OpenMeteoBridgeConfiguration config = getConfigAs(OpenMeteoBridgeConfiguration.class);
+
+        connection = new OpenMeteoHttpConnection(config.baseURI, config.APIKey);
+
+        ScheduledFuture<?> localRefreshJob = refreshJob;
+        if (localRefreshJob == null || localRefreshJob.isCancelled()) {
+            logger.debug("Start refresh job at interval {} min.", refreshInterval);
+            refreshJob = scheduler.scheduleWithFixedDelay(this::updateThings, 5, refreshInterval, TimeUnit.SECONDS);
+        }
 
         logger.trace("initialize(): initialize bridge configuration parameters.");
+    }
+
+    @Override
+    public void dispose() {
+        logger.debug("Dispose OpenMeteo bridge handler '{}'.", getThing().getUID());
+        ScheduledFuture<?> localRefreshJob = refreshJob;
+        if (localRefreshJob != null && !localRefreshJob.isCancelled()) {
+            logger.debug("Stop refresh job.");
+            if (localRefreshJob.cancel(true)) {
+                refreshJob = null;
+            }
+        }
     }
 
     /**
@@ -109,5 +145,27 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
         updateStatus(ThingStatus.ONLINE);
 
         logger.trace("handleCommand({}) done.", Thread.currentThread());
+    }
+
+    private void updateThings() {
+        ThingStatus status = ThingStatus.ONLINE;
+        List<Thing> children = getThing().getThings().stream().filter(Thing::isEnabled).collect(Collectors.toList());
+        if (!children.isEmpty()) {
+            for (Thing thing : children) {
+                updateThing((OpenMeteoForecastThingHandler) thing.getHandler(), thing);
+            }
+        }
+        updateStatus(status);
+    }
+
+    private ThingStatus updateThing(@Nullable OpenMeteoForecastThingHandler handler, Thing thing) {
+        var connection = this.connection; // store in a local variable to avoid null checking error
+        if (handler != null && ThingHandlerHelper.isHandlerInitialized(handler) && connection != null) {
+            handler.updateData(connection);
+            return thing.getStatus();
+        } else {
+            logger.debug("Cannot update weather data of thing '{}' as location handler is null.", thing.getUID());
+            return ThingStatus.OFFLINE;
+        }
     }
 }
