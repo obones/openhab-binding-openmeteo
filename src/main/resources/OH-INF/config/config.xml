@@ -38,6 +38,12 @@
 	<!-- Open Meteo Forecast -->
 	<!-- -->
 	<config-description uri="thing-type:openmeteo:forecast">
+		<parameter name="location" type="text" required="true">
+			<context>location</context>
+			<label>@text/config.openmeteo.thing.forecast..label</label>
+			<description>@text/config.openmeteo.thing.forecast..description</description>
+		</parameter>
+
 		<!-- Hourly parameters -->
 		<parameter-group name="hourlyParameters">
 			<label>@text/config.openmeteo.thing.forecast.hourlyParameters.label</label>
