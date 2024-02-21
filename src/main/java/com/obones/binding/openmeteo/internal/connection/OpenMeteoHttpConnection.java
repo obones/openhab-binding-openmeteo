@@ -32,6 +32,13 @@ import com.openmeteo.sdk.WeatherApiResponse;
  */
 @NonNullByDefault
 public class OpenMeteoHttpConnection implements OpenMeteoConnection {
+    private String baseURI;
+    private String APIKey;
+
+    public OpenMeteoHttpConnection(String baseURI, String APIKey) {
+        this.baseURI = baseURI;
+        this.APIKey = APIKey;
+    }
 
     private String getForecastValueFieldName(ForecastValue forecastValue) {
         switch (forecastValue) {
@@ -45,20 +52,18 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
                 return "wind_speed_10m";
             case WING_DIRECTION:
                 return "wind_direction_10m";
-            default:
-                return "";
         }
+        return "";
     }
 
-    public WeatherApiResponse getForecast(String baseURI, String APIKey, PointType point,
-            EnumSet<ForecastValue> forecastValues) {
+    public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues) {
         UriBuilder builder = UriBuilder.fromPath(baseURI).path("forecast") //
                 .queryParam("format", "flatbuffers") //
-                .queryParam("latitude", point.getLatitude()) //
-                .queryParam("longitude", point.getLongitude());
+                .queryParam("latitude", location.getLatitude()) //
+                .queryParam("longitude", location.getLongitude());
 
-        if (point.getAltitude().longValue() != 0)
-            builder.queryParam("elevation", point.getAltitude());
+        if (location.getAltitude().longValue() != 0)
+            builder.queryParam("elevation", location.getAltitude());
 
         ArrayList<String> requiredFields = new ArrayList<>();
         for (ForecastValue forecastValue : forecastValues)

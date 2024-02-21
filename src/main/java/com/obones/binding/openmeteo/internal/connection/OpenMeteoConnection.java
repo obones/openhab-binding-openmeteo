@@ -33,6 +33,5 @@ public interface OpenMeteoConnection {
         WING_DIRECTION
     }
 
-    WeatherApiResponse getForecast(String baseURI, String APIKey, PointType point,
-            EnumSet<ForecastValue> forecastValues);
+    WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues);
 }
