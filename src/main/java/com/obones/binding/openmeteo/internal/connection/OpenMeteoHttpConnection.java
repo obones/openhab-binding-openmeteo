@@ -73,7 +73,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         String url = builder.build().toString();
 
-        RawType data = HttpUtil.downloadData(url, null, false, 0);
+        RawType data = HttpUtil.downloadData(url, null, false, -1);
 
         ByteBuffer buffer = ByteBuffer.wrap(data.getBytes()).order(ByteOrder.LITTLE_ENDIAN);
 
