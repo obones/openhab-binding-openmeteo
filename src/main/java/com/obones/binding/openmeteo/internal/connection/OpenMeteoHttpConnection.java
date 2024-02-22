@@ -63,6 +63,12 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
     public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays) {
+
+        if (hourlyHours == null && dailyDays == null) {
+            logger.warn("No point in getting a forecast if no elements are required");
+            return new WeatherApiResponse();
+        }
+
         UriBuilder builder = UriBuilder.fromPath(baseURI).path("forecast") //
                 .queryParam("format", "flatbuffers") //
                 .queryParam("latitude", location.getLatitude()) //
@@ -90,6 +96,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         logger.debug("Calling OpenMeteo on {}", url);
         RawType data = HttpUtil.downloadData(url, null, false, -1);
+        if (data == null) {
+            logger.warn("Data was null");
+            return new WeatherApiResponse();
+        }
 
         ByteBuffer buffer = ByteBuffer.wrap(data.getBytes()).order(ByteOrder.LITTLE_ENDIAN);
 
