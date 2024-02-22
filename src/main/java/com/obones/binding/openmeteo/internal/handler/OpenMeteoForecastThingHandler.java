@@ -368,10 +368,13 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     protected boolean requestData(OpenMeteoConnection connection)
             throws CommunicationException, ConfigurationException {
         logger.debug("Update weather and forecast data of thing '{}'.", getThing().getUID());
+        OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
 
         var location = this.location;
         if (location != null)
-            forecastData = connection.getForecast(location, getForecastValues());
+            forecastData = connection.getForecast(location, getForecastValues(),
+                    (config.hourlyTimeSeries || config.hourlySplit) ? config.hourlyHours : null, //
+                    null);
 
         return true;
     }

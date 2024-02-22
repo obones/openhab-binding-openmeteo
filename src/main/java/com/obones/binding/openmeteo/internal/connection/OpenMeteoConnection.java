@@ -14,6 +14,7 @@ package com.obones.binding.openmeteo.internal.connection;
 import java.util.EnumSet;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.library.types.PointType;
 
 import com.openmeteo.sdk.WeatherApiResponse;
@@ -33,5 +34,6 @@ public interface OpenMeteoConnection {
         WING_DIRECTION
     }
 
-    WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues);
+    WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays);
 }

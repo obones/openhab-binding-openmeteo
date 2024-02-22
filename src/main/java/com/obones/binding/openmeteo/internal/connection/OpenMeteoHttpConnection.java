@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.io.net.http.HttpUtil;
 import org.openhab.core.library.types.PointType;
 import org.openhab.core.library.types.RawType;
@@ -60,7 +61,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         return "";
     }
 
-    public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues) {
+    public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays) {
         UriBuilder builder = UriBuilder.fromPath(baseURI).path("forecast") //
                 .queryParam("format", "flatbuffers") //
                 .queryParam("latitude", location.getLatitude()) //
@@ -74,7 +76,15 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         for (ForecastValue forecastValue : forecastValues)
             requiredFields.add(getForecastValueFieldName(forecastValue));
 
-        builder.queryParam("hourly", String.join(",", requiredFields));
+        if (hourlyHours != null) {
+            builder.queryParam("forecast_hours", hourlyHours);
+            builder.queryParam("hourly", String.join(",", requiredFields));
+        }
+
+        if (dailyDays != null) {
+            builder.queryParam("forecast_days", dailyDays);
+            builder.queryParam("daily", String.join(",", requiredFields));
+        }
 
         String url = builder.build().toString();
 
