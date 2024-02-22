@@ -192,24 +192,28 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE,
-                config.includeTemperature);
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature,
+                null, "channel-type.openmeteo.forecast.temperature.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure);
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure,
+                null, "channel-type.openmeteo.forecast.pressure.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity);
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity,
+                null, "channel-type.openmeteo.forecast.humidity.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed);
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
+                null, "channel-type.openmeteo.forecast.windSpeed.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection);
+                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection,
+                null, "channel-type.openmeteo.forecast.windDirection.description");
 
         return builder;
     }
