@@ -296,7 +296,10 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 break;
 
             case ONLINE:
-                updateStatus(ThingStatus.ONLINE, ThingStatusDetail.NONE);
+                if (location == null)
+                    initialize();
+                else
+                    updateStatus(ThingStatus.ONLINE, ThingStatusDetail.NONE);
                 break;
 
             default:
