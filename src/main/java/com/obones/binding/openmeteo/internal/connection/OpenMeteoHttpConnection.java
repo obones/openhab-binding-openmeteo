@@ -22,6 +22,8 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.core.io.net.http.HttpUtil;
 import org.openhab.core.library.types.PointType;
 import org.openhab.core.library.types.RawType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.openmeteo.sdk.WeatherApiResponse;
 
@@ -32,6 +34,8 @@ import com.openmeteo.sdk.WeatherApiResponse;
  */
 @NonNullByDefault
 public class OpenMeteoHttpConnection implements OpenMeteoConnection {
+    private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoHttpConnection.class);
+
     private String baseURI;
     private String APIKey;
 
@@ -74,6 +78,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         String url = builder.build().toString();
 
+        logger.debug("Calling OpenMeteo on {}", url);
         RawType data = HttpUtil.downloadData(url, null, false, -1);
 
         ByteBuffer buffer = ByteBuffer.wrap(data.getBytes()).order(ByteOrder.LITTLE_ENDIAN);
