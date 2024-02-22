@@ -15,23 +15,4 @@
 		Instead, we use a ThingTypeProvider that creates the appropriate elements programatically.
 
 	-->
-	<thing-type id="__unused__forecast">
-		<supported-bridge-type-refs>
-			<bridge-type-ref id="openmeteo"/>
-		</supported-bridge-type-refs>
-		<label>@text/thing-type.openmeteo.forecast.label</label>
-		<description>@text/thing-type.openmeteo.forecast.description</description>
-		<category>forecast</category>
-		<channel-groups>
-			<channel-group id="forecastHourly" typeId="hourlyTimeSeries"/>
-			<channel-group id="forecastHours01" typeId="hourly"/>
-			<channel-group id="forecastHours02" typeId="hourly"/>
-			...
-			<channel-group id="forecastHours384" typeId="hourly"/>
-		</channel-groups>
-		<properties>
-		</properties>
-		<representation-property>location</representation-property>
-		<config-description-ref uri="thing-type:openmeteo:forecast"/>
-	</thing-type>
 </thing:thing-descriptions>
