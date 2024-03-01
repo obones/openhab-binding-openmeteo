@@ -244,6 +244,48 @@
 		<state readOnly="true"/>
 	</channel-type>
 
+	<channel-type id="sunrise">
+		<item-type>DateTime</item-type>
+		<label>@text/channel-type.openmeteo.sunrise.visibility.label</label>
+		<description>@text/channel-type.openmeteo.sunrise.visibility.description</description>
+		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+
+	<channel-type id="sunset">
+		<item-type>DateTime</item-type>
+		<label>@text/channel-type.openmeteo.forecast.sunset.label</label>
+		<description>@text/channel-type.openmeteo.forecast.sunset.description</description>
+		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+
+	<channel-type id="sunshine-duration" advanced="true">
+		<item-type>Number:Time</item-type>
+		<label>@text/channel-type.openmeteo.forecast.sunshine-duration.label</label>
+		<description>@text/channel-type.openmeteo.forecast.sunshine-duration.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="daylight-duration" advanced="true">
+		<item-type>Number:Time</item-type>
+		<label>@text/channel-type.openmeteo.forecast.daylight-duration.label</label>
+		<description>@text/channel-type.openmeteo.forecast.daylight-duration.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="uv-index">
+		<item-type>Number</item-type>
+		<label>@text/channel-type.openmeteo.forecast.uv-index.label</label>
+		<description>@text/channel-type.openmeteo.forecast.uv-index.description</description>
+		<state readOnly="true" pattern="%.1f"/>
+	</channel-type>
+
+	<channel-type id="uv-index-clear-sky" advanced="true">
+		<item-type>Number</item-type>
+		<label>@text/channel-type.openmeteo.forecast.uv-index-clear-sky.label</label>
+		<description>@text/channel-type.openmeteo.forecast.uv-index-clear-sky.description</description>
+		<state readOnly="true" pattern="%.1f"/>
+	</channel-type>
+
 	<!-- Channel Group Type - of Forecast -->
 
 	<channel-group-type id="hourlyTimeSeries">

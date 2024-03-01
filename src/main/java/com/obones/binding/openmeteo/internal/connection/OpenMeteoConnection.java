@@ -53,7 +53,13 @@ public interface OpenMeteoConnection {
         SNOW_DEPTH,
         FREEZING_LEVEL_HEIGHT,
         VISIBILITY,
-        IS_DAY
+        IS_DAY,
+        SUNRISE,
+        SUNSET,
+        SUNSHINE_DURATION,
+        DAYLIGHT_DURATION,
+        UV_INDEX,
+        UV_INDEX_CLEAR_SKY
     }
 
     WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,

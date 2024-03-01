@@ -102,6 +102,12 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT = "freezing-level-height";
     public static final String CHANNEL_FORECAST_VISIBILITY = "visibility";
     public static final String CHANNEL_FORECAST_IS_DAY = "is-day";
+    public static final String CHANNEL_FORECAST_SUNRISE = "sunrise";
+    public static final String CHANNEL_FORECAST_SUNSET = "sunset";
+    public static final String CHANNEL_FORECAST_SUNSHINE_DURATION = "sunshine-duration";
+    public static final String CHANNEL_FORECAST_DAYLIGHT_DURATION = "daylight-duration";
+    public static final String CHANNEL_FORECAST_UV_INDEX = "uv-index";
+    public static final String CHANNEL_FORECAST_UV_INDEX_CLEAR_SKY = "uv-index-clear-sky";
 
     // Forecast channel type ids
     public static final String CHANNEL_TYPE_DEW_POINT = "dew-point";
@@ -126,6 +132,12 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_TYPE_FREEZING_LEVEL_HEIGHT = "freezing-level-height";
     public static final String CHANNEL_TYPE_VISIBILITY = "visibility";
     public static final String CHANNEL_TYPE_IS_DAY = "is-day";
+    public static final String CHANNEL_TYPE_SUNRISE = "sunrise";
+    public static final String CHANNEL_TYPE_SUNSET = "sunset";
+    public static final String CHANNEL_TYPE_SUNSHINE_DURATION = "sunshine-duration";
+    public static final String CHANNEL_TYPE_DAYLIGHT_DURATION = "daylight-duration";
+    public static final String CHANNEL_TYPE_UV_INDEX = "uv-index";
+    public static final String CHANNEL_TYPE_UV_INDEX_CLEAR_SKY = "uv-index-clear-sky";
 
     // Forecast channel type UIDs
     public static final ChannelTypeUID CHANNEL_TYPE_UID_DEW_POINT = new ChannelTypeUID(BINDING_ID,
@@ -172,4 +184,16 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_VISIBILITY);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_IS_DAY = new ChannelTypeUID(BINDING_ID, //
             CHANNEL_TYPE_IS_DAY);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_SUNRISE = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_SUNRISE);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_SUNSET = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_SUNSET);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_SUNSHINE_DURATION = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_SUNSHINE_DURATION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_DAYLIGHT_DURATION = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_DAYLIGHT_DURATION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_UV_INDEX = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_UV_INDEX);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_UV_INDEX_CLEAR_SKY = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_UV_INDEX_CLEAR_SKY);
 }

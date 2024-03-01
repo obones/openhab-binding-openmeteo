@@ -210,6 +210,36 @@
 			<advanced>true</advanced>
 			<default>false</default>
 		</parameter>
+		<parameter name="includeSunrise" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeSunrise.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSunset" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeSunset.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSunshineDuration" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeSunshineDuration.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeDaylightDuration" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeDaylightDuration.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeUVIndex" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeUVIndex.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeUVIndexClearSky" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeUVIndexClearSky.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
 	</config-description>
 
 </config-description:config-descriptions>

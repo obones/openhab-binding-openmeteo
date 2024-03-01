@@ -101,8 +101,76 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
                 return "visibility";
             case IS_DAY:
                 return "is_day";
+            case SUNRISE:
+                return "sunrise";
+            case SUNSET:
+                return "sunset";
+            case SUNSHINE_DURATION:
+                return "sunshine_duration";
+            case DAYLIGHT_DURATION:
+                return "daylight_duration";
+            case UV_INDEX:
+                return "uv_index_max";
+            case UV_INDEX_CLEAR_SKY:
+                return "uv_index_clear_sky_max";
         }
         return "";
+    }
+
+    private void addHourlyFields(ForecastValue forecastValue, ArrayList<String> fields) {
+        switch (forecastValue) {
+            // those fields are not available in the hourly forecast
+            case SUNRISE:
+            case SUNSET:
+            case SUNSHINE_DURATION:
+            case DAYLIGHT_DURATION:
+            case UV_INDEX:
+            case UV_INDEX_CLEAR_SKY:
+                return;
+            default:
+                fields.add(getForecastValueFieldName(forecastValue));
+        }
+    }
+
+    private void addDailyFields(ForecastValue forecastValue, ArrayList<String> fields) {
+        String fieldName = getForecastValueFieldName(forecastValue);
+
+        switch (forecastValue) {
+            case PRECIPITATION_PROBABILITY:
+                fields.add(fieldName + "_mean");
+            case TEMPERATURE:
+            case APPARENT_TEMPERATURE:
+                fields.add(fieldName + "_min");
+                fields.add(fieldName + "_max");
+                break;
+            case PRECIPITATION:
+                fields.add(fieldName + "_hours");
+            case RAIN:
+            case SHOWERS:
+            case SNOW:
+            case SHORTWAVE_RADIATION:
+                fields.add(fieldName + "_sum");
+                break;
+            case ET0_EVAPOTRANSPIRATION:
+            case WEATHER_CODE:
+            case SUNRISE:
+            case SUNSET:
+            case SUNSHINE_DURATION:
+            case DAYLIGHT_DURATION:
+            case UV_INDEX:
+            case UV_INDEX_CLEAR_SKY:
+                fields.add(fieldName);
+                break;
+            case WIND_SPEED:
+            case GUST_SPEED:
+                fields.add(fieldName + "_max");
+                break;
+            case WING_DIRECTION:
+                fields.add(fieldName + "_dominant");
+                break;
+            default: // any other field is not supported in daily forecast
+                break;
+        }
     }
 
     public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
@@ -128,18 +196,21 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (!APIKey.isBlank())
             builder.queryParam("apikey", APIKey);
 
-        ArrayList<String> requiredFields = new ArrayList<>();
-        for (ForecastValue forecastValue : forecastValues)
-            requiredFields.add(getForecastValueFieldName(forecastValue));
+        ArrayList<String> requiredHourlyFields = new ArrayList<>();
+        ArrayList<String> requiredDailyFields = new ArrayList<>();
+        for (ForecastValue forecastValue : forecastValues) {
+            addHourlyFields(forecastValue, requiredHourlyFields);
+            addDailyFields(forecastValue, requiredDailyFields);
+        }
 
         if (hourlyHours != null) {
             builder.queryParam("forecast_hours", hourlyHours);
-            builder.queryParam("hourly", String.join(",", requiredFields));
+            builder.queryParam("hourly", String.join(",", requiredHourlyFields));
         }
 
         if (dailyDays != null) {
             builder.queryParam("forecast_days", dailyDays);
-            builder.queryParam("daily", String.join(",", requiredFields));
+            builder.queryParam("daily", String.join(",", requiredDailyFields));
         }
 
         String url = builder.build().toString();

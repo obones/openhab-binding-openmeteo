@@ -53,4 +53,10 @@ public class OpenMeteoForecastThingConfiguration {
     public boolean includeFreezingLevelHeight = false;
     public boolean includeVisibility = true;
     public boolean includeIsDay = false;
+    public boolean includeSunrise = true;
+    public boolean includeSunset = true;
+    public boolean includeSunshineDuration = false;
+    public boolean includeDaylightDuration = false;
+    public boolean includeUVIndex = true;
+    public boolean includeUVIndexClearSky = false;
 }

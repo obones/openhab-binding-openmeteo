@@ -512,6 +512,18 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             result.add(ForecastValue.VISIBILITY);
         if (config.includeIsDay)
             result.add(ForecastValue.IS_DAY);
+        if (config.includeSunrise)
+            result.add(ForecastValue.SUNRISE);
+        if (config.includeSunrise)
+            result.add(ForecastValue.SUNSET);
+        if (config.includeSunshineDuration)
+            result.add(ForecastValue.SUNSHINE_DURATION);
+        if (config.includeDaylightDuration)
+            result.add(ForecastValue.DAYLIGHT_DURATION);
+        if (config.includeUVIndex)
+            result.add(ForecastValue.UV_INDEX);
+        if (config.includeUVIndexClearSky)
+            result.add(ForecastValue.UV_INDEX_CLEAR_SKY);
 
         return result;
     }
