@@ -12,6 +12,8 @@
  */
 package com.obones.binding.openmeteo.internal.provider;
 
+import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
+
 import java.net.URI;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -36,8 +38,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants;
-
 @NonNullByDefault
 @Component(service = ThingTypeProvider.class)
 public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
@@ -56,7 +56,7 @@ public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
     @Override
     public Collection<ThingType> getThingTypes(@Nullable Locale locale) {
         @Nullable
-        ThingType thingType = getThingType(OpenMeteoBindingConstants.THING_TYPE_OPENMETEO_FORECAST, locale);
+        ThingType thingType = getThingType(THING_TYPE_OPENMETEO_FORECAST, locale);
 
         if (thingType != null)
             return Arrays.asList(thingType);
@@ -66,11 +66,11 @@ public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
 
     @Override
     public @Nullable ThingType getThingType(ThingTypeUID thingTypeUID, @Nullable Locale locale) {
-        if (OpenMeteoBindingConstants.THING_TYPE_OPENMETEO_FORECAST.equals(thingTypeUID)) {
+        if (THING_TYPE_OPENMETEO_FORECAST.equals(thingTypeUID)) {
             logger.debug("Creating type for {}", thingTypeUID.getAsString());
 
             ThingTypeBuilder builder = ThingTypeBuilder.instance(thingTypeUID, thingTypeUID.toString())
-                    .withSupportedBridgeTypeUIDs(Arrays.asList(OpenMeteoBindingConstants.THING_TYPE_BRIDGE.getId()))
+                    .withSupportedBridgeTypeUIDs(Arrays.asList(THING_TYPE_BRIDGE.getId()))
                     .withLabel("@text/thing-type.openmeteo.forecast.label")
                     .withDescription("@text/thing-type.openmeteo.forecast.description") //
                     .withCategory("forecast") //
@@ -86,14 +86,12 @@ public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
     private List<ChannelGroupDefinition> getChannelGroupDefinitions() {
         ArrayList<ChannelGroupDefinition> result = new ArrayList<ChannelGroupDefinition>();
 
-        result.add(new ChannelGroupDefinition(OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_TIME_SERIES,
-                OpenMeteoBindingConstants.CHANNEL_GROUP_TYPE_HOURLY_TIME_SERIES));
+        result.add(new ChannelGroupDefinition(CHANNEL_GROUP_HOURLY_TIME_SERIES, CHANNEL_GROUP_TYPE_HOURLY_TIME_SERIES));
 
         DecimalFormat hourlyFormatter = new DecimalFormat("00");
         for (int hour = 1; hour < 24 * 16; hour++) {
-            result.add(new ChannelGroupDefinition(
-                    OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour),
-                    OpenMeteoBindingConstants.CHANNEL_GROUP_TYPE_HOURLY));
+            result.add(new ChannelGroupDefinition(CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour),
+                    CHANNEL_GROUP_TYPE_HOURLY));
         }
 
         return result;

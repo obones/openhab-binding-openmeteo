@@ -11,6 +11,8 @@
  */
 package com.obones.binding.openmeteo.internal.factory;
 
+import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.i18n.LocaleProvider;
@@ -29,7 +31,6 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoForecastThingHandler;
 import com.obones.binding.openmeteo.internal.utils.Localization;
@@ -104,8 +105,8 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
-        boolean result = OpenMeteoBindingConstants.SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID)
-                || OpenMeteoBindingConstants.SUPPORTED_THINGS_ITEMS.contains(thingTypeUID);
+        boolean result = SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID)
+                || SUPPORTED_THINGS_ITEMS.contains(thingTypeUID);
         logger.trace("supportsThingType({}) called and returns {}.", thingTypeUID, result);
         return result;
     }
@@ -117,11 +118,11 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
 
         // Handle Binding creation
         // Handle Bridge creation
-        if (OpenMeteoBindingConstants.SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID)) {
+        if (SUPPORTED_THINGS_BRIDGE.contains(thingTypeUID)) {
             resultHandler = createBridgeHandler(thing);
         }
         // Handle creation of Things behind the Bridge
-        else if (OpenMeteoBindingConstants.THING_TYPE_OPENMETEO_FORECAST.equals(thingTypeUID)) {
+        else if (THING_TYPE_OPENMETEO_FORECAST.equals(thingTypeUID)) {
             resultHandler = createForecastThingHandler(thing);
         } else {
             logger.warn("createHandler({}) failed: ThingHandler not found for {}.", thingTypeUID, thing.getLabel());

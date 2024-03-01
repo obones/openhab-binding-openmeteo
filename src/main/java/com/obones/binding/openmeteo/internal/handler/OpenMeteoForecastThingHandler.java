@@ -11,6 +11,9 @@
  */
 package com.obones.binding.openmeteo.internal.handler;
 
+import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
+import static org.openhab.core.thing.DefaultSystemChannelTypeProvider.*;
+
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.EnumSet;
@@ -34,7 +37,6 @@ import org.openhab.core.library.unit.Units;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Channel;
 import org.openhab.core.thing.ChannelUID;
-import org.openhab.core.thing.DefaultSystemChannelTypeProvider;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingStatus;
 import org.openhab.core.thing.ThingStatusDetail;
@@ -57,7 +59,6 @@ import org.openhab.core.types.UnDefType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoForecastThingConfiguration;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
@@ -76,7 +77,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     private @Nullable WeatherApiResponse forecastData = null;
 
     private static final Pattern CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN = Pattern
-            .compile(OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_PREFIX + "([0-9]*)");
+            .compile(CHANNEL_GROUP_HOURLY_PREFIX + "([0-9]*)");
 
     public Localization localization;
 
@@ -179,14 +180,13 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         builder.withoutChannels(thing.getChannels());
 
         if (config.hourlyTimeSeries)
-            initializeGroupOptionalChannels(callback, builder, thingUID, config,
-                    OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_TIME_SERIES);
+            initializeGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_HOURLY_TIME_SERIES);
 
         if (config.hourlySplit) {
             DecimalFormat hourlyFormatter = new DecimalFormat("00");
             for (int hour = 1; hour <= config.hourlyHours; hour++) {
                 initializeGroupOptionalChannels(callback, builder, thingUID, config,
-                        OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour));
+                        CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour));
             }
         }
 
@@ -196,29 +196,24 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     protected ThingBuilder initializeGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
             ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId) {
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature,
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
+                SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
                 null, "channel-type.openmeteo.forecast.temperature.description");
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure,
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRESSURE,
+                SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure, //
                 null, "channel-type.openmeteo.forecast.pressure.description");
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity,
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_HUMIDITY,
+                SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity, //
                 null, "channel-type.openmeteo.forecast.humidity.description");
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
                 null, "channel-type.openmeteo.forecast.windSpeed.description");
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
-                OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION,
-                DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection,
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_DIRECTION,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection, //
                 null, "channel-type.openmeteo.forecast.windDirection.description");
 
         return builder;
@@ -430,7 +425,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         logger.debug("OpenMeteoForecastThingHandler: updateChannel {}, groupID {}", channelUID, channelGroupId);
 
         switch (channelGroupId) {
-            case OpenMeteoBindingConstants.CHANNEL_GROUP_HOURLY_TIME_SERIES:
+            case CHANNEL_GROUP_HOURLY_TIME_SERIES:
                 updateHourlyTimeSeries(channelUID);
                 break;
             default:
@@ -504,11 +499,11 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     private @Nullable VariableWithValues getVariableValues(String channelId, VariablesWithTime variablesWithTime) {
         if (variablesWithTime != null && variablesWithTime.variablesLength() > 0) {
             int variable = switch (channelId) {
-                case OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE -> Variable.temperature;
-                case OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE -> Variable.surface_pressure;
-                case OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY -> Variable.relative_humidity;
-                case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED -> Variable.wind_speed;
-                case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION -> Variable.wind_direction;
+                case CHANNEL_FORECAST_TEMPERATURE -> Variable.temperature;
+                case CHANNEL_FORECAST_PRESSURE -> Variable.surface_pressure;
+                case CHANNEL_FORECAST_HUMIDITY -> Variable.relative_humidity;
+                case CHANNEL_FORECAST_WIND_SPEED -> Variable.wind_speed;
+                case CHANNEL_FORECAST_WIND_DIRECTION -> Variable.wind_direction;
                 default -> 0;
             };
 
@@ -526,19 +521,19 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         State state = UnDefType.UNDEF;
         float floatValue = values.values(valueIndex);
         switch (channelId) {
-            case OpenMeteoBindingConstants.CHANNEL_FORECAST_TEMPERATURE:
+            case CHANNEL_FORECAST_TEMPERATURE:
                 state = getQuantityTypeState(floatValue, SIUnits.CELSIUS);
                 break;
-            case OpenMeteoBindingConstants.CHANNEL_FORECAST_PRESSURE:
+            case CHANNEL_FORECAST_PRESSURE:
                 state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
                 break;
-            case OpenMeteoBindingConstants.CHANNEL_FORECAST_HUMIDITY:
+            case CHANNEL_FORECAST_HUMIDITY:
                 state = getQuantityTypeState(floatValue, Units.PERCENT);
                 break;
-            case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_SPEED:
+            case CHANNEL_FORECAST_WIND_SPEED:
                 state = getQuantityTypeState(floatValue, Units.METRE_PER_SECOND);
                 break;
-            case OpenMeteoBindingConstants.CHANNEL_FORECAST_WIND_DIRECTION:
+            case CHANNEL_FORECAST_WIND_DIRECTION:
                 state = getQuantityTypeState(floatValue, Units.DEGREE_ANGLE);
                 break;
             default:
