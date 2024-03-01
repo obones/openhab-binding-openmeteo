@@ -80,13 +80,28 @@
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
+		<parameter name="includeHumidity" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeHumidity.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeDewPoint" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeDewPoint.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeApparentTemperature" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeApparentTemperature.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
 		<parameter name="includePressure" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.includePressure.label</label>
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
-		<parameter name="includeHumidity" type="boolean" groupName="channelParameters">
-			<label>@text/config.openmeteo.thing.forecast.includeHumidity.label</label>
+		<parameter name="includeCloudiness" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeCloudiness.label</label>
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
@@ -99,6 +114,101 @@
 			<label>@text/config.openmeteo.thing.forecast.includeWindDirection.label</label>
 			<advanced>false</advanced>
 			<default>true</default>
+		</parameter>
+		<parameter name="includeGustSpeed" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeGustSpeed.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeShortwaveRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeShortwaveRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeDirectRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeDirectRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeDirectNormalIrradiance" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeDirectNormalIrradiance.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeDiffuseRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeDiffuseRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeVapourPressureDeficit" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeVapourPressureDeficit.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeCape" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeCape.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeEvapotranspiration" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeEvapotranspiration.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeEt0FAOEvapotranspiration" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeEt0FAOEvapotranspiration.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includePrecipitation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includePrecipitation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeSnow" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeSnow.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includePrecipitationProbability" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includePrecipitationProbability.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeRain" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeRain.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeShowers" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeShowers.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeWeatherCode" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeWeatherCode.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSnowDepth" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeSnowDepth.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeFreezingLevelHeight" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeFreezingLevelHeight.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeVisibility" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeVisibility.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeIsDay" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeIsDay.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 	</config-description>
 

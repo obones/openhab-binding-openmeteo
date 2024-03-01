@@ -27,8 +27,30 @@ public class OpenMeteoForecastThingConfiguration {
     public boolean hourlySplit = false;
 
     public boolean includeTemperature = true;
-    public boolean includePressure = true;
     public boolean includeHumidity = true;
+    public boolean includeDewPoint = true;
+    public boolean includeApparentTemperature = true;
+    public boolean includePressure = true;
+    public boolean includeCloudiness = true;
     public boolean includeWindSpeed = true;
     public boolean includeWindDirection = true;
+    public boolean includeGustSpeed = true;
+    public boolean includeShortwaveRadiation = false;
+    public boolean includeDirectRadiation = false;
+    public boolean includeDirectNormalIrradiance = false;
+    public boolean includeDiffuseRadiation = false;
+    public boolean includeVapourPressureDeficit = false;
+    public boolean includeCape = false;
+    public boolean includeEvapotranspiration = false;
+    public boolean includeEt0FAOEvapotranspiration = false;
+    public boolean includePrecipitation = false;
+    public boolean includeSnow = true;
+    public boolean includePrecipitationProbability = true;
+    public boolean includeRain = true;
+    public boolean includeShowers = false;
+    public boolean includeWeatherCode = true;
+    public boolean includeSnowDepth = false;
+    public boolean includeFreezingLevelHeight = false;
+    public boolean includeVisibility = true;
+    public boolean includeIsDay = false;
 }

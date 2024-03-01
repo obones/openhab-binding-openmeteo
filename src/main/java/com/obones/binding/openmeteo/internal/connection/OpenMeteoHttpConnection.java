@@ -51,12 +51,56 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
                 return "temperature_2m";
             case HUMIDITY:
                 return "relative_humidity_2m";
+            case DEW_POINT:
+                return "dew_point_2m";
+            case APPARENT_TEMPERATURE:
+                return "apparent_temperature";
             case PRESSURE:
                 return "surface_pressure";
+            case CLOUDINESS:
+                return "cloud_cover";
             case WIND_SPEED:
                 return "wind_speed_10m";
             case WING_DIRECTION:
                 return "wind_direction_10m";
+            case GUST_SPEED:
+                return "wind_gusts_10m";
+            case SHORTWAVE_RADIATION:
+                return "shortwave_radiation";
+            case DIRECT_RADIATION:
+                return "direct_radiation";
+            case DIRECT_NORMAL_IRRADIANCE:
+                return "direct_normal_irradiance";
+            case DIFFUSE_RADIATION:
+                return "diffuse_radiation";
+            case VAPOUR_PRESSURE_DEFICIT:
+                return "vapour_pressure_deficit";
+            case CAPE:
+                return "cape";
+            case EVAPOTRANSPIRATION:
+                return "evapotranspiration";
+            case ET0_EVAPOTRANSPIRATION:
+                return "et0_fao_evapotranspiration";
+            case PRECIPITATION:
+                return "precipitation";
+            case SNOW:
+                return "snowfall";
+            case PRECIPITATION_PROBABILITY:
+                return "precipitation_probability";
+            case RAIN:
+                return "rain";
+            case SHOWERS:
+                return "showers";
+            case WEATHER_CODE:
+                return "weather_code";
+            case SNOW_DEPTH:
+                return "snow_depth";
+            case FREEZING_LEVEL_HEIGHT:
+                return "freezing_level_height";
+            case VISIBILITY:
+                return "visibility";
+            case IS_DAY:
+                return "is_day";
         }
         return "";
     }
@@ -73,7 +117,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
                 .queryParam("format", "flatbuffers") //
                 .queryParam("latitude", location.getLatitude()) //
                 .queryParam("longitude", location.getLongitude()) //
-                .queryParam("wind_speed_unit", "ms");
+                .queryParam("temperature_unit", "celsius") //
+                .queryParam("wind_speed_unit", "ms") //
+                .queryParam("precipitation_unit", "mm") //
+                .queryParam("timezone", "UTC");
 
         if (location.getAltitude().longValue() != 0)
             builder.queryParam("elevation", location.getAltitude());

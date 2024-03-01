@@ -28,10 +28,32 @@ import com.openmeteo.sdk.WeatherApiResponse;
 public interface OpenMeteoConnection {
     enum ForecastValue {
         TEMPERATURE,
-        PRESSURE,
         HUMIDITY,
+        DEW_POINT,
+        APPARENT_TEMPERATURE,
+        PRESSURE,
+        CLOUDINESS,
         WIND_SPEED,
-        WING_DIRECTION
+        WING_DIRECTION,
+        GUST_SPEED,
+        SHORTWAVE_RADIATION,
+        DIRECT_RADIATION,
+        DIRECT_NORMAL_IRRADIANCE,
+        DIFFUSE_RADIATION,
+        VAPOUR_PRESSURE_DEFICIT,
+        CAPE,
+        EVAPOTRANSPIRATION,
+        ET0_EVAPOTRANSPIRATION,
+        PRECIPITATION,
+        SNOW,
+        PRECIPITATION_PROBABILITY,
+        RAIN,
+        SHOWERS,
+        WEATHER_CODE,
+        SNOW_DEPTH,
+        FREEZING_LEVEL_HEIGHT,
+        VISIBILITY,
+        IS_DAY
     }
 
     WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,

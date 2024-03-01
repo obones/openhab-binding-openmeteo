@@ -11,26 +11,237 @@
 
 	<!-- Channel Type - of Forecast -->
 
-	<channel-type id="temperature">
+	<channel-type id="dew-point" advanced="true">
 		<item-type>Number:Temperature</item-type>
-		<label>@text/channel-type.openmeteo.forecast.temperature.label</label>
+		<label>@text/channel-type.openmeteo.forecast.dew-point.label</label>
+		<description>@text/channel-type.openmeteo.forecast.dew-point.description</description>
 		<category>Temperature</category>
-		<tags>
-			<tag>Measurement</tag>
-			<tag>Temperature</tag>
-		</tags>
-		<state pattern="%.1f °C" readOnly="true"/>
+		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
-	<channel-type id="humidity">
+	<channel-type id="apparent-temperature">
+		<item-type>Number:Temperature</item-type>
+		<label>@text/channel-type.openmeteo.forecast.apparent-temperature.label</label>
+		<description>@text/channel-type.openmeteo.forecast.apparent-temperature.description</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="cloudiness">
 		<item-type>Number:Dimensionless</item-type>
-		<label>@text/channel-type.openmeteo.forecast.humidity.label</label>
+		<label>@text/channel-type.openmeteo.forecast.cloudiness.label</label>
+		<description>@text/channel-type.openmeteo.forecast.cloudiness.description</description>
+		<category>Sun_Clouds</category>
+		<state readOnly="true" min="0" max="100" pattern="%d %unit%"/>
+	</channel-type>
+
+	<channel-type id="gust-speed" advanced="true">
+		<item-type>Number:Speed</item-type>
+		<label>@text/channel-type.openmeteo.forecast.gust-speed.label</label>
+		<description>@text/channel-type.openmeteo.forecast.gust-speed.description</description>
+		<category>Wind</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Wind</tag>
+		</tags>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="shortwave-radiation" advanced="true">
+		<item-type>Number:Intensity</item-type>
+		<label>@text/channel-type.openmeteo.forecast.rain.shortwave-radiation</label>
+		<description>@text/channel-type.openmeteo.forecast.rain.shortwave-radiation</description>
+		<category>Sun</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Radiation</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="direct-radiation" advanced="true">
+		<item-type>Number:Intensity</item-type>
+		<label>@text/channel-type.openmeteo.forecast.direct-radiation.label</label>
+		<description>@text/channel-type.openmeteo.forecast.direct-radiation.description</description>
+		<category>Sun</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Radiation</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="direct-normal-irradiance" advanced="true">
+		<item-type>Number:Intensity</item-type>
+		<label>@text/channel-type.openmeteo.forecast.direct-normal-irradiance.label</label>
+		<description>@text/channel-type.openmeteo.forecast.direct-normal-irradiance.description</description>
+		<category>Sun</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Irradiance</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="diffuse-radiation" advanced="true">
+		<item-type>Number:Intensity</item-type>
+		<label>@text/channel-type.openmeteo.forecast.diffuse-radiation.label</label>
+		<description>@text/channel-type.openmeteo.forecast.diffuse-radiation.description</description>
+		<category>Sun</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Radiation</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="vapour-pressure-deficit" advanced="true">
+		<item-type>Number:Pressure</item-type>
+		<label>@text/channel-type.openmeteo.forecast.vapour-pressure-deficit.label</label>
+		<description>@text/channel-type.openmeteo.forecast.vapour-pressure-deficit.description</description>
 		<category>Humidity</category>
 		<tags>
 			<tag>Measurement</tag>
-			<tag>Humidity</tag>
 		</tags>
-		<state pattern="%.1f %%" readOnly="true"/>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="cape" advanced="true">
+		<item-type>Number</item-type>
+		<label>@text/channel-type.openmeteo.forecast.cape.label</label>
+		<description>@text/channel-type.openmeteo.forecast.cape.description</description>
+		<category>Energy</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Energy</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="evapotranspiration" advanced="true">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.evapotranspiration.label</label>
+		<description>@text/channel-type.openmeteo.forecast.evapotranspiration.description</description>
+		<category>Moisture</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Moisture</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="et0-fao-evapotranspiration" advanced="true">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.et0-fao-evapotranspiration.label</label>
+		<description>@text/channel-type.openmeteo.forecast.et0-fao-evapotranspiration.description</description>
+		<category>Moisture</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Moisture</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="precipitation" advanced="true">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.precipitation.label</label>
+		<description>@text/channel-type.openmeteo.forecast.precipitation.description</description>
+		<category>Rain</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Rain</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="snow">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.snow.label</label>
+		<description>@text/channel-type.openmeteo.forecast.snow.description</description>
+		<category>Snow</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Snow</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="precipitation-probability">
+		<item-type>Number:Dimensionless</item-type>
+		<label>@text/channel-type.openmeteo.forecast.precipitation-probability.label</label>
+		<description>@text/channel-type.openmeteo.forecast.precipitation-probability.description</description>
+		<category>Rain</category>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="rain">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.rain.label</label>
+		<description>@text/channel-type.openmeteo.forecast.rain.description</description>
+		<category>Rain</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Rain</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="showers" advanced="true">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.showers.label</label>
+		<description>@text/channel-type.openmeteo.forecast.showers.description</description>
+		<category>Rain</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Rain</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="weather-code">
+		<item-type>Number</item-type>
+		<label>@text/channel-type.openmeteo.forecast.weather-code.label</label>
+		<description>@text/channel-type.openmeteo.forecast.weather-code.description</description>
+		<category>Sun_Clouds</category>
+		<state readOnly="true"/>
+	</channel-type>
+
+	<channel-type id="snow-depth" advanced="true">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.snow-depth.label</label>
+		<description>@text/channel-type.openmeteo.forecast.snow-depth.description</description>
+		<category>Snow</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Snow</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="freezing-level-height" advanced="true">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.freezing-level-height.label</label>
+		<description>@text/channel-type.openmeteo.forecast.freezing-level-height.description</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Altitude</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="visibility">
+		<item-type>Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.forecast.visibility.label</label>
+		<description>@text/channel-type.openmeteo.forecast.visibility.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="is-day" advanced="true">
+		<item-type>Switch</item-type>
+		<label>@text/channel-type.openmeteo.forecast.is-day.label</label>
+		<description>@text/channel-type.openmeteo.forecast.is-day.description</description>
+		<state readOnly="true"/>
 	</channel-type>
 
 	<!-- Channel Group Type - of Forecast -->
@@ -40,10 +251,32 @@
 		<description>@text/channel-group-type.openmeteo.forecast.hourlyTimeSeries.description</description>
 		<channels>
 			<channel id="temperature" typeId="system.outdoor-temperature"/>
-			<channel id="pressure" typeId="system.barometric-pressure"/>
 			<channel id="humidity" typeId="system.atmospheric-humidity"/>
+			<channel id="dew-point" typeId="dew-point"/>
+			<channel id="apparent-temperature" typeId="apparent-temperature"/>
+			<channel id="pressure" typeId="system.barometric-pressure"/>
+			<channel id="cloudiness" typeId="cloudiness"/>
 			<channel id="wind-speed" typeId="system.wind-speed"/>
 			<channel id="wind-direction" typeId="system.wind-direction"/>
+			<channel id="gust-speed" typeId="gust-speed"/>
+			<channel id="shortwave-radiation" typeId="shortwave-radiation"/>
+			<channel id="direct-radiation" typeId="direct-radiation"/>
+			<channel id="direct-normal-irradiance" typeId="direct-normal-irradiance"/>
+			<channel id="diffuse-radiation" typeId="diffuse-radiation"/>
+			<channel id="vapour-pressure-deficit" typeId="vapour-pressure-deficit"/>
+			<channel id="cape" typeId="cape"/>
+			<channel id="evapotranspiration" typeId="evapotranspiration"/>
+			<channel id="et0-fao-evapotranspiration" typeId="et0-fao-evapotranspiration"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="snow" typeId="snow"/>
+			<channel id="precipitation-probability" typeId="precipitation-probability"/>
+			<channel id="rain" typeId="rain"/>
+			<channel id="showers" typeId="showers"/>
+			<channel id="weather-code" typeId="weather-code"/>
+			<channel id="snow-depth" typeId="snow-depth"/>
+			<channel id="freezing-level-height" typeId="freezing-level-height"/>
+			<channel id="visibility" typeId="visibility"/>
+			<channel id="is-day" typeId="is-day"/>
 		</channels>
 	</channel-group-type>
 

@@ -29,6 +29,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.config.core.Configuration;
 import org.openhab.core.i18n.CommunicationException;
 import org.openhab.core.i18n.ConfigurationException;
+import org.openhab.core.library.types.DecimalType;
+import org.openhab.core.library.types.OnOffType;
 import org.openhab.core.library.types.PointType;
 import org.openhab.core.library.types.QuantityType;
 import org.openhab.core.library.unit.MetricPrefix;
@@ -200,13 +202,22 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
                 null, "channel-type.openmeteo.forecast.temperature.description");
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_HUMIDITY,
+                SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity, //
+                null, "channel-type.openmeteo.forecast.humidity.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DEW_POINT,
+                CHANNEL_TYPE_UID_DEW_POINT, config.includeDewPoint);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_APPARENT_TEMPERATURE,
+                CHANNEL_TYPE_UID_APPARENT_TEMPERATURE, config.includeApparentTemperature);
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRESSURE,
                 SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure, //
                 null, "channel-type.openmeteo.forecast.pressure.description");
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_HUMIDITY,
-                SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity, //
-                null, "channel-type.openmeteo.forecast.humidity.description");
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUDINESS,
+                CHANNEL_TYPE_UID_CLOUDINESS, config.includeCloudiness);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
                 SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
@@ -215,6 +226,65 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_DIRECTION,
                 SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection, //
                 null, "channel-type.openmeteo.forecast.windDirection.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_GUST_SPEED,
+                CHANNEL_TYPE_UID_GUST_SPEED, config.includeGustSpeed);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHORTWAVE_RADIATION,
+                CHANNEL_TYPE_UID_SHORTWAVE_RADIATION, config.includeShortwaveRadiation);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIRECT_RADIATION,
+                CHANNEL_TYPE_UID_DIRECT_RADIATION, config.includeDirectRadiation);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE, CHANNEL_TYPE_UID_DIRECT_NORMAL_IRRADIANCE,
+                config.includeDirectNormalIrradiance);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIFFUSE_RADIATION,
+                CHANNEL_TYPE_UID_DIFFUSE_RADIATION, config.includeDiffuseRadiation);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT,
+                CHANNEL_TYPE_UID_VAPOUR_PRESSURE_DEFICIT, config.includeVapourPressureDeficit);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CAPE,
+                CHANNEL_TYPE_UID_CAPE, config.includeCape);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_EVAPOTRANSPIRATION,
+                CHANNEL_TYPE_UID_EVAPOTRANSPIRATION, config.includeEvapotranspiration);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_ET0_EVAPOTRANSPIRATION,
+                CHANNEL_TYPE_UID_ET0_EVAPOTRANSPIRATION, config.includeEt0FAOEvapotranspiration);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION,
+                CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW,
+                CHANNEL_TYPE_UID_SNOW, config.includeSnow);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_PRECIPITATION_PROBABILITY, CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY,
+                config.includePrecipitationProbability);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_RAIN,
+                CHANNEL_TYPE_UID_RAIN, config.includeRain);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHOWERS,
+                CHANNEL_TYPE_UID_SHOWERS, config.includeShowers);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
+                CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW_DEPTH,
+                CHANNEL_TYPE_UID_SNOW_DEPTH, config.includeSnowDepth);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT,
+                CHANNEL_TYPE_UID_FREEZING_LEVEL_HEIGHT, config.includeFreezingLevelHeight);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_VISIBILITY,
+                CHANNEL_TYPE_UID_VISIBILITY, config.includeVisibility);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_IS_DAY,
+                CHANNEL_TYPE_UID_IS_DAY, config.includeIsDay);
 
         return builder;
     }
@@ -390,14 +460,58 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         if (config.includeTemperature)
             result.add(ForecastValue.TEMPERATURE);
-        if (config.includePressure)
-            result.add(ForecastValue.PRESSURE);
         if (config.includeHumidity)
             result.add(ForecastValue.HUMIDITY);
+        if (config.includeDewPoint)
+            result.add(ForecastValue.DEW_POINT);
+        if (config.includeApparentTemperature)
+            result.add(ForecastValue.APPARENT_TEMPERATURE);
+        if (config.includePressure)
+            result.add(ForecastValue.PRESSURE);
+        if (config.includeCloudiness)
+            result.add(ForecastValue.CLOUDINESS);
         if (config.includeWindSpeed)
             result.add(ForecastValue.WIND_SPEED);
         if (config.includeWindDirection)
             result.add(ForecastValue.WING_DIRECTION);
+        if (config.includeGustSpeed)
+            result.add(ForecastValue.GUST_SPEED);
+        if (config.includeShortwaveRadiation)
+            result.add(ForecastValue.SHORTWAVE_RADIATION);
+        if (config.includeDirectRadiation)
+            result.add(ForecastValue.DIRECT_RADIATION);
+        if (config.includeDirectNormalIrradiance)
+            result.add(ForecastValue.DIRECT_NORMAL_IRRADIANCE);
+        if (config.includeDiffuseRadiation)
+            result.add(ForecastValue.DIFFUSE_RADIATION);
+        if (config.includeVapourPressureDeficit)
+            result.add(ForecastValue.VAPOUR_PRESSURE_DEFICIT);
+        if (config.includeCape)
+            result.add(ForecastValue.CAPE);
+        if (config.includeEvapotranspiration)
+            result.add(ForecastValue.EVAPOTRANSPIRATION);
+        if (config.includeEt0FAOEvapotranspiration)
+            result.add(ForecastValue.ET0_EVAPOTRANSPIRATION);
+        if (config.includePrecipitation)
+            result.add(ForecastValue.PRECIPITATION);
+        if (config.includeSnow)
+            result.add(ForecastValue.SNOW);
+        if (config.includePrecipitationProbability)
+            result.add(ForecastValue.PRECIPITATION_PROBABILITY);
+        if (config.includeRain)
+            result.add(ForecastValue.RAIN);
+        if (config.includeShowers)
+            result.add(ForecastValue.SHOWERS);
+        if (config.includeWeatherCode)
+            result.add(ForecastValue.WEATHER_CODE);
+        if (config.includeSnowDepth)
+            result.add(ForecastValue.SNOW_DEPTH);
+        if (config.includeFreezingLevelHeight)
+            result.add(ForecastValue.FREEZING_LEVEL_HEIGHT);
+        if (config.includeVisibility)
+            result.add(ForecastValue.VISIBILITY);
+        if (config.includeIsDay)
+            result.add(ForecastValue.IS_DAY);
 
         return result;
     }
@@ -500,10 +614,32 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         if (variablesWithTime != null && variablesWithTime.variablesLength() > 0) {
             int variable = switch (channelId) {
                 case CHANNEL_FORECAST_TEMPERATURE -> Variable.temperature;
-                case CHANNEL_FORECAST_PRESSURE -> Variable.surface_pressure;
                 case CHANNEL_FORECAST_HUMIDITY -> Variable.relative_humidity;
+                case CHANNEL_FORECAST_DEW_POINT -> Variable.dew_point;
+                case CHANNEL_FORECAST_APPARENT_TEMPERATURE -> Variable.apparent_temperature;
+                case CHANNEL_FORECAST_PRESSURE -> Variable.surface_pressure;
+                case CHANNEL_FORECAST_CLOUDINESS -> Variable.cloud_cover;
                 case CHANNEL_FORECAST_WIND_SPEED -> Variable.wind_speed;
                 case CHANNEL_FORECAST_WIND_DIRECTION -> Variable.wind_direction;
+                case CHANNEL_FORECAST_GUST_SPEED -> Variable.wind_gusts;
+                case CHANNEL_FORECAST_SHORTWAVE_RADIATION -> Variable.shortwave_radiation;
+                case CHANNEL_FORECAST_DIRECT_RADIATION -> Variable.direct_radiation;
+                case CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE -> Variable.direct_normal_irradiance;
+                case CHANNEL_FORECAST_DIFFUSE_RADIATION -> Variable.diffuse_radiation;
+                case CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT -> Variable.vapour_pressure_deficit;
+                case CHANNEL_FORECAST_CAPE -> Variable.cape;
+                case CHANNEL_FORECAST_EVAPOTRANSPIRATION -> Variable.evapotranspiration;
+                case CHANNEL_FORECAST_ET0_EVAPOTRANSPIRATION -> Variable.et0_fao_evapotranspiration;
+                case CHANNEL_FORECAST_PRECIPITATION -> Variable.precipitation;
+                case CHANNEL_FORECAST_SNOW -> Variable.snowfall;
+                case CHANNEL_FORECAST_PRECIPITATION_PROBABILITY -> Variable.precipitation_probability;
+                case CHANNEL_FORECAST_RAIN -> Variable.rain;
+                case CHANNEL_FORECAST_SHOWERS -> Variable.showers;
+                case CHANNEL_FORECAST_WEATHER_CODE -> Variable.weather_code;
+                case CHANNEL_FORECAST_SNOW_DEPTH -> Variable.snow_depth;
+                case CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT -> Variable.freezing_level_height;
+                case CHANNEL_FORECAST_VISIBILITY -> Variable.visibility;
+                case CHANNEL_FORECAST_IS_DAY -> Variable.is_day;
                 default -> 0;
             };
 
@@ -511,6 +647,10 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         }
 
         return null;
+    }
+
+    protected State getDecimalTypeState(@Nullable Float value) {
+        return (value == null) ? UnDefType.UNDEF : new DecimalType(value);
     }
 
     protected State getQuantityTypeState(@Nullable Number value, Unit<?> unit) {
@@ -524,10 +664,19 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             case CHANNEL_FORECAST_TEMPERATURE:
                 state = getQuantityTypeState(floatValue, SIUnits.CELSIUS);
                 break;
+            case CHANNEL_FORECAST_HUMIDITY:
+                state = getQuantityTypeState(floatValue, Units.PERCENT);
+                break;
+            case CHANNEL_FORECAST_DEW_POINT:
+                state = getQuantityTypeState(floatValue, SIUnits.CELSIUS);
+                break;
+            case CHANNEL_FORECAST_APPARENT_TEMPERATURE:
+                state = getQuantityTypeState(floatValue, SIUnits.CELSIUS);
+                break;
             case CHANNEL_FORECAST_PRESSURE:
                 state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
                 break;
-            case CHANNEL_FORECAST_HUMIDITY:
+            case CHANNEL_FORECAST_CLOUDINESS:
                 state = getQuantityTypeState(floatValue, Units.PERCENT);
                 break;
             case CHANNEL_FORECAST_WIND_SPEED:
@@ -535,6 +684,63 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 break;
             case CHANNEL_FORECAST_WIND_DIRECTION:
                 state = getQuantityTypeState(floatValue, Units.DEGREE_ANGLE);
+                break;
+            case CHANNEL_FORECAST_GUST_SPEED:
+                state = getQuantityTypeState(floatValue, Units.METRE_PER_SECOND);
+                break;
+            case CHANNEL_FORECAST_SHORTWAVE_RADIATION:
+                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                break;
+            case CHANNEL_FORECAST_DIRECT_RADIATION:
+                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                break;
+            case CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE:
+                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                break;
+            case CHANNEL_FORECAST_DIFFUSE_RADIATION:
+                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                break;
+            case CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT:
+                state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
+                break;
+            case CHANNEL_FORECAST_CAPE:
+                state = getDecimalTypeState(floatValue); // no J/kg unit
+                break;
+            case CHANNEL_FORECAST_EVAPOTRANSPIRATION:
+                state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
+                break;
+            case CHANNEL_FORECAST_ET0_EVAPOTRANSPIRATION:
+                state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
+                break;
+            case CHANNEL_FORECAST_PRECIPITATION:
+                state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
+                break;
+            case CHANNEL_FORECAST_SNOW:
+                state = getQuantityTypeState(floatValue, MetricPrefix.CENTI(SIUnits.METRE));
+                break;
+            case CHANNEL_FORECAST_PRECIPITATION_PROBABILITY:
+                state = getQuantityTypeState(floatValue, Units.PERCENT);
+                break;
+            case CHANNEL_FORECAST_RAIN:
+                state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
+                break;
+            case CHANNEL_FORECAST_SHOWERS:
+                state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
+                break;
+            case CHANNEL_FORECAST_WEATHER_CODE:
+                state = getDecimalTypeState(floatValue);
+                break;
+            case CHANNEL_FORECAST_SNOW_DEPTH:
+                state = getQuantityTypeState(floatValue, SIUnits.METRE);
+                break;
+            case CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT:
+                state = getQuantityTypeState(floatValue, SIUnits.METRE);
+                break;
+            case CHANNEL_FORECAST_VISIBILITY:
+                state = getQuantityTypeState(floatValue, SIUnits.METRE);
+                break;
+            case CHANNEL_FORECAST_IS_DAY:
+                state = (floatValue == 1) ? OnOffType.ON : OnOffType.OFF;
                 break;
             default:
                 // This should not happen
