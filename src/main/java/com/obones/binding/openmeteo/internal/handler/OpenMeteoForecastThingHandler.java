@@ -80,6 +80,8 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
     private static final Pattern CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN = Pattern
             .compile(CHANNEL_GROUP_HOURLY_PREFIX + "([0-9]*)");
+    private static final Pattern CHANNEL_GROUP_DAILY_FORECAST_PREFIX_PATTERN = Pattern
+            .compile(CHANNEL_GROUP_DAILY_PREFIX + "([0-9]*)");
 
     public Localization localization;
 
@@ -665,6 +667,15 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             case CHANNEL_GROUP_HOURLY_TIME_SERIES:
                 updateHourlyTimeSeries(channelUID);
                 break;
+            case CHANNEL_GROUP_DAILY_TIME_SERIES:
+                updateDailyTimeSeries(channelUID);
+                break;
+            case CHANNEL_GROUP_DAILY_TODAY:
+                updateDailyChannel(channelUID, 0);
+                break;
+            case CHANNEL_GROUP_DAILY_TOMORROW:
+                updateDailyChannel(channelUID, 1);
+                break;
             default:
                 Matcher hourlyForecastMatcher = CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN.matcher(channelGroupId);
                 if (hourlyForecastMatcher.find()) {
@@ -672,36 +683,69 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                     updateHourlyChannel(channelUID, (i - 1));
                     break;
                 }
+                Matcher dailyForecastMatcher = CHANNEL_GROUP_DAILY_FORECAST_PREFIX_PATTERN.matcher(channelGroupId);
+                if (dailyForecastMatcher.find()) {
+                    int i = Integer.parseInt(dailyForecastMatcher.group(1));
+                    updateDailyChannel(channelUID, i);
+                    break;
+                }
                 break;
         }
     }
 
-    private void updateHourlyTimeSeries(ChannelUID channelUID) {
+    private void updateForecastTimeSeries(ChannelUID channelUID, @Nullable VariablesWithTime forecast) {
         String channelId = channelUID.getIdWithoutGroup();
         String channelGroupId = channelUID.getGroupId();
 
+        if (forecast != null) {
+            VariableWithValues values = getVariableValues(channelId, forecast);
+            if (values != null) {
+                TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
+                long time = forecast.time();
+                for (int valueIndex = 0; valueIndex < values.valuesLength(); valueIndex++) {
+                    Instant timestamp = Instant.ofEpochSecond(time);
+                    State state = getForecastState(channelId, values, valueIndex);
+                    timeSeries.add(timestamp, state);
+
+                    time += forecast.interval();
+                }
+
+                logger.debug("Update channel '{}' of group '{}' with new time-series '{}'.", channelId, channelGroupId,
+                        timeSeries);
+                sendTimeSeries(channelUID, timeSeries);
+            } else {
+                logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
+            }
+        }
+    }
+
+    private void updateHourlyTimeSeries(ChannelUID channelUID) {
         var forecastData = this.forecastData;
         if (forecastData != null) {
-            var hourlyForecast = forecastData.hourly();
-            if (hourlyForecast != null) {
-                VariableWithValues values = getVariableValues(channelId, hourlyForecast);
-                if (values != null) {
-                    TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
-                    long time = hourlyForecast.time();
-                    for (int valueIndex = 0; valueIndex < values.valuesLength(); valueIndex++) {
-                        Instant timestamp = Instant.ofEpochSecond(time);
-                        State state = getForecastState(channelId, values, valueIndex);
-                        timeSeries.add(timestamp, state);
+            updateForecastTimeSeries(channelUID, forecastData.hourly());
+        }
+    }
 
-                        time += hourlyForecast.interval();
-                    }
+    private void updateDailyTimeSeries(ChannelUID channelUID) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            updateForecastTimeSeries(channelUID, forecastData.daily());
+        }
+    }
 
-                    logger.warn("Update channel '{}' of group '{}' with new time-series '{}'.", channelId,
-                            channelGroupId, timeSeries);
-                    sendTimeSeries(channelUID, timeSeries);
-                } else {
-                    logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
-                }
+    private void updateForecastChannel(ChannelUID channelUID, @Nullable VariablesWithTime forecast, int index) {
+        String channelId = channelUID.getIdWithoutGroup();
+        String channelGroupId = channelUID.getGroupId();
+
+        if (forecast != null) {
+            VariableWithValues values = getVariableValues(channelId, forecast);
+            if (values != null) {
+                State state = getForecastState(channelId, values, index);
+                logger.debug("Update channel '{}' of group '{}' with new state '{}'.", channelId, channelGroupId,
+                        state);
+                updateState(channelUID, state);
+            } else {
+                logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
             }
         }
     }
@@ -713,23 +757,22 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
      * @param index the index of the hourly data referenced by the channel (hour 1 is index 0)
      */
     private void updateHourlyChannel(ChannelUID channelUID, int index) {
-        String channelId = channelUID.getIdWithoutGroup();
-        String channelGroupId = channelUID.getGroupId();
-
         var forecastData = this.forecastData;
         if (forecastData != null) {
-            var hourlyForecast = forecastData.hourly();
-            if (hourlyForecast != null) {
-                VariableWithValues values = getVariableValues(channelId, hourlyForecast);
-                if (values != null) {
-                    State state = getForecastState(channelId, values, index);
-                    logger.debug("Update channel '{}' of group '{}' with new state '{}'.", channelId, channelGroupId,
-                            state);
-                    updateState(channelUID, state);
-                } else {
-                    logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
-                }
-            }
+            updateForecastChannel(channelUID, forecastData.hourly(), index);
+        }
+    }
+
+    /**
+     * Update the daily forecast channel from the last Open Meteo data retrieved.
+     *
+     * @param channelUID the id identifying the channel to be updated
+     * @param index the index of the daily data referenced by the channel (today is index 0, tomorrow is index 1...)
+     */
+    private void updateDailyChannel(ChannelUID channelUID, int index) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            updateForecastChannel(channelUID, forecastData.daily(), index);
         }
     }
 
