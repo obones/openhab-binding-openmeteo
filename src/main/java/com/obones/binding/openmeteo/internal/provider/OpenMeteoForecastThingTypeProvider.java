@@ -86,12 +86,26 @@ public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
     private List<ChannelGroupDefinition> getChannelGroupDefinitions() {
         ArrayList<ChannelGroupDefinition> result = new ArrayList<ChannelGroupDefinition>();
 
+        final int maximumDays = 16;
+
+        // hourly forecast
         result.add(new ChannelGroupDefinition(CHANNEL_GROUP_HOURLY_TIME_SERIES, CHANNEL_GROUP_TYPE_HOURLY_TIME_SERIES));
 
         DecimalFormat hourlyFormatter = new DecimalFormat("00");
-        for (int hour = 1; hour < 24 * 16; hour++) {
+        for (int hour = 1; hour < 24 * maximumDays; hour++) {
             result.add(new ChannelGroupDefinition(CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour),
                     CHANNEL_GROUP_TYPE_HOURLY));
+        }
+
+        // daily forecast
+        result.add(new ChannelGroupDefinition(CHANNEL_GROUP_DAILY_TIME_SERIES, CHANNEL_GROUP_TYPE_DAILY_TIME_SERIES));
+
+        DecimalFormat dailyFormatter = new DecimalFormat("00");
+        result.add(new ChannelGroupDefinition(CHANNEL_GROUP_DAILY_TODAY, CHANNEL_GROUP_TYPE_DAILY));
+        result.add(new ChannelGroupDefinition(CHANNEL_GROUP_DAILY_TOMORROW, CHANNEL_GROUP_TYPE_DAILY));
+        for (int day = 2; day < maximumDays; day++) {
+            result.add(new ChannelGroupDefinition(CHANNEL_GROUP_DAILY_PREFIX + dailyFormatter.format(day),
+                    CHANNEL_GROUP_TYPE_DAILY));
         }
 
         return result;

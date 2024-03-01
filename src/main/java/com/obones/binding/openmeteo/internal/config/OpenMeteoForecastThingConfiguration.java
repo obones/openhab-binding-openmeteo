@@ -26,6 +26,10 @@ public class OpenMeteoForecastThingConfiguration {
     public boolean hourlyTimeSeries = true;
     public boolean hourlySplit = false;
 
+    public int dailyDays = 5;
+    public boolean dailyTimeSeries = true;
+    public boolean dailySplit = false;
+
     public boolean includeTemperature = true;
     public boolean includeHumidity = true;
     public boolean includeDewPoint = true;

@@ -69,6 +69,31 @@
 			<default>false</default>
 		</parameter>
 
+		<!-- Daily parameters -->
+		<parameter-group name="dailyParameters">
+			<label>@text/config.openmeteo.thing.forecast.dailyParameters.label</label>
+			<description>@text/config.openmeteo.thing.forecast.dailyParameters.description</description>
+		</parameter-group>
+
+		<parameter name="dailyHours" type="integer" groupName="dailyParameters" min="1" step="1">
+			<label>@text/config.openmeteo.thing.forecast.dailyHours.label</label>
+			<description>@text/config.openmeteo.thing.forecast.dailyHours.description</description>
+			<advanced>false</advanced>
+			<default>48</default>
+		</parameter>
+		<parameter name="dailyTimeSeries" type="boolean" groupName="dailyParameters">
+			<label>@text/config.openmeteo.thing.forecast.dailyTimeSeries.label</label>
+			<description>@text/config.openmeteo.thing.forecast.dailyTimeSeries.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="dailySplit" type="boolean" groupName="dailyParameters">
+			<label>@text/config.openmeteo.thing.forecast.dailySplit.label</label>
+			<description>@text/config.openmeteo.thing.forecast.dailySplit.description</description>
+			<advanced>false</advanced>
+			<default>false</default>
+		</parameter>
+
 		<!-- Channel parameters -->
 		<parameter-group name="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.channelParameters.label</label>

@@ -181,21 +181,38 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         // and has no impact until the build() method is called
         builder.withoutChannels(thing.getChannels());
 
-        if (config.hourlyTimeSeries)
-            initializeGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_HOURLY_TIME_SERIES);
+        if (config.hourlyTimeSeries) {
+            initializeHourlyGroupOptionalChannels(callback, builder, thingUID, config,
+                    CHANNEL_GROUP_HOURLY_TIME_SERIES);
+        }
 
         if (config.hourlySplit) {
             DecimalFormat hourlyFormatter = new DecimalFormat("00");
             for (int hour = 1; hour <= config.hourlyHours; hour++) {
-                initializeGroupOptionalChannels(callback, builder, thingUID, config,
+                initializeHourlyGroupOptionalChannels(callback, builder, thingUID, config,
                         CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour));
+            }
+        }
+
+        if (config.dailyTimeSeries) {
+            initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TIME_SERIES);
+        }
+
+        if (config.dailySplit) {
+            initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TODAY);
+            initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TOMORROW);
+
+            DecimalFormat dailyFormatter = new DecimalFormat("00");
+            for (int day = 2; day <= config.dailyDays; day++) {
+                initializeDailyGroupOptionalChannels(callback, builder, thingUID, config,
+                        CHANNEL_GROUP_DAILY_PREFIX + dailyFormatter.format(day));
             }
         }
 
         updateThing(builder.build());
     }
 
-    protected ThingBuilder initializeGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+    protected ThingBuilder initializeHourlyGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
             ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId) {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
@@ -221,11 +238,11 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
                 SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
-                null, "channel-type.openmeteo.forecast.windSpeed.description");
+                null, "channel-type.openmeteo.forecast.wind-speed.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_DIRECTION,
                 SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection, //
-                null, "channel-type.openmeteo.forecast.windDirection.description");
+                null, "channel-type.openmeteo.forecast.wind-direction.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_GUST_SPEED,
                 CHANNEL_TYPE_UID_GUST_SPEED, config.includeGustSpeed);
@@ -285,6 +302,100 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_IS_DAY,
                 CHANNEL_TYPE_UID_IS_DAY, config.includeIsDay);
+
+        return builder;
+    }
+
+    protected ThingBuilder initializeDailyGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId) {
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE_MIN,
+                SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
+                null, "channel-type.openmeteo.forecast.temperature-min.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE_MAX,
+                SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
+                null, "channel-type.openmeteo.forecast.temperature-max.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_APPARENT_TEMPERATURE_MIN, CHANNEL_TYPE_UID_APPARENT_TEMPERATURE,
+                config.includeApparentTemperature, //
+                null, "channel-type.openmeteo.forecast.apparent-temperature-min.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_APPARENT_TEMPERATURE_MAX, CHANNEL_TYPE_UID_APPARENT_TEMPERATURE,
+                config.includeApparentTemperature, //
+                null, "channel-type.openmeteo.forecast.apparent-temperature-max.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION_SUM,
+                CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation, //
+                null, "channel-type.openmeteo.forecast.precipitation-sum.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_RAIN_SUM,
+                CHANNEL_TYPE_UID_RAIN, config.includeRain, //
+                null, "channel-type.openmeteo.forecast.rain-sum.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW_SUM,
+                CHANNEL_TYPE_UID_SNOW, config.includeSnow, //
+                null, "channel-type.openmeteo.forecast.snow-sum.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION_HOURS,
+                CHANNEL_TYPE_UID_PRECIPITATION_HOURS, config.includePrecipitation);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MAX, CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY,
+                config.includePrecipitationProbability, //
+                null, "channel-type.openmeteo.forecast.precipitation-probability-max.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MIN, CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY,
+                config.includePrecipitationProbability, //
+                null, "channel-type.openmeteo.forecast.precipitation-probability-min.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MEAN, CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY,
+                config.includePrecipitationProbability, //
+                null, "channel-type.openmeteo.forecast.precipitation-probability-mean.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
+                CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SUNRISE,
+                CHANNEL_TYPE_UID_SUNRISE, config.includeSunrise);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SUNSET,
+                CHANNEL_TYPE_UID_SUNSET, config.includeSunset);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SUNSHINE_DURATION,
+                CHANNEL_TYPE_UID_SUNSHINE_DURATION, config.includeSunshineDuration);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DAYLIGHT_DURATION,
+                CHANNEL_TYPE_UID_DAYLIGHT_DURATION, config.includeDaylightDuration);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
+                null, "channel-type.openmeteo.forecast.wind-speed-max.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_GUST_SPEED,
+                CHANNEL_TYPE_UID_GUST_SPEED, config.includeGustSpeed, //
+                null, "channel-type.openmeteo.forecast.gust-speed-max.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_DIRECTION,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection, //
+                null, "channel-type.openmeteo.forecast.wind-direction-dominant.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHORTWAVE_RADIATION,
+                CHANNEL_TYPE_UID_SHORTWAVE_RADIATION, config.includeShortwaveRadiation, //
+                null, "channel-type.openmeteo.forecast.shortwave-radiation-max.description");
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_ET0_EVAPOTRANSPIRATION,
+                CHANNEL_TYPE_UID_ET0_EVAPOTRANSPIRATION, config.includeEt0FAOEvapotranspiration);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_UV_INDEX,
+                CHANNEL_TYPE_UID_UV_INDEX, config.includeUVIndex);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_UV_INDEX_CLEAR_SKY,
+                CHANNEL_TYPE_UID_UV_INDEX_CLEAR_SKY, config.includeUVIndexClearSky);
 
         return builder;
     }

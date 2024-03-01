@@ -46,6 +46,8 @@ public class OpenMeteoBindingConstants {
     // Channel group type ids
     private static final String CHANNEL_GROUP_TYPE_ID_HOURLY_TIME_SERIES = "hourlyTimeSeries";
     private static final String CHANNEL_GROUP_TYPE_ID_HOURLY = "hourly";
+    private static final String CHANNEL_GROUP_TYPE_ID_DAILY_TIME_SERIES = "dailyTimeSeries";
+    private static final String CHANNEL_GROUP_TYPE_ID_DAILY = "daily";
 
     // List of all Bridge Type UIDs
     public static final ThingTypeUID THING_TYPE_BRIDGE = new ThingTypeUID(BINDING_ID, THING_OPENMETEO_BRIDGE);
@@ -59,6 +61,10 @@ public class OpenMeteoBindingConstants {
             CHANNEL_GROUP_TYPE_ID_HOURLY_TIME_SERIES);
     public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_HOURLY = new ChannelGroupTypeUID(BINDING_ID,
             CHANNEL_GROUP_TYPE_ID_HOURLY);
+    public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_DAILY_TIME_SERIES = new ChannelGroupTypeUID(BINDING_ID,
+            CHANNEL_GROUP_TYPE_ID_DAILY_TIME_SERIES);
+    public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_DAILY = new ChannelGroupTypeUID(BINDING_ID,
+            CHANNEL_GROUP_TYPE_ID_DAILY);
 
     // Definitions of different set of Things
     public static final Set<ThingTypeUID> SUPPORTED_THINGS_BRIDGE = new HashSet<>(Arrays.asList(THING_TYPE_BRIDGE));
@@ -73,12 +79,20 @@ public class OpenMeteoBindingConstants {
     // List of all forecast channel group ids
     public static final String CHANNEL_GROUP_HOURLY_TIME_SERIES = "forecastHourly";
     public static final String CHANNEL_GROUP_HOURLY_PREFIX = "forecastHours";
+    public static final String CHANNEL_GROUP_DAILY_TIME_SERIES = "forecastDaily";
+    public static final String CHANNEL_GROUP_DAILY_TODAY = "forecastToday";
+    public static final String CHANNEL_GROUP_DAILY_TOMORROW = "forecastTomorrow";
+    public static final String CHANNEL_GROUP_DAILY_PREFIX = "forecastDay";
 
     // List of all forecast channel/property ids
     public static final String CHANNEL_FORECAST_TEMPERATURE = "temperature";
+    public static final String CHANNEL_FORECAST_TEMPERATURE_MIN = "temperature-min";
+    public static final String CHANNEL_FORECAST_TEMPERATURE_MAX = "temperature-max";
     public static final String CHANNEL_FORECAST_HUMIDITY = "humidity";
     public static final String CHANNEL_FORECAST_DEW_POINT = "dew-point";
     public static final String CHANNEL_FORECAST_APPARENT_TEMPERATURE = "apparent-temperature";
+    public static final String CHANNEL_FORECAST_APPARENT_TEMPERATURE_MIN = "apparent-temperature-min";
+    public static final String CHANNEL_FORECAST_APPARENT_TEMPERATURE_MAX = "apparent-temperature-max";
     public static final String CHANNEL_FORECAST_PRESSURE = "pressure";
     public static final String CHANNEL_FORECAST_CLOUDINESS = "cloudiness";
     public static final String CHANNEL_FORECAST_WIND_SPEED = "wind-speed";
@@ -93,10 +107,18 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_FORECAST_EVAPOTRANSPIRATION = "evapotranspiration";
     public static final String CHANNEL_FORECAST_ET0_EVAPOTRANSPIRATION = "et0-fao-evapotranspiration";
     public static final String CHANNEL_FORECAST_PRECIPITATION = "precipitation";
+    public static final String CHANNEL_FORECAST_PRECIPITATION_SUM = "precipitation-sum";
+    public static final String CHANNEL_FORECAST_PRECIPITATION_HOURS = "precipitation-hours";
     public static final String CHANNEL_FORECAST_SNOW = "snow";
+    public static final String CHANNEL_FORECAST_SNOW_SUM = "snow-sum";
     public static final String CHANNEL_FORECAST_PRECIPITATION_PROBABILITY = "precipitation-probability";
+    public static final String CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MIN = "precipitation-probability-min";
+    public static final String CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MAX = "precipitation-probability-max";
+    public static final String CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MEAN = "precipitation-probability-mean";
     public static final String CHANNEL_FORECAST_RAIN = "rain";
+    public static final String CHANNEL_FORECAST_RAIN_SUM = "rain-sum";
     public static final String CHANNEL_FORECAST_SHOWERS = "showers";
+    public static final String CHANNEL_FORECAST_SHOWERS_SUM = "showers-sum";
     public static final String CHANNEL_FORECAST_WEATHER_CODE = "weather-code";
     public static final String CHANNEL_FORECAST_SNOW_DEPTH = "snow-depth";
     public static final String CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT = "freezing-level-height";
@@ -123,6 +145,7 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_TYPE_EVAPOTRANSPIRATION = "evapotranspiration";
     public static final String CHANNEL_TYPE_ET0_EVAPOTRANSPIRATION = "et0-fao-evapotranspiration";
     public static final String CHANNEL_TYPE_PRECIPITATION = "precipitation";
+    public static final String CHANNEL_TYPE_PRECIPITATION_HOURS = "precipitation-hours";
     public static final String CHANNEL_TYPE_SNOW = "snow";
     public static final String CHANNEL_TYPE_PRECIPITATION_PROBABILITY = "precipitation-probability";
     public static final String CHANNEL_TYPE_RAIN = "rain";
@@ -166,6 +189,8 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_ET0_EVAPOTRANSPIRATION);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_PRECIPITATION = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_PRECIPITATION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_PRECIPITATION_HOURS = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_PRECIPITATION_HOURS);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_SNOW = new ChannelTypeUID(BINDING_ID, //
             CHANNEL_TYPE_SNOW);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY = new ChannelTypeUID(BINDING_ID,

@@ -154,6 +154,18 @@
 		<state readOnly="true" pattern="%.2f %unit%"/>
 	</channel-type>
 
+	<channel-type id="precipitation-hours" advanced="true">
+		<item-type>DateTime</item-type>
+		<label>@text/channel-type.openmeteo.forecast.precipitation-hours.label</label>
+		<description>@text/channel-type.openmeteo.forecast.precipitation-hours.description</description>
+		<category>Rain</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Rain</tag>
+		</tags>
+		<state readOnly="true" pattern="%1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+
 	<channel-type id="snow">
 		<item-type>Number:Length</item-type>
 		<label>@text/channel-type.openmeteo.forecast.snow.label</label>
@@ -325,5 +337,15 @@
 	<channel-group-type id="hourly">
 		<label>@text/channel-group-type.openmeteo.forecast.hourly.label</label>
 		<description>@text/channel-group-type.openmeteo.forecast.hourly.description</description>
+	</channel-group-type>
+
+	<channel-group-type id="dailyTimeSeries">
+		<label>@text/channel-group-type.openmeteo.forecast.dailyTimeSeries.label</label>
+		<description>@text/channel-group-type.openmeteo.forecast.dailyTimeSeries.description</description>
+	</channel-group-type>
+
+	<channel-group-type id="daily">
+		<label>@text/channel-group-type.openmeteo.forecast.daily.label</label>
+		<description>@text/channel-group-type.openmeteo.forecast.daily.description</description>
 	</channel-group-type>
 </thing:thing-descriptions>
