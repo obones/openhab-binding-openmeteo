@@ -125,6 +125,9 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (location.getAltitude().longValue() != 0)
             builder.queryParam("elevation", location.getAltitude());
 
+        if (!APIKey.isBlank())
+            builder.queryParam("apikey", APIKey);
+
         ArrayList<String> requiredFields = new ArrayList<>();
         for (ForecastValue forecastValue : forecastValues)
             requiredFields.add(getForecastValueFieldName(forecastValue));
