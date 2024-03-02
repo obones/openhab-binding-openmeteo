@@ -101,6 +101,12 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         Bridge thisBridge = getBridge();
         logger.debug("initialize(): Initializing thing {} in combination with bridge {}.", getThing().getUID(),
                 thisBridge);
+
+        // Initialize the channels early on as they don't require the bridge to be present
+        // This allows seeing the effect of the various configuration switches without needing
+        // to activate the bridge
+        initializeChannels();
+
         if (thisBridge == null) {
             logger.trace("initialize() updating ThingStatus to OFFLINE/CONFIGURATION_PENDING.");
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_PENDING);
@@ -127,7 +133,6 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             }
 
             if (configValid) {
-                initializeChannels();
                 initializeProperties();
 
                 logger.trace("initialize() updating ThingStatus to ONLINE.");
