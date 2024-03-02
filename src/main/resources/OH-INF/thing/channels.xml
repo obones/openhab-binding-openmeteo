@@ -49,8 +49,8 @@
 
 	<channel-type id="shortwave-radiation" advanced="true">
 		<item-type>Number:Intensity</item-type>
-		<label>@text/channel-type.openmeteo.forecast.rain.shortwave-radiation</label>
-		<description>@text/channel-type.openmeteo.forecast.rain.shortwave-radiation</description>
+		<label>@text/channel-type.openmeteo.forecast.shortwave-radiation.label</label>
+		<description>@text/channel-type.openmeteo.forecast.shortwave-radiation.description</description>
 		<category>Sun</category>
 		<tags>
 			<tag>Measurement</tag>
@@ -258,8 +258,8 @@
 
 	<channel-type id="sunrise">
 		<item-type>DateTime</item-type>
-		<label>@text/channel-type.openmeteo.sunrise.visibility.label</label>
-		<description>@text/channel-type.openmeteo.sunrise.visibility.description</description>
+		<label>@text/channel-type.openmeteo.forecast.sunrise.label</label>
+		<description>@text/channel-type.openmeteo.forecast.sunrise.description</description>
 		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
 	</channel-type>
 
