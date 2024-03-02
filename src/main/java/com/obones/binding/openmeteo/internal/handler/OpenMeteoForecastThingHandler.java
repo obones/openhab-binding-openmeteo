@@ -358,6 +358,10 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 CHANNEL_TYPE_UID_SNOW, config.includeSnow, //
                 null, "channel-type.openmeteo.forecast.snow-sum.description");
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHOWERS_SUM,
+                CHANNEL_TYPE_UID_SHOWERS, config.includeShowers, //
+                null, "channel-type.openmeteo.forecast.showers-sum.description");
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION_HOURS,
                 CHANNEL_TYPE_UID_PRECIPITATION_HOURS, config.includePrecipitation);
 
