@@ -208,10 +208,11 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         if (config.dailySplit) {
             initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TODAY);
-            initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TOMORROW);
+            if (config.dailyDays >= 2)
+                initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TOMORROW);
 
             DecimalFormat dailyFormatter = new DecimalFormat("00");
-            for (int day = 2; day <= config.dailyDays; day++) {
+            for (int day = 2; day < config.dailyDays; day++) {
                 initializeDailyGroupOptionalChannels(callback, builder, thingUID, config,
                         CHANNEL_GROUP_DAILY_PREFIX + dailyFormatter.format(day));
             }
