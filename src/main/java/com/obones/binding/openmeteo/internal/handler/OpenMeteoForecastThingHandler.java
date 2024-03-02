@@ -65,6 +65,7 @@ import com.obones.binding.openmeteo.internal.config.OpenMeteoForecastThingConfig
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
 import com.obones.binding.openmeteo.internal.utils.Localization;
+import com.openmeteo.sdk.Aggregation;
 import com.openmeteo.sdk.Variable;
 import com.openmeteo.sdk.VariableWithValues;
 import com.openmeteo.sdk.VariablesSearch;
@@ -694,7 +695,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     }
 
     private void updateForecastTimeSeries(ChannelUID channelUID, @Nullable VariablesWithTime forecast) {
-        String channelId = channelUID.getIdWithoutGroup();
+        StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
         String channelGroupId = channelUID.getGroupId();
 
         if (forecast != null) {
@@ -704,7 +705,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 long time = forecast.time();
                 for (int valueIndex = 0; valueIndex < values.valuesLength(); valueIndex++) {
                     Instant timestamp = Instant.ofEpochSecond(time);
-                    State state = getForecastState(channelId, values, valueIndex);
+                    State state = getForecastState(channelId.toString(), values, valueIndex);
                     timeSeries.add(timestamp, state);
 
                     time += forecast.interval();
@@ -734,13 +735,13 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     }
 
     private void updateForecastChannel(ChannelUID channelUID, @Nullable VariablesWithTime forecast, int index) {
-        String channelId = channelUID.getIdWithoutGroup();
+        StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
         String channelGroupId = channelUID.getGroupId();
 
         if (forecast != null) {
             VariableWithValues values = getVariableValues(channelId, forecast);
             if (values != null) {
-                State state = getForecastState(channelId, values, index);
+                State state = getForecastState(channelId.toString(), values, index);
                 logger.debug("Update channel '{}' of group '{}' with new state '{}'.", channelId, channelGroupId,
                         state);
                 updateState(channelUID, state);
@@ -776,9 +777,34 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         }
     }
 
-    private @Nullable VariableWithValues getVariableValues(String channelId, VariablesWithTime variablesWithTime) {
+    private @Nullable VariableWithValues getVariableValues(StringBuilder channelId,
+            VariablesWithTime variablesWithTime) {
         if (variablesWithTime != null && variablesWithTime.variablesLength() > 0) {
-            int variable = switch (channelId) {
+            int aggregation = Aggregation.none;
+            int suffixPosition = -1;
+            if ((suffixPosition = channelId.lastIndexOf("-min")) >= 0) {
+                aggregation = Aggregation.minimum;
+                channelId.setLength(0);
+                channelId.append(channelId.substring(0, suffixPosition));
+            } else if ((suffixPosition = channelId.lastIndexOf("-max")) >= 0) {
+                aggregation = Aggregation.maximum;
+                channelId.setLength(0);
+                channelId.append(channelId.substring(0, suffixPosition));
+            } else if ((suffixPosition = channelId.lastIndexOf("-mean")) >= 0) {
+                aggregation = Aggregation.mean;
+                channelId.setLength(0);
+                channelId.append(channelId.substring(0, suffixPosition));
+            } else if ((suffixPosition = channelId.lastIndexOf("-sum")) >= 0) {
+                aggregation = Aggregation.sum;
+                channelId.setLength(0);
+                channelId.append(channelId.substring(0, suffixPosition));
+            } else if ((suffixPosition = channelId.lastIndexOf("-dominant")) >= 0) {
+                aggregation = Aggregation.dominant;
+                channelId.setLength(0);
+                channelId.append(channelId.substring(0, suffixPosition));
+            }
+
+            int variable = switch (channelId.toString()) {
                 case CHANNEL_FORECAST_TEMPERATURE -> Variable.temperature;
                 case CHANNEL_FORECAST_HUMIDITY -> Variable.relative_humidity;
                 case CHANNEL_FORECAST_DEW_POINT -> Variable.dew_point;
@@ -797,6 +823,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 case CHANNEL_FORECAST_EVAPOTRANSPIRATION -> Variable.evapotranspiration;
                 case CHANNEL_FORECAST_ET0_EVAPOTRANSPIRATION -> Variable.et0_fao_evapotranspiration;
                 case CHANNEL_FORECAST_PRECIPITATION -> Variable.precipitation;
+                case CHANNEL_FORECAST_PRECIPITATION_HOURS -> Variable.precipitation_hours;
                 case CHANNEL_FORECAST_SNOW -> Variable.snowfall;
                 case CHANNEL_FORECAST_PRECIPITATION_PROBABILITY -> Variable.precipitation_probability;
                 case CHANNEL_FORECAST_RAIN -> Variable.rain;
@@ -806,10 +833,16 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 case CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT -> Variable.freezing_level_height;
                 case CHANNEL_FORECAST_VISIBILITY -> Variable.visibility;
                 case CHANNEL_FORECAST_IS_DAY -> Variable.is_day;
-                default -> 0;
+                case CHANNEL_FORECAST_SUNRISE -> Variable.sunrise;
+                case CHANNEL_FORECAST_SUNSET -> Variable.sunset;
+                case CHANNEL_FORECAST_SUNSHINE_DURATION -> Variable.undefined; // Variable.sunshine_duration; missing?
+                case CHANNEL_FORECAST_DAYLIGHT_DURATION -> Variable.daylight_duration;
+                case CHANNEL_FORECAST_UV_INDEX -> Variable.uv_index;
+                case CHANNEL_FORECAST_UV_INDEX_CLEAR_SKY -> Variable.uv_index_clear_sky;
+                default -> Variable.undefined;
             };
 
-            return new VariablesSearch(variablesWithTime).variable(variable).first();
+            return new VariablesSearch(variablesWithTime).variable(variable).aggregation(aggregation).first();
         }
 
         return null;
