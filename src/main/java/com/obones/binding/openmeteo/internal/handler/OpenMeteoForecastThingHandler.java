@@ -576,7 +576,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         if (location != null)
             forecastData = connection.getForecast(location, getForecastValues(),
                     (config.hourlyTimeSeries || config.hourlySplit) ? config.hourlyHours : null, //
-                    null);
+                    (config.dailyTimeSeries || config.dailySplit) ? config.dailyDays : null);
 
         return true;
     }
