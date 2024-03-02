@@ -319,21 +319,25 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE_MIN,
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
-                null, "channel-type.openmeteo.forecast.temperature-min.description");
+                "channel-type.openmeteo.forecast.temperature-min.label",
+                "channel-type.openmeteo.forecast.temperature-min.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE_MAX,
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
-                null, "channel-type.openmeteo.forecast.temperature-max.description");
+                "channel-type.openmeteo.forecast.temperature-max.label",
+                "channel-type.openmeteo.forecast.temperature-max.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_APPARENT_TEMPERATURE_MIN, CHANNEL_TYPE_UID_APPARENT_TEMPERATURE,
                 config.includeApparentTemperature, //
-                null, "channel-type.openmeteo.forecast.apparent-temperature-min.description");
+                "channel-type.openmeteo.forecast.apparent-temperature-min.label",
+                "channel-type.openmeteo.forecast.apparent-temperature-min.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_APPARENT_TEMPERATURE_MAX, CHANNEL_TYPE_UID_APPARENT_TEMPERATURE,
                 config.includeApparentTemperature, //
-                null, "channel-type.openmeteo.forecast.apparent-temperature-max.description");
+                "channel-type.openmeteo.forecast.apparent-temperature-max.description",
+                "channel-type.openmeteo.forecast.apparent-temperature-max.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION_SUM,
                 CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation, //
@@ -353,17 +357,20 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MAX, CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY,
                 config.includePrecipitationProbability, //
-                null, "channel-type.openmeteo.forecast.precipitation-probability-max.description");
+                "channel-type.openmeteo.forecast.precipitation-probability-max.label",
+                "channel-type.openmeteo.forecast.precipitation-probability-max.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MIN, CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY,
                 config.includePrecipitationProbability, //
-                null, "channel-type.openmeteo.forecast.precipitation-probability-min.description");
+                "channel-type.openmeteo.forecast.precipitation-probability-min.label",
+                "channel-type.openmeteo.forecast.precipitation-probability-min.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_PRECIPITATION_PROBABILITY_MEAN, CHANNEL_TYPE_UID_PRECIPITATION_PROBABILITY,
                 config.includePrecipitationProbability, //
-                null, "channel-type.openmeteo.forecast.precipitation-probability-mean.description");
+                "channel-type.openmeteo.forecast.precipitation-probability-mean.label",
+                "channel-type.openmeteo.forecast.precipitation-probability-mean.description");
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
                 CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode);
