@@ -853,7 +853,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 case CHANNEL_FORECAST_IS_DAY -> Variable.is_day;
                 case CHANNEL_FORECAST_SUNRISE -> Variable.sunrise;
                 case CHANNEL_FORECAST_SUNSET -> Variable.sunset;
-                case CHANNEL_FORECAST_SUNSHINE_DURATION -> Variable.undefined; // Variable.sunshine_duration; missing?
+                case CHANNEL_FORECAST_SUNSHINE_DURATION -> 103; // Variable.sunshine_duration; defined in 1.6
                 case CHANNEL_FORECAST_DAYLIGHT_DURATION -> Variable.daylight_duration;
                 case CHANNEL_FORECAST_UV_INDEX -> Variable.uv_index;
                 case CHANNEL_FORECAST_UV_INDEX_CLEAR_SKY -> Variable.uv_index_clear_sky;
