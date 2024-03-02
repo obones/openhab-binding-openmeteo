@@ -155,7 +155,7 @@
 	</channel-type>
 
 	<channel-type id="precipitation-hours" advanced="true">
-		<item-type>DateTime</item-type>
+		<item-type>Number</item-type>
 		<label>@text/channel-type.openmeteo.forecast.precipitation-hours.label</label>
 		<description>@text/channel-type.openmeteo.forecast.precipitation-hours.description</description>
 		<category>Rain</category>
@@ -163,7 +163,7 @@
 			<tag>Measurement</tag>
 			<tag>Rain</tag>
 		</tags>
-		<state readOnly="true" pattern="%1$tH:%1$tM:%1$tS"/>
+		<state readOnly="true"/>
 	</channel-type>
 
 	<channel-type id="snow">
