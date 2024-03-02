@@ -16,6 +16,7 @@ import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.i18n.LocaleProvider;
+import org.openhab.core.i18n.TimeZoneProvider;
 import org.openhab.core.i18n.TranslationProvider;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.Thing;
@@ -49,6 +50,7 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
     private @NonNullByDefault({}) LocaleProvider localeProvider;
     private @NonNullByDefault({}) TranslationProvider i18nProvider;
     private ThingTypeRegistry thingTypeRegistry;
+    private TimeZoneProvider timeZoneProvider;
     private Localization localization = Localization.UNKNOWN;
 
     private @Nullable static ThingHandlerFactory activeInstance = null;
@@ -71,7 +73,7 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
 
     private @Nullable ThingHandler createForecastThingHandler(Thing thing) {
         logger.trace("createForecastThingHandler({}) called for thing named '{}'.", thing.getUID(), thing.getLabel());
-        return new OpenMeteoForecastThingHandler(thing, localization, thingTypeRegistry);
+        return new OpenMeteoForecastThingHandler(thing, localization, thingTypeRegistry, timeZoneProvider);
     }
 
     // Constructor
@@ -79,12 +81,14 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
     @Activate
     public OpenMeteoHandlerFactory(final @Reference LocaleProvider givenLocaleProvider,
             final @Reference TranslationProvider givenI18nProvider,
-            final @Reference ThingTypeRegistry givenThingTypeRegistry) {
+            final @Reference ThingTypeRegistry givenThingTypeRegistry,
+            final @Reference TimeZoneProvider givenTimeZoneProvider) {
         logger.trace("OpenMeteoHandlerFactory(locale={},translation={}) called.", givenLocaleProvider,
                 givenI18nProvider);
         localeProvider = givenLocaleProvider;
         i18nProvider = givenI18nProvider;
         thingTypeRegistry = givenThingTypeRegistry;
+        timeZoneProvider = givenTimeZoneProvider;
     }
 
     @Reference

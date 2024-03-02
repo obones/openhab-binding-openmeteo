@@ -16,6 +16,7 @@ import static org.openhab.core.thing.DefaultSystemChannelTypeProvider.*;
 
 import java.text.DecimalFormat;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,6 +30,8 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.config.core.Configuration;
 import org.openhab.core.i18n.CommunicationException;
 import org.openhab.core.i18n.ConfigurationException;
+import org.openhab.core.i18n.TimeZoneProvider;
+import org.openhab.core.library.types.DateTimeType;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.OnOffType;
 import org.openhab.core.library.types.PointType;
@@ -78,6 +81,7 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
     private @Nullable ThingTypeRegistry thingTypeRegistry;
     private @Nullable WeatherApiResponse forecastData = null;
+    private final TimeZoneProvider timeZoneProvider;
 
     private static final Pattern CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN = Pattern
             .compile(CHANNEL_GROUP_HOURLY_PREFIX + "([0-9]*)");
@@ -88,10 +92,12 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
     protected @Nullable PointType location;
 
-    public OpenMeteoForecastThingHandler(Thing thing, Localization localization, ThingTypeRegistry thingTypeRegistry) {
+    public OpenMeteoForecastThingHandler(Thing thing, Localization localization, ThingTypeRegistry thingTypeRegistry,
+            final TimeZoneProvider timeZoneProvider) {
         super(thing);
         this.localization = localization;
         this.thingTypeRegistry = thingTypeRegistry;
+        this.timeZoneProvider = timeZoneProvider;
         logger.trace("OpenMeteoForecastHandler(thing={},localization={}) constructor called.", thing, localization);
     }
 
@@ -864,6 +870,12 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         return (value == null) ? UnDefType.UNDEF : new QuantityType<>(value, unit);
     }
 
+    protected State getDateTimeTypeState(@Nullable Float value) {
+        return (value == null) ? UnDefType.UNDEF
+                : new DateTimeType(ZonedDateTime.ofInstant(Instant.ofEpochSecond(value.longValue()),
+                        timeZoneProvider.getTimeZone()));
+    }
+
     private State getForecastState(String channelId, VariableWithValues values, int valueIndex) {
         State state = UnDefType.UNDEF;
         float floatValue = values.values(valueIndex);
@@ -922,6 +934,9 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             case CHANNEL_FORECAST_PRECIPITATION:
                 state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
                 break;
+            case CHANNEL_FORECAST_PRECIPITATION_HOURS:
+                state = getQuantityTypeState(floatValue, Units.HOUR);
+                break;
             case CHANNEL_FORECAST_SNOW:
                 state = getQuantityTypeState(floatValue, MetricPrefix.CENTI(SIUnits.METRE));
                 break;
@@ -948,6 +963,24 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 break;
             case CHANNEL_FORECAST_IS_DAY:
                 state = (floatValue == 1) ? OnOffType.ON : OnOffType.OFF;
+                break;
+            case CHANNEL_FORECAST_SUNRISE:
+                state = getDateTimeTypeState(floatValue);
+                break;
+            case CHANNEL_FORECAST_SUNSET:
+                state = getDateTimeTypeState(floatValue);
+                break;
+            case CHANNEL_FORECAST_SUNSHINE_DURATION:
+                state = getQuantityTypeState(floatValue, Units.SECOND);
+                break;
+            case CHANNEL_FORECAST_DAYLIGHT_DURATION:
+                state = getQuantityTypeState(floatValue, Units.SECOND);
+                break;
+            case CHANNEL_FORECAST_UV_INDEX:
+                state = getDecimalTypeState(floatValue);
+                break;
+            case CHANNEL_FORECAST_UV_INDEX_CLEAR_SKY:
+                state = getDecimalTypeState(floatValue);
                 break;
             default:
                 // This should not happen
