@@ -797,24 +797,19 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             int suffixPosition = -1;
             if ((suffixPosition = channelId.lastIndexOf("-min")) >= 0) {
                 aggregation = Aggregation.minimum;
-                channelId.setLength(0);
-                channelId.append(channelId.substring(0, suffixPosition));
+                channelId.setLength(suffixPosition);
             } else if ((suffixPosition = channelId.lastIndexOf("-max")) >= 0) {
                 aggregation = Aggregation.maximum;
-                channelId.setLength(0);
-                channelId.append(channelId.substring(0, suffixPosition));
+                channelId.setLength(suffixPosition);
             } else if ((suffixPosition = channelId.lastIndexOf("-mean")) >= 0) {
                 aggregation = Aggregation.mean;
-                channelId.setLength(0);
-                channelId.append(channelId.substring(0, suffixPosition));
+                channelId.setLength(suffixPosition);
             } else if ((suffixPosition = channelId.lastIndexOf("-sum")) >= 0) {
                 aggregation = Aggregation.sum;
-                channelId.setLength(0);
-                channelId.append(channelId.substring(0, suffixPosition));
+                channelId.setLength(suffixPosition);
             } else if ((suffixPosition = channelId.lastIndexOf("-dominant")) >= 0) {
                 aggregation = Aggregation.dominant;
-                channelId.setLength(0);
-                channelId.append(channelId.substring(0, suffixPosition));
+                channelId.setLength(suffixPosition);
             }
 
             int variable = switch (channelId.toString()) {
