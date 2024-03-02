@@ -50,7 +50,7 @@
 			<description>@text/config.openmeteo.thing.forecast.hourlyParameters.description</description>
 		</parameter-group>
 
-		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" step="1">
+		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" max="348" step="1">
 			<label>@text/config.openmeteo.thing.forecast.hourlyHours.label</label>
 			<description>@text/config.openmeteo.thing.forecast.hourlyHours.description</description>
 			<advanced>false</advanced>
@@ -75,11 +75,11 @@
 			<description>@text/config.openmeteo.thing.forecast.dailyParameters.description</description>
 		</parameter-group>
 
-		<parameter name="dailyHours" type="integer" groupName="dailyParameters" min="1" step="1">
-			<label>@text/config.openmeteo.thing.forecast.dailyHours.label</label>
-			<description>@text/config.openmeteo.thing.forecast.dailyHours.description</description>
+		<parameter name="dailyDays" type="integer" groupName="dailyParameters" min="1" max="16" step="1">
+			<label>@text/config.openmeteo.thing.forecast.dailyDays.label</label>
+			<description>@text/config.openmeteo.thing.forecast.dailyDays.description</description>
 			<advanced>false</advanced>
-			<default>48</default>
+			<default>5</default>
 		</parameter>
 		<parameter name="dailyTimeSeries" type="boolean" groupName="dailyParameters">
 			<label>@text/config.openmeteo.thing.forecast.dailyTimeSeries.label</label>
