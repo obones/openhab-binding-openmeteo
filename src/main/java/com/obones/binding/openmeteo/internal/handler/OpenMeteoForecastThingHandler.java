@@ -726,7 +726,8 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             if (values != null) {
                 TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
                 long time = forecast.time();
-                for (int valueIndex = 0; valueIndex < values.valuesLength(); valueIndex++) {
+                int valuesLength = Math.max(values.valuesLength(), values.valuesInt64Length());
+                for (int valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
                     Instant timestamp = Instant.ofEpochSecond(time);
                     State state = getForecastState(channelId.toString(), values, valueIndex);
                     timeSeries.add(timestamp, state);
@@ -874,15 +875,29 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         return (value == null) ? UnDefType.UNDEF : new QuantityType<>(value, unit);
     }
 
-    protected State getDateTimeTypeState(@Nullable Float value) {
+    protected State getQuantityTypeState(@Nullable Float value, int multiplier, Unit<?> unit) {
+        return (value == null) ? UnDefType.UNDEF : new QuantityType<>(value * multiplier, unit);
+    }
+
+    protected State getDateTimeTypeState(@Nullable Long value) {
         return (value == null) ? UnDefType.UNDEF
                 : new DateTimeType(ZonedDateTime.ofInstant(Instant.ofEpochSecond(value.longValue()),
                         timeZoneProvider.getTimeZone()));
     }
 
+    protected State getOnOffState(@Nullable Float value) {
+        return (value == null) ? UnDefType.UNDEF : (value == 1) ? OnOffType.ON : OnOffType.OFF;
+    }
+
     private State getForecastState(String channelId, VariableWithValues values, int valueIndex) {
         State state = UnDefType.UNDEF;
-        float floatValue = values.values(valueIndex);
+
+        @Nullable
+        Float floatValue = (valueIndex < values.valuesLength()) ? values.values(valueIndex) : null;
+
+        @Nullable
+        Long longValue = (valueIndex < values.valuesInt64Length()) ? values.valuesInt64(valueIndex) : null;
+
         switch (channelId) {
             case CHANNEL_FORECAST_TEMPERATURE:
                 state = getQuantityTypeState(floatValue, SIUnits.CELSIUS);
@@ -912,16 +927,16 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 state = getQuantityTypeState(floatValue, Units.METRE_PER_SECOND);
                 break;
             case CHANNEL_FORECAST_SHORTWAVE_RADIATION:
-                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_DIRECT_RADIATION:
-                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE:
-                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_DIFFUSE_RADIATION:
-                state = getQuantityTypeState(floatValue * 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT:
                 state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
@@ -966,13 +981,13 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                 state = getQuantityTypeState(floatValue, SIUnits.METRE);
                 break;
             case CHANNEL_FORECAST_IS_DAY:
-                state = (floatValue == 1) ? OnOffType.ON : OnOffType.OFF;
+                state = getOnOffState(floatValue);
                 break;
             case CHANNEL_FORECAST_SUNRISE:
-                state = getDateTimeTypeState(floatValue);
+                state = getDateTimeTypeState(longValue);
                 break;
             case CHANNEL_FORECAST_SUNSET:
-                state = getDateTimeTypeState(floatValue);
+                state = getDateTimeTypeState(longValue);
                 break;
             case CHANNEL_FORECAST_SUNSHINE_DURATION:
                 state = getQuantityTypeState(floatValue, Units.SECOND);
