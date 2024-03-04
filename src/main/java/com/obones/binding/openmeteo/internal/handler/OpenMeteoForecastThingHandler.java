@@ -163,7 +163,6 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
     }
 
     protected void initializeProperties(OpenMeteoBridgeHandler bridgeHandler) {
-        OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
     }
 
     protected synchronized void initializeChannels() {
