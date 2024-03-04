@@ -527,22 +527,12 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             if (handler == null) {
                 logger.trace("handleCommand() nothing yet to do as thing is not initialized.");
             } else {
-                OpenMeteoBridgeHandler bridgeHandler = (OpenMeteoBridgeHandler) handler;
-
-                boolean commandHandled = false;
                 if (command instanceof RefreshType) {
-                    // commandHandled = refreshChannel(channelUID, apiManager);
+                    updateChannel(channelUID);
                 } else {
-                    // channelsInActionCommand.add(channelUID.getAsString());
-                    // try {
-                    // commandHandled = handleActionCommand(channelUID, command, apiManager);
-                    // } finally {
-                    // channelsInActionCommand.remove(channelUID.getAsString());
-                    // }
+                    logger.debug("The Open Meteo binding is a read-only binding and cannot handle command '{}'.",
+                            command);
                 }
-
-                if (!commandHandled)
-                    bridgeHandler.handleCommand(channelUID, command);
             }
         }
     }

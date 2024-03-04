@@ -143,7 +143,11 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
                 channelUID.getAsString());
         logger.debug("handleCommand({},{}) called.", channelUID.getAsString(), command);
 
-        updateStatus(ThingStatus.ONLINE);
+        if (command instanceof RefreshType) {
+            scheduler.schedule(this::updateThings, INITIAL_DELAY_IN_SECONDS, TimeUnit.SECONDS);
+        } else {
+            logger.debug("The Open Meteo binding is a read-only binding and cannot handle command '{}'.", command);
+        }
 
         logger.trace("handleCommand({}) done.", Thread.currentThread());
     }
