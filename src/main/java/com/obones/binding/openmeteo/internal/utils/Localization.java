@@ -53,7 +53,6 @@ public class Localization {
      * Class, which is needed to maintain a @NonNullByDefault for class {@link Localization}.
      */
     private class UnknownLocale implements LocaleProvider {
-        @SuppressWarnings("null") // stupid @NonNull warning on Locale.ROOT which obviously is not null
         @Override
         public Locale getLocale() {
             return java.util.Locale.ROOT;
@@ -95,7 +94,6 @@ public class Localization {
      * @param arguments (optional) arguments being referenced within the messageString.
      * @return <B>localizedMessageString</B> the resulted message of type {@link String}.
      */
-    @SuppressWarnings("null") // unexplained warnings on "arguments" use and return statement
     public String getText(String key, Object... arguments) {
         if (i18nProvider == null) {
             logger.trace("getText() returns default as no i18nProvider exists.");
