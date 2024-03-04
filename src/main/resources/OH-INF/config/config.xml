@@ -21,17 +21,10 @@
 			<default></default>
 			<advanced>true</advanced>
 		</parameter>
-		<parameter name="timeoutMsecs" type="integer" min="500" step="1" max="10000" required="false">
-			<label>@text/config.openmeteo.bridge.timeoutMsecs.label</label>
-			<description>@text/config.openmeteo.bridge.timeoutMsecs.description</description>
-			<default>3000</default>
-			<advanced>true</advanced>
-		</parameter>
-		<parameter name="retries" type="integer" min="0" step="1" max="10" required="false">
-			<label>@text/config.openmeteo.bridge.retries.label</label>
-			<description>@text/config.openmeteo.bridge.retries.description</description>
-			<default>5</default>
-			<advanced>true</advanced>
+		<parameter name="refreshInterval" type="integer" min="1" unit="min">
+			<label>@text/config.openmeteo.bridge.refreshInterval.label</label>
+			<description>@text/config.openmeteo.bridge.refreshInterval.description</description>
+			<default>60</default>
 		</parameter>
 	</config-description>
 	<!-- -->

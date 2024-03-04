@@ -22,6 +22,5 @@ public class OpenMeteoBridgeConfiguration {
      */
     public String baseURI = "https://api.open-meteo.com/v1/";
     public String APIKey = "";
-    public int timeoutMsecs = 3000; // three seconds
-    public int retries = 5;
+    public int refreshInterval;
 }

@@ -64,6 +64,8 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
     private @Nullable ScheduledFuture<?> refreshJob;
     private @Nullable OpenMeteoConnection connection;
 
+    private static final long INITIAL_DELAY_IN_SECONDS = 15;
+
     /*
      * ************************
      * ***** Constructors *****
@@ -90,16 +92,15 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
             return;
         }
 
-        int refreshInterval = 10;
-
         OpenMeteoBridgeConfiguration config = getConfigAs(OpenMeteoBridgeConfiguration.class);
 
         connection = new OpenMeteoHttpConnection(config.baseURI, config.APIKey);
 
         ScheduledFuture<?> localRefreshJob = refreshJob;
         if (localRefreshJob == null || localRefreshJob.isCancelled()) {
-            logger.debug("Start refresh job at interval {} min.", refreshInterval);
-            refreshJob = scheduler.scheduleWithFixedDelay(this::updateThings, 5, refreshInterval, TimeUnit.SECONDS);
+            logger.debug("Start refresh job at interval {} min.", config.refreshInterval);
+            refreshJob = scheduler.scheduleWithFixedDelay(this::updateThings, INITIAL_DELAY_IN_SECONDS,
+                    TimeUnit.MINUTES.toSeconds(config.refreshInterval), TimeUnit.SECONDS);
         }
 
         logger.trace("initialize(): initialize bridge configuration parameters.");
