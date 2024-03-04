@@ -94,7 +94,7 @@ public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
             logger.debug("Creating type for {}", thingTypeUID.getAsString());
 
             ThingTypeBuilder builder = ThingTypeBuilder.instance(thingTypeUID, thingTypeUID.toString())
-                    .withSupportedBridgeTypeUIDs(Arrays.asList(THING_TYPE_BRIDGE.getId()))
+                    .withSupportedBridgeTypeUIDs(Arrays.asList(THING_TYPE_BRIDGE.getAsString()))
                     .withLabel("@text/thing-type.openmeteo.forecast.label")
                     .withDescription("@text/thing-type.openmeteo.forecast.description") //
                     .withCategory("forecast") //
