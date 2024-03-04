@@ -55,7 +55,6 @@ import org.openhab.core.thing.binding.builder.ThingBuilder;
 import org.openhab.core.thing.type.AutoUpdatePolicy;
 import org.openhab.core.thing.type.ChannelKind;
 import org.openhab.core.thing.type.ChannelTypeUID;
-import org.openhab.core.thing.type.ThingTypeRegistry;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 import org.openhab.core.types.State;
@@ -79,7 +78,6 @@ import com.openmeteo.sdk.WeatherApiResponse;
 public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
-    private @Nullable ThingTypeRegistry thingTypeRegistry;
     private @Nullable WeatherApiResponse forecastData = null;
     private final TimeZoneProvider timeZoneProvider;
 
@@ -92,11 +90,10 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
 
     protected @Nullable PointType location;
 
-    public OpenMeteoForecastThingHandler(Thing thing, Localization localization, ThingTypeRegistry thingTypeRegistry,
+    public OpenMeteoForecastThingHandler(Thing thing, Localization localization,
             final TimeZoneProvider timeZoneProvider) {
         super(thing);
         this.localization = localization;
-        this.thingTypeRegistry = thingTypeRegistry;
         this.timeZoneProvider = timeZoneProvider;
         logger.trace("OpenMeteoForecastHandler(thing={},localization={}) constructor called.", thing, localization);
     }
