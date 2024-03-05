@@ -23,6 +23,7 @@ import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingStatus;
 import org.openhab.core.thing.binding.BaseBridgeHandler;
+import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.thing.util.ThingHandlerHelper;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
@@ -138,6 +139,7 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
         logger.trace("channelUnlinked({}) called.", channelUID.getAsString());
     }
 
+    @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
         logger.trace("handleCommand({}): command {} on channel {} will be scheduled.", Thread.currentThread(), command,
                 channelUID.getAsString());
@@ -150,6 +152,13 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
         }
 
         logger.trace("handleCommand({}) done.", Thread.currentThread());
+    }
+
+    @Override
+    public void childHandlerInitialized(ThingHandler childHandler, Thing childThing) {
+        scheduler.schedule(() -> {
+            updateThing((OpenMeteoForecastThingHandler) childHandler, childThing);
+        }, INITIAL_DELAY_IN_SECONDS, TimeUnit.SECONDS);
     }
 
     private void updateThings() {
