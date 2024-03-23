@@ -49,6 +49,9 @@ public class OpenMeteoBindingConstants {
     private static final String CHANNEL_GROUP_TYPE_ID_DAILY_TIME_SERIES = "dailyTimeSeries";
     private static final String CHANNEL_GROUP_TYPE_ID_DAILY = "daily";
 
+    // Discovered things id
+    public static final String SYSTEM_LOCATION_THING_ID = "system";
+
     // List of all Bridge Type UIDs
     public static final ThingTypeUID THING_TYPE_BRIDGE = new ThingTypeUID(BINDING_ID, THING_OPENMETEO_BRIDGE);
 
@@ -75,6 +78,9 @@ public class OpenMeteoBindingConstants {
 
     /** Channel/Property identifier describing the current Bridge State. */
     public static final String PROPERTY_BRIDGE_API_VERSION = "apiVersion";
+
+    // Thing properties
+    public static final String PROPERTY_THING_LOCATION = "location";
 
     // List of all forecast channel group ids
     public static final String CHANNEL_GROUP_HOURLY_TIME_SERIES = "forecastHourly";

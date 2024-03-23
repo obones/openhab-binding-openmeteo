@@ -13,9 +13,13 @@ package com.obones.binding.openmeteo.internal.factory;
 
 import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 
+import java.util.Hashtable;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.core.config.discovery.DiscoveryService;
 import org.openhab.core.i18n.LocaleProvider;
+import org.openhab.core.i18n.LocationProvider;
 import org.openhab.core.i18n.TimeZoneProvider;
 import org.openhab.core.i18n.TranslationProvider;
 import org.openhab.core.thing.Bridge;
@@ -25,6 +29,7 @@ import org.openhab.core.thing.binding.BaseThingHandlerFactory;
 import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.thing.binding.ThingHandlerFactory;
 import org.openhab.core.thing.type.ChannelTypeRegistry;
+import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -32,6 +37,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.obones.binding.openmeteo.internal.discovery.OpenMeteoDiscoveryService;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoForecastThingHandler;
 import com.obones.binding.openmeteo.internal.utils.Localization;
@@ -47,10 +53,14 @@ import com.obones.binding.openmeteo.internal.utils.Localization;
 public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(ThingHandlerFactory.class);
 
+    private @Nullable ServiceRegistration<?> discoveryServiceRegistration = null;
+    private @Nullable OpenMeteoDiscoveryService discoveryService = null;
+
     private @NonNullByDefault({}) LocaleProvider localeProvider;
     private @NonNullByDefault({}) TranslationProvider i18nProvider;
     private ChannelTypeRegistry channelTypeRegistry;
     private TimeZoneProvider timeZoneProvider;
+    private final LocationProvider locationProvider;
     private Localization localization = Localization.UNKNOWN;
 
     private @Nullable static ThingHandlerFactory activeInstance = null;
@@ -65,9 +75,37 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         }
     }
 
+    private void registerDeviceDiscoveryService(OpenMeteoBridgeHandler bridgeHandler) {
+        logger.trace("registerDeviceDiscoveryService({}) called.", bridgeHandler);
+
+        OpenMeteoDiscoveryService discoveryService = this.discoveryService;
+        if (discoveryService == null) {
+            discoveryService = this.discoveryService = new OpenMeteoDiscoveryService(bridgeHandler, locationProvider,
+                    localeProvider, i18nProvider);
+        }
+        if (discoveryServiceRegistration == null) {
+            discoveryServiceRegistration = bundleContext.registerService(DiscoveryService.class.getName(),
+                    discoveryService, new Hashtable<>());
+        }
+    }
+
+    private synchronized void unregisterDeviceDiscoveryService(OpenMeteoBridgeHandler bridgeHandler) {
+        logger.trace("unregisterDeviceDiscoveryService({}) called.", bridgeHandler);
+
+        OpenMeteoDiscoveryService discoveryService = this.discoveryService;
+        if (discoveryService != null) {
+            ServiceRegistration<?> discoveryServiceRegistration = this.discoveryServiceRegistration;
+            if (discoveryServiceRegistration != null) {
+                discoveryServiceRegistration.unregister();
+                this.discoveryServiceRegistration = null;
+            }
+        }
+    }
+
     private @Nullable ThingHandler createBridgeHandler(Thing thing) {
         logger.trace("createBridgeHandler({}) called for thing named '{}'.", thing.getUID(), thing.getLabel());
         OpenMeteoBridgeHandler openMeteoBridgeHandler = new OpenMeteoBridgeHandler((Bridge) thing, localization);
+        registerDeviceDiscoveryService(openMeteoBridgeHandler);
         return openMeteoBridgeHandler;
     }
 
@@ -82,13 +120,15 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
     public OpenMeteoHandlerFactory(final @Reference LocaleProvider givenLocaleProvider,
             final @Reference TranslationProvider givenI18nProvider,
             final @Reference TimeZoneProvider givenTimeZoneProvider,
-            final @Reference ChannelTypeRegistry givenChannelTypeRegistry) {
+            final @Reference ChannelTypeRegistry givenChannelTypeRegistry,
+            final @Reference LocationProvider givenLocationProvider) {
         logger.trace("OpenMeteoHandlerFactory(locale={},translation={}) called.", givenLocaleProvider,
                 givenI18nProvider);
         localeProvider = givenLocaleProvider;
         i18nProvider = givenI18nProvider;
         timeZoneProvider = givenTimeZoneProvider;
         channelTypeRegistry = givenChannelTypeRegistry;
+        locationProvider = givenLocationProvider;
     }
 
     @Reference
@@ -133,6 +173,17 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         }
 
         return resultHandler;
+    }
+
+    @Override
+    protected void removeHandler(ThingHandler thingHandler) {
+        // Handle Bridge removal
+        if (thingHandler instanceof OpenMeteoBridgeHandler) {
+            logger.trace("removeHandler() removing bridge '{}'.", thingHandler.toString());
+            unregisterDeviceDiscoveryService((OpenMeteoBridgeHandler) thingHandler);
+        }
+
+        super.removeHandler(thingHandler);
     }
 
     @Override
