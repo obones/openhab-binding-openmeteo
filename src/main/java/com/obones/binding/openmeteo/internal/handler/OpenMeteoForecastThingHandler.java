@@ -231,6 +231,10 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
                         CHANNEL_GROUP_DAILY_PREFIX + dailyFormatter.format(day), String.format(labelSuffix, day));
         }
 
+        if (config.current) {
+            initializeCurrentGroupOptionalChannels(callback, builder, thingUID, config);
+        }
+
         updateThing(builder.build());
     }
 
@@ -458,6 +462,72 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         return builder;
     }
 
+    protected ThingBuilder initializeCurrentGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, OpenMeteoForecastThingConfiguration config) {
+
+        Object[] labelArguments = { localization.getText("channel-type.openmeteo.forecast.label-suffix.current") };
+        String channelGroupId = CHANNEL_GROUP_CURRENT;
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
+                SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
+                "channel-type.openmeteo.forecast.temperature.label",
+                "channel-type.openmeteo.forecast.temperature.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_HUMIDITY,
+                SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity, //
+                "channel-type.openmeteo.forecast.humidity.label",
+                "channel-type.openmeteo.forecast.humidity.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_APPARENT_TEMPERATURE,
+                CHANNEL_TYPE_UID_APPARENT_TEMPERATURE, config.includeApparentTemperature, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_IS_DAY,
+                CHANNEL_TYPE_UID_IS_DAY, config.includeIsDay, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION,
+                CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_RAIN,
+                CHANNEL_TYPE_UID_RAIN, config.includeRain, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHOWERS,
+                CHANNEL_TYPE_UID_SHOWERS, config.includeShowers, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW,
+                CHANNEL_TYPE_UID_SNOW, config.includeSnow, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
+                CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUDINESS,
+                CHANNEL_TYPE_UID_CLOUDINESS, config.includeCloudiness, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRESSURE,
+                SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure, //
+                "channel-type.openmeteo.forecast.pressure.label",
+                "channel-type.openmeteo.forecast.pressure.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
+                "channel-type.openmeteo.forecast.wind-speed.label",
+                "channel-type.openmeteo.forecast.wind-speed.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_DIRECTION,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection, //
+                "channel-type.openmeteo.forecast.wind-direction.label",
+                "channel-type.openmeteo.forecast.wind-direction.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_GUST_SPEED,
+                CHANNEL_TYPE_UID_GUST_SPEED, config.includeGustSpeed, labelArguments);
+
+        return builder;
+    }
+
     protected ThingBuilder initializeOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder,
             ThingUID thingUID, String channelGroupId, String channelId, ChannelTypeUID channelTypeUID, boolean isActive,
             AutoUpdatePolicy autoUpdatePolicy, @Nullable String labelKey, @Nullable String descriptionKey,
@@ -628,7 +698,8 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         if (location != null)
             forecastData = connection.getForecast(location, getForecastValues(),
                     (config.hourlyTimeSeries || config.hourlySplit) ? config.hourlyHours : null, //
-                    (config.dailyTimeSeries || config.dailySplit) ? config.dailyDays : null);
+                    (config.dailyTimeSeries || config.dailySplit) ? config.dailyDays : null, //
+                    config.current);
 
         return true;
     }
@@ -742,6 +813,9 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             case CHANNEL_GROUP_DAILY_TOMORROW:
                 updateDailyChannel(channelUID, 1);
                 break;
+            case CHANNEL_GROUP_CURRENT:
+                updateCurrentChannel(channelUID);
+                break;
             default:
                 Matcher hourlyForecastMatcher = CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN.matcher(channelGroupId);
                 if (hourlyForecastMatcher.find()) {
@@ -800,7 +874,8 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         }
     }
 
-    private void updateForecastChannel(ChannelUID channelUID, @Nullable VariablesWithTime forecast, int index) {
+    private void updateForecastChannel(ChannelUID channelUID, @Nullable VariablesWithTime forecast,
+            @Nullable Integer index) {
         StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
         String channelGroupId = channelUID.getGroupId();
 
@@ -840,6 +915,13 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         var forecastData = this.forecastData;
         if (forecastData != null) {
             updateForecastChannel(channelUID, forecastData.daily(), index);
+        }
+    }
+
+    private void updateCurrentChannel(ChannelUID channelUID) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            updateForecastChannel(channelUID, forecastData.current(), null);
         }
     }
 
@@ -931,14 +1013,20 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         return (value == null) ? UnDefType.UNDEF : (value == 1) ? OnOffType.ON : OnOffType.OFF;
     }
 
-    private State getForecastState(String channelId, VariableWithValues values, int valueIndex) {
+    private State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex) {
         State state = UnDefType.UNDEF;
 
         @Nullable
-        Float floatValue = (valueIndex < values.valuesLength()) ? values.values(valueIndex) : null;
+        Float floatValue = null;
+        if (valueIndex == null)
+            floatValue = values.value();
+        else if (valueIndex < values.valuesLength())
+            floatValue = values.values(valueIndex);
 
         @Nullable
-        Long longValue = (valueIndex < values.valuesInt64Length()) ? values.valuesInt64(valueIndex) : null;
+        Long longValue = null;
+        if ((valueIndex != null) && (valueIndex < values.valuesInt64Length()))
+            longValue = values.valuesInt64(valueIndex);
 
         switch (channelId) {
             case CHANNEL_FORECAST_TEMPERATURE:

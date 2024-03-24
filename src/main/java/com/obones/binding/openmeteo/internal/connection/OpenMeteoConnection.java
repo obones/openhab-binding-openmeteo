@@ -63,5 +63,5 @@ public interface OpenMeteoConnection {
     }
 
     WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
-            @Nullable Integer hourlyHours, @Nullable Integer dailyDays);
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current);
 }

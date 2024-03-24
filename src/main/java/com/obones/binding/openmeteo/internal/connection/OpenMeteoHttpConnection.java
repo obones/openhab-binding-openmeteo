@@ -173,8 +173,36 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         }
     }
 
+    private void addCurrentFields(ForecastValue forecastValue, ArrayList<String> fields) {
+        switch (forecastValue) {
+            // those fields are not available in the current conditions
+            case DEW_POINT:
+            case SHORTWAVE_RADIATION:
+            case DIRECT_RADIATION:
+            case DIRECT_NORMAL_IRRADIANCE:
+            case DIFFUSE_RADIATION:
+            case VAPOUR_PRESSURE_DEFICIT:
+            case CAPE:
+            case EVAPOTRANSPIRATION:
+            case ET0_EVAPOTRANSPIRATION:
+            case PRECIPITATION_PROBABILITY:
+            case SNOW_DEPTH:
+            case FREEZING_LEVEL_HEIGHT:
+            case VISIBILITY:
+            case SUNRISE:
+            case SUNSET:
+            case SUNSHINE_DURATION:
+            case DAYLIGHT_DURATION:
+            case UV_INDEX:
+            case UV_INDEX_CLEAR_SKY:
+                return;
+            default:
+                fields.add(getForecastValueFieldName(forecastValue));
+        }
+    }
+
     public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
-            @Nullable Integer hourlyHours, @Nullable Integer dailyDays) {
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current) {
 
         if (hourlyHours == null && dailyDays == null) {
             logger.warn("No point in getting a forecast if no elements are required");
@@ -198,9 +226,11 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         ArrayList<String> requiredHourlyFields = new ArrayList<>();
         ArrayList<String> requiredDailyFields = new ArrayList<>();
+        ArrayList<String> requiredCurrentFields = new ArrayList<>();
         for (ForecastValue forecastValue : forecastValues) {
             addHourlyFields(forecastValue, requiredHourlyFields);
             addDailyFields(forecastValue, requiredDailyFields);
+            addCurrentFields(forecastValue, requiredCurrentFields);
         }
 
         if (hourlyHours != null) {
@@ -211,6 +241,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (dailyDays != null) {
             builder.queryParam("forecast_days", dailyDays);
             builder.queryParam("daily", String.join(",", requiredDailyFields));
+        }
+
+        if (current) {
+            builder.queryParam("current", String.join(",", requiredCurrentFields));
         }
 
         String url = builder.build().toString();

@@ -87,6 +87,19 @@
 			<default>false</default>
 		</parameter>
 
+		<!-- Current parameters -->
+		<parameter-group name="currentParameters">
+			<label>@text/config.openmeteo.thing.forecast.currentParameters.label</label>
+			<description>@text/config.openmeteo.thing.forecast.currentParameters.description</description>
+		</parameter-group>
+
+		<parameter name="current" type="boolean" groupName="currentParameters">
+			<label>@text/config.openmeteo.thing.forecast.current.label</label>
+			<description>@text/config.openmeteo.thing.forecast.current.description</description>
+			<advanced>false</advanced>
+			<default>false</default>
+		</parameter>
+
 		<!-- Channel parameters -->
 		<parameter-group name="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.channelParameters.label</label>

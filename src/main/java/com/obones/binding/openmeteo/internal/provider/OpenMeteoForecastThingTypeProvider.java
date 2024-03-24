@@ -152,6 +152,9 @@ public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
                     String.format(dailyDescriptionFormat, day)));
         }
 
+        // current situation
+        result.add(new ChannelGroupDefinition(CHANNEL_GROUP_CURRENT, CHANNEL_GROUP_TYPE_CURRENT));
+
         return result;
     }
 }
