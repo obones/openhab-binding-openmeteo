@@ -155,6 +155,9 @@ public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {
         // current situation
         result.add(new ChannelGroupDefinition(CHANNEL_GROUP_CURRENT, CHANNEL_GROUP_TYPE_CURRENT));
 
+        // 15 minutely forecast
+        result.add(new ChannelGroupDefinition(CHANNEL_GROUP_MINUTELY_15, CHANNEL_GROUP_TYPE_MINUTELY_15));
+
         return result;
     }
 }

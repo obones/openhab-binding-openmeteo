@@ -32,6 +32,9 @@ public class OpenMeteoForecastThingConfiguration {
 
     public boolean current = false;
 
+    public boolean minutely15 = false;
+    public int minutely15Steps = 48;
+
     public boolean includeTemperature = true;
     public boolean includeHumidity = true;
     public boolean includeDewPoint = true;

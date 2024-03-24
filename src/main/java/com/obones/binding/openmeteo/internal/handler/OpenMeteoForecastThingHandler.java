@@ -235,6 +235,10 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             initializeCurrentGroupOptionalChannels(callback, builder, thingUID, config);
         }
 
+        if (config.minutely15) {
+            initializeMinutely15GroupOptionalChannels(callback, builder, thingUID, config);
+        }
+
         updateThing(builder.build());
     }
 
@@ -528,6 +532,88 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         return builder;
     }
 
+    private void initializeMinutely15GroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, OpenMeteoForecastThingConfiguration config) {
+        Object[] labelArguments = { localization.getText("channel-type.openmeteo.forecast.label-suffix.minutely15") };
+        String channelGroupId = CHANNEL_GROUP_MINUTELY_15;
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
+                SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
+                "channel-type.openmeteo.forecast.temperature.label",
+                "channel-type.openmeteo.forecast.temperature.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_HUMIDITY,
+                SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity, //
+                "channel-type.openmeteo.forecast.humidity.label",
+                "channel-type.openmeteo.forecast.humidity.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DEW_POINT,
+                CHANNEL_TYPE_UID_DEW_POINT, config.includeDewPoint, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_APPARENT_TEMPERATURE,
+                CHANNEL_TYPE_UID_APPARENT_TEMPERATURE, config.includeApparentTemperature, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHORTWAVE_RADIATION,
+                CHANNEL_TYPE_UID_SHORTWAVE_RADIATION, config.includeShortwaveRadiation, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIRECT_RADIATION,
+                CHANNEL_TYPE_UID_DIRECT_RADIATION, config.includeDirectRadiation, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE, CHANNEL_TYPE_UID_DIRECT_NORMAL_IRRADIANCE,
+                config.includeDirectNormalIrradiance, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIFFUSE_RADIATION,
+                CHANNEL_TYPE_UID_DIFFUSE_RADIATION, config.includeDiffuseRadiation, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SUNSHINE_DURATION,
+                CHANNEL_TYPE_UID_SUNSHINE_DURATION, config.includeSunshineDuration, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION,
+                CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW,
+                CHANNEL_TYPE_UID_SNOW, config.includeSnow, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_RAIN,
+                CHANNEL_TYPE_UID_RAIN, config.includeRain, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHOWERS,
+                CHANNEL_TYPE_UID_SHOWERS, config.includeShowers, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW_DEPTH,
+                CHANNEL_TYPE_UID_SNOW_DEPTH, config.includeSnowDepth, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT,
+                CHANNEL_TYPE_UID_FREEZING_LEVEL_HEIGHT, config.includeFreezingLevelHeight, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CAPE,
+                CHANNEL_TYPE_UID_CAPE, config.includeCape, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
+                "channel-type.openmeteo.forecast.wind-speed.label",
+                "channel-type.openmeteo.forecast.wind-speed.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_DIRECTION,
+                SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection, //
+                "channel-type.openmeteo.forecast.wind-direction.label",
+                "channel-type.openmeteo.forecast.wind-direction.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_GUST_SPEED,
+                CHANNEL_TYPE_UID_GUST_SPEED, config.includeGustSpeed, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_VISIBILITY,
+                CHANNEL_TYPE_UID_VISIBILITY, config.includeVisibility, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
+                CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode, labelArguments);
+    }
+
     protected ThingBuilder initializeOptionalChannel(ThingHandlerCallback callback, ThingBuilder builder,
             ThingUID thingUID, String channelGroupId, String channelId, ChannelTypeUID channelTypeUID, boolean isActive,
             AutoUpdatePolicy autoUpdatePolicy, @Nullable String labelKey, @Nullable String descriptionKey,
@@ -699,7 +785,8 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             forecastData = connection.getForecast(location, getForecastValues(),
                     (config.hourlyTimeSeries || config.hourlySplit) ? config.hourlyHours : null, //
                     (config.dailyTimeSeries || config.dailySplit) ? config.dailyDays : null, //
-                    config.current);
+                    config.current, //
+                    (config.minutely15) ? config.minutely15Steps : null);
 
         return true;
     }
@@ -816,6 +903,8 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
             case CHANNEL_GROUP_CURRENT:
                 updateCurrentChannel(channelUID);
                 break;
+            case CHANNEL_GROUP_MINUTELY_15:
+                updateMinutely15TImeSeries(channelUID);
             default:
                 Matcher hourlyForecastMatcher = CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN.matcher(channelGroupId);
                 if (hourlyForecastMatcher.find()) {
@@ -871,6 +960,13 @@ public class OpenMeteoForecastThingHandler extends BaseThingHandler {
         var forecastData = this.forecastData;
         if (forecastData != null) {
             updateForecastTimeSeries(channelUID, forecastData.daily());
+        }
+    }
+
+    private void updateMinutely15TImeSeries(ChannelUID channelUID) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            updateForecastTimeSeries(channelUID, forecastData.minutely15());
         }
     }
 

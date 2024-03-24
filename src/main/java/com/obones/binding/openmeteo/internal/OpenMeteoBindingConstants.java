@@ -49,6 +49,7 @@ public class OpenMeteoBindingConstants {
     private static final String CHANNEL_GROUP_TYPE_ID_DAILY_TIME_SERIES = "dailyTimeSeries";
     private static final String CHANNEL_GROUP_TYPE_ID_DAILY = "daily";
     private static final String CHANNEL_GROUP_TYPE_ID_CURRENT = "current";
+    private static final String CHANNEL_GROUP_TYPE_ID_MINUTELY_15 = "minutely15";
 
     // Discovered things id
     public static final String SYSTEM_LOCATION_THING_ID = "system";
@@ -71,6 +72,8 @@ public class OpenMeteoBindingConstants {
             CHANNEL_GROUP_TYPE_ID_DAILY);
     public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_CURRENT = new ChannelGroupTypeUID(BINDING_ID,
             CHANNEL_GROUP_TYPE_ID_CURRENT);
+    public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_MINUTELY_15 = new ChannelGroupTypeUID(BINDING_ID,
+            CHANNEL_GROUP_TYPE_ID_MINUTELY_15);
 
     // Definitions of different set of Things
     public static final Set<ThingTypeUID> SUPPORTED_THINGS_BRIDGE = new HashSet<>(Arrays.asList(THING_TYPE_BRIDGE));
@@ -93,6 +96,7 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_GROUP_DAILY_TOMORROW = "forecastTomorrow";
     public static final String CHANNEL_GROUP_DAILY_PREFIX = "forecastDay";
     public static final String CHANNEL_GROUP_CURRENT = "current";
+    public static final String CHANNEL_GROUP_MINUTELY_15 = "minutely15";
 
     // List of all forecast channel/property ids
     public static final String CHANNEL_FORECAST_TEMPERATURE = "temperature";

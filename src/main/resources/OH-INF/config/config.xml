@@ -100,6 +100,25 @@
 			<default>false</default>
 		</parameter>
 
+		<!-- 15-minutely parameters -->
+		<parameter-group name="minutely15Parameters">
+			<label>@text/config.openmeteo.thing.forecast.minutely15Parameters.label</label>
+			<description>@text/config.openmeteo.thing.forecast.minutely15Parameters.description</description>
+		</parameter-group>
+
+		<parameter name="minutely15Steps" type="integer" groupName="minutely15Parameters" min="1" max="288" step="1">
+			<label>@text/config.openmeteo.thing.forecast.minutely15Steps.label</label>
+			<description>@text/config.openmeteo.thing.forecast.minutely15Steps.description</description>
+			<advanced>true</advanced>
+			<default>48</default>
+		</parameter>
+		<parameter name="minutely15" type="boolean" groupName="minutely15Parameters">
+			<label>@text/config.openmeteo.thing.forecast.minutely15.label</label>
+			<description>@text/config.openmeteo.thing.forecast.minutely15.description</description>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+
 		<!-- Channel parameters -->
 		<parameter-group name="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.channelParameters.label</label>

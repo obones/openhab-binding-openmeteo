@@ -353,4 +353,9 @@
 		<label>@text/channel-group-type.openmeteo.forecast.current.label</label>
 		<description>@text/channel-group-type.openmeteo.forecast.current.description</description>
 	</channel-group-type>
+
+	<channel-group-type id="minutely15">
+		<label>@text/channel-group-type.openmeteo.forecast.minutely15.label</label>
+		<description>@text/channel-group-type.openmeteo.forecast.minutely15.description</description>
+	</channel-group-type>
 </thing:thing-descriptions>
