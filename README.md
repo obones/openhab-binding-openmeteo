@@ -13,9 +13,16 @@ If you are a paid user of this service, you will want to use the advanced proper
 
 ### Weather forecast
 
-The second thing `forecast` supports the hourly and daily forecast for a specific location.
+The second thing `forecast` supports the following forecasts for a specific location: hourly, daily, 15-minutely. It also offers the current weather conditions, extrapolated from the 15-minutely forecast.
+
 It requires coordinates of the location of your interest.
+
 You can add as many `forecast` things for different locations to your setup as you like to observe.
+
+## Discovery
+
+If a system location is set, a "System OpenMeteo weather forecast" (`forecast`) thing will be automatically discovered for this location.
+If the system location is be changed, the background discovery updates the configuration of the thing accordingly.
 
 ## Thing Configuration
 
@@ -33,11 +40,14 @@ You can add as many `forecast` things for different locations to your setup as y
 |------------------|--------------------------------------------------------------------------------------------------------------------------------|
 | location         | Location of weather in geographical coordinates (latitude/longitude/altitude). **Mandatory**                                   |
 | hourlyHours      | Number of hours for hourly forecast. Optional, the default value is 48 (min="1", max="384", step="1").                         |
-| hourlyTimeSeries | Whether to create a hourly time series channel group or not. Time series are new in 4.1 (default=true)          |
+| hourlyTimeSeries | Whether to create a hourly time series channel group or not. Time series are new in 4.1 (default = true)          |
 | hourlySplit      | Whether to create one channel group per future hour to accommodate widgets that are not capable of using time series. (default = false) |
 | dailyDays        | Number of days for daily forecast (including todays forecast). Optional, the default value is 5 (min="1", max="16", step="1"). |
-| dailyTimeSeries  | Whether to create a daily time series channel group or not. Time series are new in 4.1 (default=true)          |
+| dailyTimeSeries  | Whether to create a daily time series channel group or not. Time series are new in 4.1 (default = true)          |
 | dailySplit       | Whether to create one channel group per future day to accommodate widgets that are not capable of using time series. (default = false) |
+| current          | Whether to create a channel group for the current weather conditions. (default = false) |
+| minutely15       | Whether to create a 15 minutely time series channel group or not. Time series are new in 4.1 (default = false) |
+| minutely15Steps  | Number of 15 minutes steps to get the forecast for. Optional, the default value is 48 (min="1" max="288" step="1") |
 | includeTemperature         | Create channels for temperature, instant on hourly, min and max on daily (default: true) |
 | includeHumidity            | Create a channel for humidity (default: true) |
 | includeDewPoint            | Create a channel for dew point (default: true) |
@@ -74,7 +84,7 @@ You can add as many `forecast` things for different locations to your setup as y
 
 Additional details on the various possible channel values are available in Open Meteo's [documentation](https://open-meteo.com/en/docs)
 
-Any change to the parameters will recreate channels and channel groups.
+Any change to the parameters will recreate channels and channel groups with the same ids, thus not breaking any item link.
 
 ## Channels
 
@@ -144,6 +154,54 @@ The channels are placed in groups named `forecastDaily` for [time series support
 | uv-index                       | Number               |  Daily maximum in UV Index starting from 0 |
 | uv-index-clear-sky             | Number               |  Daily maximum in UV Index starting from 0 assuming cloud free conditions |
 
+### 15 minutely forecast
+
+The channels are placed in a group named `forecastMinutely15` as a [time series](#persisting-time-series).
+
+| Channel ID                 | Item Type            | Description |
+|----------------------------|----------------------|-----------------------------------|
+| temperature                | Number:Temperature   |  Forecast outdoor temperature |
+| humidity                   | Number:Dimensionless |  Forecast atmospheric relative humidity |
+| dew-point                  | Number:Temperature   |  Forecasted dew-point temperature. |
+| apparent-temperature       | Number:Temperature   |  Forecast apparent temperature. |
+| shortwave-radiation        | Number:Intensity     |  Shortwave solar radiation as average of the preceding hour. |
+| direct-radiation           | Number:Intensity     |  Direct solar radiation as average of the preceding hour. |
+| direct-normal-irradiance   | Number:Intensity     |  Direct solar irradiance as average of the preceding hour. |
+| diffuse-radiation          | Number:Intensity     |  Diffuse solar radiation as average of the preceding hour.  |
+| precipitation              | Number:Length        |  Total precipitation (rain, showers, snow) sum of the preceding hour |
+| snow                       | Number:Length        |  Snow volume of the last hour. |
+| rain                       | Number:Length        |  Rain volume of the last hour. |
+| showers                    | Number:Length        |  Showers from convective precipitation from the preceding hour |
+| snow-depth                 | Number:Length        | Snow depth on the ground |
+| freezing-level-height      | Number:Length        | Altitude above sea level of the 0°C level |
+| cape                       | Number               |  Convective available potential energy |
+| wind-speed                 | Number:Speed         |  Forecast wind speed |
+| wind-direction             | Number:Angle         |  Forecast wind direction |
+| gust-speed                 | Number:Speed         |  Forecast gust speed. |
+| visibility                 | Number:Length        |  Current visibility. |
+| weather-code               | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
+
+### Current conditions
+
+The channels are placed in a group named `current`.
+
+| Channel ID                 | Item Type            | Description |
+|----------------------------|----------------------|-----------------------------------|
+| temperature                | Number:Temperature   |  Forecast outdoor temperature |
+| humidity                   | Number:Dimensionless |  Forecast atmospheric relative humidity |
+| apparent-temperature       | Number:Temperature   |  Forecast apparent temperature. |
+| is-day                     | Switch               |  Active if daylight, inactive at night |
+| precipitation              | Number:Length        |  Total precipitation (rain, showers, snow) sum of the preceding hour |
+| rain                       | Number:Length        |  Rain volume of the last hour. |
+| showers                    | Number:Length        |  Showers from convective precipitation from the preceding hour |
+| snow                       | Number:Length        |  Snow volume of the last hour. |
+| weather-code               | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
+| cloudiness                 | Number:Dimensionless |  Forecast cloudiness. |
+| pressure                   | Number:Pressure      |  Forecast barometric surface pressure |
+| wind-speed                 | Number:Speed         |  Forecast wind speed |
+| wind-direction             | Number:Angle         |  Forecast wind direction |
+| gust-speed                 | Number:Speed         |  Forecast gust speed. |
+
 ## Persisting Time Series
 
 The binding offers support for persisting forecast values.
@@ -153,8 +211,14 @@ The recommended persistence strategy is `forecast`, as it ensures a clean histor
 
 Make sure you have a persistence service installed and ready for use.
 
-To configure persisting forecast data, create and link Items to those channels with time series support (as usual).
-Next, enable persistence for these Items using the `forecast` persistence strategy.
+To configure persisting forecast data, first create and link Items to those channels with time series support (as usual).
+Next, enable persistence for these Items using the `forecast` persistence strategy: 
+* Settings, Add-ons Settings, Your persistence addon, Configure persistence
+* Add configuration
+* Select group/items from the forecast
+* Select the `forecast` strategy
+* Save your configuration
+
 Finally, open the UI, search for one of the newly created Items, open the analyzer and select a future time range.
 
-To access forecast data stored in persistence from scripts and rules, use the [Persistence Extensions]({{base}}/configuration/persistence.html#persistence-extensions-in-scripts-and-rules).
+To access forecast data stored in persistence from scripts and rules, use the [Persistence Extensions](https://www.openhab.org/docs/configuration/persistence.html#persistence-extensions-in-scripts-and-rules).
