@@ -43,7 +43,7 @@
 			<description>@text/config.openmeteo.thing.forecast.hourlyParameters.description</description>
 		</parameter-group>
 
-		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" max="348" step="1">
+		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" max="384" step="1">
 			<label>@text/config.openmeteo.thing.forecast.hourlyHours.label</label>
 			<description>@text/config.openmeteo.thing.forecast.hourlyHours.description</description>
 			<advanced>false</advanced>
