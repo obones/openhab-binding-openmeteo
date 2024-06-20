@@ -15,13 +15,11 @@ package com.obones.binding.openmeteo.internal.config;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 @NonNullByDefault
-public class OpenMeteoForecastThingConfiguration {
+public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfiguration {
 
     /*
      * Default values - should not be modified
      */
-    public String location = "";
-
     public int hourlyHours = 48;
     public boolean hourlyTimeSeries = true;
     public boolean hourlySplit = false;
