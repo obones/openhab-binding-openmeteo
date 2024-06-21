@@ -67,10 +67,10 @@ import com.openmeteo.sdk.WeatherApiResponse;
 @NonNullByDefault
 public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
-    private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
-    private @Nullable ChannelTypeRegistry channelTypeRegistry;
-    private @Nullable WeatherApiResponse forecastData = null;
-    private final TimeZoneProvider timeZoneProvider;
+    protected @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
+    protected @Nullable ChannelTypeRegistry channelTypeRegistry;
+    protected @Nullable WeatherApiResponse forecastData = null;
+    protected final TimeZoneProvider timeZoneProvider;
 
     public Localization localization;
 
@@ -405,9 +405,30 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         }
     }
 
+    protected void updateHourlyTimeSeries(ChannelUID channelUID) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            updateForecastTimeSeries(channelUID, forecastData.hourly());
+        }
+    }
+
+    protected void updateDailyTimeSeries(ChannelUID channelUID) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            updateForecastTimeSeries(channelUID, forecastData.daily());
+        }
+    }
+
+    protected void updateMinutely15TImeSeries(ChannelUID channelUID) {
+        var forecastData = this.forecastData;
+        if (forecastData != null) {
+            updateForecastTimeSeries(channelUID, forecastData.minutely15());
+        }
+    }
+
     protected abstract int getVariableIndex(String channelId);
 
-    private @Nullable VariableWithValues getVariableValues(StringBuilder channelId,
+    protected @Nullable VariableWithValues getVariableValues(StringBuilder channelId,
             VariablesWithTime variablesWithTime) {
         if (variablesWithTime != null && variablesWithTime.variablesLength() > 0) {
             int aggregation = Aggregation.none;
@@ -461,7 +482,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
     protected abstract State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue);
 
-    private State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex) {
+    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex) {
         @Nullable
         Float floatValue = null;
         if (valueIndex == null)
