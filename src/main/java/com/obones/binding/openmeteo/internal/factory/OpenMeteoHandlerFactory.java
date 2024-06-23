@@ -63,8 +63,6 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
     private final LocationProvider locationProvider;
     private Localization localization = Localization.UNKNOWN;
 
-    private @Nullable static ThingHandlerFactory activeInstance = null;
-
     // Private
 
     private void updateLocalization() {
@@ -184,17 +182,5 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         }
 
         super.removeHandler(thingHandler);
-    }
-
-    @Override
-    protected void activate(ComponentContext componentContext) {
-        activeInstance = this;
-        super.activate(componentContext);
-    }
-
-    @Override
-    protected void deactivate(ComponentContext componentContext) {
-        activeInstance = null;
-        super.deactivate(componentContext);
     }
 }
