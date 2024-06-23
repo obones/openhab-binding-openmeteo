@@ -30,7 +30,6 @@ import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.thing.binding.ThingHandlerFactory;
 import org.openhab.core.thing.type.ChannelTypeRegistry;
 import org.osgi.framework.ServiceRegistration;
-import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -38,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.obones.binding.openmeteo.internal.discovery.OpenMeteoDiscoveryService;
+import com.obones.binding.openmeteo.internal.handler.OpenMeteoAirQualityThingHandler;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoForecastThingHandler;
 import com.obones.binding.openmeteo.internal.utils.Localization;
@@ -112,6 +112,11 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         return new OpenMeteoForecastThingHandler(thing, localization, timeZoneProvider, channelTypeRegistry);
     }
 
+    private @Nullable ThingHandler createAirQualityThingHandler(Thing thing) {
+        logger.trace("createAirQualityThingHandler({}) called for thing named '{}'.", thing.getUID(), thing.getLabel());
+        return new OpenMeteoAirQualityThingHandler(thing, localization, timeZoneProvider, channelTypeRegistry);
+    }
+
     // Constructor
 
     @Activate
@@ -166,6 +171,8 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         // Handle creation of Things behind the Bridge
         else if (THING_TYPE_OPENMETEO_FORECAST.equals(thingTypeUID)) {
             resultHandler = createForecastThingHandler(thing);
+        } else if (THING_TYPE_OPENMETEO_AIR_QUALITY.equals(thingTypeUID)) {
+            resultHandler = createAirQualityThingHandler(thing);
         } else {
             logger.warn("createHandler({}) failed: ThingHandler not found for {}.", thingTypeUID, thing.getLabel());
         }

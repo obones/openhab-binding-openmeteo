@@ -65,4 +65,40 @@ public interface OpenMeteoConnection {
     WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
             @Nullable Integer minutely15Steps);
+
+    enum AirQualityValue {
+        UV_INDEX,
+        UV_INDEX_CLEAR_SKY,
+        PARTICULATE_10,
+        PARTICULATE_2_5,
+        CARBON_MONOXIDE,
+        NITROGEN_DIOXIDE,
+        SULPHUR_DIOXIDE,
+        OZONE,
+        AEROSOL_OPTICAL_DEPTH,
+        DUST,
+        AMMONIA,
+        ALDER_POLLEN,
+        BIRCH_POLLEN,
+        MUGWORT_POLLEN,
+        GRASS_POLLEN,
+        OLIVE_POLLEN,
+        RAGWEED_POLLEN,
+        EUROPEAN_AQI,
+        EUROPEAN_AQI_PM_2_5,
+        EUROPEAN_AQI_PM_10,
+        EUROPEAN_AQI_NITROGEN_DIOXIDE,
+        EUROPEAN_AQI_OZONE,
+        EUROPEAN_AQI_SULPHUR_DIOXIDE,
+        US_AQI,
+        US_AQI_PM_2_5,
+        US_AQI_PM_10,
+        US_AQI_NITROGEN_DIOXIDE,
+        US_AQI_OZONE,
+        US_AQI_SULPHUR_DIOXIDE,
+        US_AQI_CARBON_MONOXIDE
+    }
+
+    WeatherApiResponse getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
+            @Nullable Integer hourlyHours, boolean current);
 }

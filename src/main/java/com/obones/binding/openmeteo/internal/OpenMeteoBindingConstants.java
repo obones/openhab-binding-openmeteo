@@ -42,6 +42,10 @@ public class OpenMeteoBindingConstants {
      * The Thing identification of a forecast defined on the <B>OpenMeteo</B> bridge.
      */
     private static final String THING_OPENMETEO_FORECAST = "forecast";
+    /**
+     * The Thing identification of an air quality indicators defined on the <B>OpenMeteo</B> bridge.
+     */
+    private static final String THING_OPENMETEO_AIR_QUALITY = "air-quality";
 
     // Channel group type ids
     private static final String CHANNEL_GROUP_TYPE_ID_HOURLY_TIME_SERIES = "hourlyTimeSeries";
@@ -60,6 +64,8 @@ public class OpenMeteoBindingConstants {
     // List of all Thing Type UIDs beyond the bridge(s)
     public static final ThingTypeUID THING_TYPE_OPENMETEO_FORECAST = new ThingTypeUID(BINDING_ID,
             THING_OPENMETEO_FORECAST);
+    public static final ThingTypeUID THING_TYPE_OPENMETEO_AIR_QUALITY = new ThingTypeUID(BINDING_ID,
+            THING_OPENMETEO_AIR_QUALITY);
 
     // List of all Channel Group Type UIDs
     public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_HOURLY_TIME_SERIES = new ChannelGroupTypeUID(BINDING_ID,
@@ -78,7 +84,7 @@ public class OpenMeteoBindingConstants {
     // Definitions of different set of Things
     public static final Set<ThingTypeUID> SUPPORTED_THINGS_BRIDGE = new HashSet<>(Arrays.asList(THING_TYPE_BRIDGE));
     public static final Set<ThingTypeUID> SUPPORTED_THINGS_ITEMS = new HashSet<>(
-            Arrays.asList(THING_TYPE_OPENMETEO_FORECAST));
+            Arrays.asList(THING_TYPE_OPENMETEO_FORECAST, THING_TYPE_OPENMETEO_AIR_QUALITY));
 
     // List of all bridge channel ids
 
@@ -235,4 +241,61 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_UV_INDEX);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_UV_INDEX_CLEAR_SKY = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_UV_INDEX_CLEAR_SKY);
+
+    // List of all air quality channel/property ids
+    public static final String CHANNEL_AIR_QUALITY_UV_INDEX = "uv-index";
+    public static final String CHANNEL_AIR_QUALITY_UV_INDEX_CLEAR_SKY = "uv-index-clear-sky";
+    public static final String CHANNEL_AIR_QUALITY_PARTICULATE_10 = "particulate-10";
+    public static final String CHANNEL_AIR_QUALITY_PARTICULATE_2_5 = "particulate-2_5";
+    public static final String CHANNEL_AIR_QUALITY_CARBON_MONOXIDE = "carbon-monoxide";
+    public static final String CHANNEL_AIR_QUALITY_NITROGEN_DIOXIDE = "nitrogen-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_SULPHUR_DIOXIDE = "sulphur-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_OZONE = "ozone";
+    public static final String CHANNEL_AIR_QUALITY_AEROSOL_OPTICAL_DEPTH = "aerosol-optical-depth";
+    public static final String CHANNEL_AIR_QUALITY_DUST = "dust";
+    public static final String CHANNEL_AIR_QUALITY_AMMONIA = "ammonia";
+    public static final String CHANNEL_AIR_QUALITY_ALDER_POLLEN = "alder-pollen";
+    public static final String CHANNEL_AIR_QUALITY_BIRCH_POLLEN = "birch-pollen";
+    public static final String CHANNEL_AIR_QUALITY_MUGWORT_POLLEN = "mugwort-pollen";
+    public static final String CHANNEL_AIR_QUALITY_GRASS_POLLEN = "grass-pollen";
+    public static final String CHANNEL_AIR_QUALITY_OLIVE_POLLEN = "olive-pollen";
+    public static final String CHANNEL_AIR_QUALITY_RAGWEED_POLLEN = "ragweed-pollen";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI = "european-aqi";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_PM_2_5 = "european-aqi-pm2_5";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_PM_10 = "european-aqi-pm10";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_NITROGEN_DIOXIDE = "european-aqi-nitrogen-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_OZONE = "european-aqi-ozone";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_SULPHUR_DIOXIDE = "european-aqi-sulphur-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI = "us-aqi";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_PM_2_5 = "us-aqi-pm2_5";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_PM_10 = "us-aqi-pm10";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_NITROGEN_DIOXIDE = "us-aqi-nitrogen-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_OZONE = "us-aqi-ozone";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_SULPHUR_DIOXIDE = "us-aqi-sulphur-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_CARBON_MONOXIDE = "us-aqi-carbon-monoxide";
+
+    // Air quality channel type ids
+    public static final String CHANNEL_TYPE_PARTICULATE_CONCENTRATION = "particulate-concentration";
+    public static final String CHANNEL_TYPE_GAZ_CONCENTRATION = "gaz-concentration";
+    public static final String CHANNEL_TYPE_AEROSOL_OPTICAL_DEPTH = "aerosol-optical-depth";
+    public static final String CHANNEL_TYPE_DUST = "dust";
+    public static final String CHANNEL_TYPE_POLLEN = "pollen";
+    public static final String CHANNEL_TYPE_EUROPEAN_AQI = "european-aqi";
+    public static final String CHANNEL_TYPE_US_AQI = "us-aqi";
+
+    // Air quality channel type UIDs
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_PARTICULATE_CONCENTRATION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_GAZ_CONCENTRATION = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_GAZ_CONCENTRATION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_AEROSOL_OPTICAL_DEPTH = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_AEROSOL_OPTICAL_DEPTH);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_DUST = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_DUST);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_POLLEN = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_POLLEN);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_EUROPEAN_AQI = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_EUROPEAN_AQI);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_US_AQI = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_US_AQI);
 }
