@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2023-2024 Olivier Sannier 
+ * Copyright (c) 2023-2024 Olivier Sannier
  ** See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -45,8 +45,6 @@ import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 import com.openmeteo.sdk.Variable;
-import com.openmeteo.sdk.VariableWithValues;
-import com.openmeteo.sdk.VariablesWithTime;
 import com.openmeteo.sdk.WeatherApiResponse;
 
 @NonNullByDefault
@@ -614,24 +612,6 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         }
     }
 
-    private void updateForecastChannel(ChannelUID channelUID, @Nullable VariablesWithTime forecast,
-            @Nullable Integer index) {
-        StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
-        String channelGroupId = channelUID.getGroupId();
-
-        if (forecast != null) {
-            VariableWithValues values = getVariableValues(channelId, forecast);
-            if (values != null) {
-                State state = getForecastState(channelId.toString(), values, index);
-                logger.debug("Update channel '{}' of group '{}' with new state '{}'.", channelId, channelGroupId,
-                        state);
-                updateState(channelUID, state);
-            } else {
-                logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
-            }
-        }
-    }
-
     /**
      * Update the hourly forecast channel from the last Open Meteo data retrieved.
      *
@@ -655,13 +635,6 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         var forecastData = this.forecastData;
         if (forecastData != null) {
             updateForecastChannel(channelUID, forecastData.daily(), index);
-        }
-    }
-
-    private void updateCurrentChannel(ChannelUID channelUID) {
-        var forecastData = this.forecastData;
-        if (forecastData != null) {
-            updateForecastChannel(channelUID, forecastData.current(), null);
         }
     }
 
