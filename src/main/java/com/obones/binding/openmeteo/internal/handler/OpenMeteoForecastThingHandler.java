@@ -595,6 +595,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 break;
             case CHANNEL_GROUP_MINUTELY_15:
                 updateMinutely15TImeSeries(channelUID);
+                break;
             default:
                 Matcher hourlyForecastMatcher = CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN.matcher(channelGroupId);
                 if (hourlyForecastMatcher.find()) {
