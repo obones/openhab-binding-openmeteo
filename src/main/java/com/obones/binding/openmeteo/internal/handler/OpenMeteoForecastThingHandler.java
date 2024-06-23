@@ -16,6 +16,7 @@ import static org.openhab.core.thing.DefaultSystemChannelTypeProvider.*;
 
 import java.text.DecimalFormat;
 import java.util.EnumSet;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -575,7 +576,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
      * @param channelUID UID of the channel
      */
     protected void updateChannel(ChannelUID channelUID) {
-        String channelGroupId = channelUID.getGroupId();
+        String channelGroupId = Optional.ofNullable(channelUID.getGroupId()).orElse("");
         logger.debug("OpenMeteoForecastThingHandler: updateChannel {}, groupID {}", channelUID, channelGroupId);
 
         switch (channelGroupId) {

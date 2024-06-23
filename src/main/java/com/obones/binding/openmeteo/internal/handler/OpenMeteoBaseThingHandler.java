@@ -68,7 +68,7 @@ import com.openmeteo.sdk.WeatherApiResponse;
 public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
     protected @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
-    protected @Nullable ChannelTypeRegistry channelTypeRegistry;
+    protected ChannelTypeRegistry channelTypeRegistry;
     protected @Nullable WeatherApiResponse forecastData = null;
     protected final TimeZoneProvider timeZoneProvider;
 
@@ -106,7 +106,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
             boolean configValid = true;
             OpenMeteoBaseThingConfiguration config = getConfigAs(OpenMeteoBaseThingConfiguration.class);
-            if (config.location == null || config.location.trim().isEmpty()) {
+            if (config.location.trim().isEmpty()) {
                 updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
                         "@text/offline.conf-error-missing-location");
                 configValid = false;
@@ -190,6 +190,11 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         ChannelUID channelUID = new ChannelUID(thing.getUID(), channelGroupId, channelId);
         ChannelBuilder channelBuilder = callback.createChannelBuilder(channelUID, channelTypeUID);
         ChannelType channelType = channelTypeRegistry.getChannelType(channelTypeUID);
+
+        if (channelType == null) {
+            logger.error("Unable to retrieve ChannelType instance for UID [{}].", channelTypeUID.getAsString());
+            return builder;
+        }
 
         String labelText = (labelKey != null) ? localization.getText(labelKey) : channelType.getLabel();
         if (labelArguments != null)
@@ -429,7 +434,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
     protected abstract int getVariableIndex(String channelId);
 
     protected @Nullable VariableWithValues getVariableValues(StringBuilder channelId,
-            VariablesWithTime variablesWithTime) {
+            @Nullable VariablesWithTime variablesWithTime) {
         if (variablesWithTime != null && variablesWithTime.variablesLength() > 0) {
             int aggregation = Aggregation.none;
             int suffixPosition = -1;
