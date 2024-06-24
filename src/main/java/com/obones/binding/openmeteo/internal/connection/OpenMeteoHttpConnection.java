@@ -11,6 +11,8 @@
  */
 package com.obones.binding.openmeteo.internal.connection;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -230,16 +232,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         }
     }
 
-    public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
-            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
-            @Nullable Integer minutely15Steps) {
-
-        if (hourlyHours == null && dailyDays == null) {
-            logger.warn("No point in getting a forecast if no elements are required");
-            return new WeatherApiResponse();
-        }
-
-        UriBuilder builder = UriBuilder.fromPath(baseURI).path("forecast") //
+    private UriBuilder prepareUriBuilder(URI baseURI, String path, PointType location, //
+            @Nullable Integer hourlyHours, ArrayList<String> requiredHourlyFields, //
+            boolean current, ArrayList<String> requiredCurrentFields) {
+        UriBuilder builder = UriBuilder.fromUri(baseURI).path(path) //
                 .queryParam("format", "flatbuffers") //
                 .queryParam("latitude", location.getLatitude()) //
                 .queryParam("longitude", location.getLongitude()) //
@@ -254,36 +250,19 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (!APIKey.isBlank())
             builder.queryParam("apikey", APIKey);
 
-        ArrayList<String> requiredHourlyFields = new ArrayList<>();
-        ArrayList<String> requiredDailyFields = new ArrayList<>();
-        ArrayList<String> requiredCurrentFields = new ArrayList<>();
-        ArrayList<String> requiredMinutely15Fields = new ArrayList<>();
-        for (ForecastValue forecastValue : forecastValues) {
-            addHourlyFields(forecastValue, requiredHourlyFields);
-            addDailyFields(forecastValue, requiredDailyFields);
-            addCurrentFields(forecastValue, requiredCurrentFields);
-            addMinutely15Fields(forecastValue, requiredMinutely15Fields);
-        }
-
         if (hourlyHours != null) {
             builder.queryParam("forecast_hours", hourlyHours);
             builder.queryParam("hourly", String.join(",", requiredHourlyFields));
-        }
-
-        if (dailyDays != null) {
-            builder.queryParam("forecast_days", dailyDays);
-            builder.queryParam("daily", String.join(",", requiredDailyFields));
         }
 
         if (current) {
             builder.queryParam("current", String.join(",", requiredCurrentFields));
         }
 
-        if (minutely15Steps != null) {
-            builder.queryParam("forecast_minutely_15", minutely15Steps);
-            builder.queryParam("minutely_15", String.join(",", requiredMinutely15Fields));
-        }
+        return builder;
+    }
 
+    private WeatherApiResponse getResponse(UriBuilder builder) {
         String url = builder.build().toString();
 
         logger.debug("Calling OpenMeteo on {}", url);
@@ -299,8 +278,170 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         return WeatherApiResponse.getRootAsWeatherApiResponse(buffer.position(4));
     }
 
+    private @Nullable URI getUri() {
+        try {
+            return new URI(baseURI);
+        } catch (URISyntaxException e) {
+            logger.error("Invalid URI", e);
+            return null;
+        }
+    }
+
+    public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
+            @Nullable Integer minutely15Steps) {
+
+        if (hourlyHours == null && dailyDays == null && !current && minutely15Steps == null) {
+            logger.warn("No point in getting a forecast if no elements are required");
+            return new WeatherApiResponse();
+        }
+
+        ArrayList<String> requiredHourlyFields = new ArrayList<>();
+        ArrayList<String> requiredDailyFields = new ArrayList<>();
+        ArrayList<String> requiredCurrentFields = new ArrayList<>();
+        ArrayList<String> requiredMinutely15Fields = new ArrayList<>();
+        for (ForecastValue forecastValue : forecastValues) {
+            addHourlyFields(forecastValue, requiredHourlyFields);
+            addDailyFields(forecastValue, requiredDailyFields);
+            addCurrentFields(forecastValue, requiredCurrentFields);
+            addMinutely15Fields(forecastValue, requiredMinutely15Fields);
+        }
+
+        @Nullable
+        URI uri = getUri();
+        if (uri == null)
+            return new WeatherApiResponse();
+
+        UriBuilder builder = prepareUriBuilder(uri, "forecast", location, hourlyHours, requiredHourlyFields, current,
+                requiredCurrentFields);
+
+        if (dailyDays != null) {
+            builder.queryParam("forecast_days", dailyDays);
+            builder.queryParam("daily", String.join(",", requiredDailyFields));
+        }
+
+        if (minutely15Steps != null) {
+            builder.queryParam("forecast_minutely_15", minutely15Steps);
+            builder.queryParam("minutely_15", String.join(",", requiredMinutely15Fields));
+        }
+
+        return getResponse(builder);
+    }
+
+    private String getAirQualityValueFieldName(AirQualityValue airQualityValue) {
+        switch (airQualityValue) {
+            case PARTICULATE_10:
+                return "pm10";
+            case PARTICULATE_2_5:
+                return "pm2_5";
+            case CARBON_MONOXIDE:
+                return "carbon_monoxide";
+            case NITROGEN_DIOXIDE:
+                return "nitrogen_dioxide";
+            case SULPHUR_DIOXIDE:
+                return "sulphur_dioxide";
+            case OZONE:
+                return "ozone";
+            case AEROSOL_OPTICAL_DEPTH:
+                return "aerosol_optical_depth";
+            case DUST:
+                return "dust";
+            case AMMONIA:
+                return "ammonia";
+            case ALDER_POLLEN:
+                return "alder_pollen";
+            case BIRCH_POLLEN:
+                return "birch_pollen";
+            case MUGWORT_POLLEN:
+                return "mugword_pollen";
+            case GRASS_POLLEN:
+                return "grass_pollen";
+            case OLIVE_POLLEN:
+                return "olive_pollen";
+            case RAGWEED_POLLEN:
+                return "ragweed_pollen";
+            case EUROPEAN_AQI:
+                return "european_aqi_";
+            case EUROPEAN_AQI_PM_2_5:
+                return "european_aqi_pm2_5";
+            case EUROPEAN_AQI_PM_10:
+                return "european_aqi_pm10";
+            case EUROPEAN_AQI_NITROGEN_DIOXIDE:
+                return "european_aqi_nitrogen_dioxide";
+            case EUROPEAN_AQI_OZONE:
+                return "european_aqi_ozone";
+            case EUROPEAN_AQI_SULPHUR_DIOXIDE:
+                return "european_aqi_sulphur_dioxide";
+            case US_AQI:
+                return "us_aqi";
+            case US_AQI_PM_2_5:
+                return "us_aqi_pm2_5";
+            case US_AQI_PM_10:
+                return "us_aqi_pm10";
+            case US_AQI_NITROGEN_DIOXIDE:
+                return "us_aqi_nitrogen_dioxide";
+            case US_AQI_OZONE:
+                return "us_aqi_ozone";
+            case US_AQI_SULPHUR_DIOXIDE:
+                return "us_aqi_sulphur_dioxide";
+            case US_AQI_CARBON_MONOXIDE:
+                return "us_aqi_carbon_monoxide";
+            case UV_INDEX:
+                return "uv_index_max";
+            case UV_INDEX_CLEAR_SKY:
+                return "uv_index_clear_sky_max";
+        }
+        return "";
+    }
+
+    private void addHourlyFields(AirQualityValue airQualityValue, ArrayList<String> fields) {
+        fields.add(getAirQualityValueFieldName(airQualityValue));
+    }
+
+    private void addCurrentFields(AirQualityValue airQualityValue, ArrayList<String> fields) {
+        switch (airQualityValue) {
+            // those fields are not available in the current conditions
+            case EUROPEAN_AQI_PM_2_5:
+            case EUROPEAN_AQI_PM_10:
+            case EUROPEAN_AQI_NITROGEN_DIOXIDE:
+            case EUROPEAN_AQI_OZONE:
+            case EUROPEAN_AQI_SULPHUR_DIOXIDE:
+            case US_AQI_PM_2_5:
+            case US_AQI_PM_10:
+            case US_AQI_NITROGEN_DIOXIDE:
+            case US_AQI_OZONE:
+            case US_AQI_SULPHUR_DIOXIDE:
+            case US_AQI_CARBON_MONOXIDE:
+                return;
+            default:
+                fields.add(getAirQualityValueFieldName(airQualityValue));
+        }
+    }
+
     public WeatherApiResponse getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
             @Nullable Integer hourlyHours, boolean current) {
-        return new WeatherApiResponse();
+        if (hourlyHours == null && !current) {
+            logger.warn("No point in getting an air quality report if no elements are required");
+            return new WeatherApiResponse();
+        }
+
+        ArrayList<String> requiredHourlyFields = new ArrayList<>();
+        ArrayList<String> requiredCurrentFields = new ArrayList<>();
+        for (AirQualityValue airQualityValue : airQualityValues) {
+            addHourlyFields(airQualityValue, requiredHourlyFields);
+            addCurrentFields(airQualityValue, requiredCurrentFields);
+        }
+
+        @Nullable
+        URI uri = getUri();
+        if (uri == null)
+            return new WeatherApiResponse();
+
+        UriBuilder builder = prepareUriBuilder(uri, "air-quality", location, hourlyHours, requiredHourlyFields, current,
+                requiredCurrentFields);
+
+        builder.host("air-quality-" + uri.getHost());
+
+        return getResponse(builder);
     }
 }
