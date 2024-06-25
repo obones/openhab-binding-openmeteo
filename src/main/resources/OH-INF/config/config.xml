@@ -354,77 +354,77 @@
 		<parameter name="includeCarbonMonoxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeCarbonMonoxide.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeNitrogenDioxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeNitrogenDioxide.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeSulphurDioxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeSulphurDioxide.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeOzone" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeOzone.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeAmmonia" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeAmmonia.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeAerosolOpticalDepth" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeAerosolOpticalDepth.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeDust" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeDust.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUVIndex" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUVIndex.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUVIndexClearSky" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUVIndexClearSky.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeAlderPollen" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeAlderPollen.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeBirchPollen" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeBirchPollen.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeGrassPollen" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeGrassPollen.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeMugwortPollen" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeMugwortPollen.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeOlivePollen" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeOlivePollen.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeRagweedPollen" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeRagweedPollen.label</label>
 			<advanced>false</advanced>
-			<default>true</default>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeEuropeanAqi" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeEuropeanAqi.label</label>
@@ -433,28 +433,28 @@
 		</parameter>
 		<parameter name="includeEuropeanAqiPM10" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeEuropeanAqiPM10.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeEuropeanAqiPM2_5" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeEuropeanAqiPM2_5.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeEuropeanAqiNitrogenDioxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeEuropeanAqiNitrogenDioxide.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeEuropeanAqiOzone" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeEuropeanAqiOzone.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeEuropeanAqiSulphurDioxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeEuropeanAqiSulphurDioxide.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUSAqi" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUSAqi.label</label>
@@ -463,33 +463,33 @@
 		</parameter>
 		<parameter name="includeUSAqiPM10" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUSAqiPM10.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUSAqiPM2_5" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUSAqiPM2_5.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUSAqiNitrogenDioxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUSAqiNitrogenDioxide.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUSAqiOzone" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUSAqiOzone.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUSAqiSulphurDioxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUSAqiSulphurDioxide.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 		<parameter name="includeUSAqiCarbonMonoxide" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.air-quality.includeUSAqiCarbonMonoxide.label</label>
-			<advanced>false</advanced>
-			<default>true</default>
+			<advanced>true</advanced>
+			<default>false</default>
 		</parameter>
 	</config-description>
 
