@@ -28,7 +28,7 @@
 	</channel-type>
 
 	<channel-type id="cloudiness">
-		<item-type>Number:Dimensionless</item-type>
+		<item-type unitHint="%">Number:Dimensionless</item-type>
 		<label>@text/channel-type.openmeteo.forecast.cloudiness.label</label>
 		<description>@text/channel-type.openmeteo.forecast.cloudiness.description</description>
 		<category>Sun_Clouds</category>
@@ -48,7 +48,7 @@
 	</channel-type>
 
 	<channel-type id="shortwave-radiation" advanced="true">
-		<item-type>Number:Intensity</item-type>
+		<item-type unitHint="W/m²">Number:Intensity</item-type>
 		<label>@text/channel-type.openmeteo.forecast.shortwave-radiation.label</label>
 		<description>@text/channel-type.openmeteo.forecast.shortwave-radiation.description</description>
 		<category>Sun</category>
@@ -60,7 +60,7 @@
 	</channel-type>
 
 	<channel-type id="direct-radiation" advanced="true">
-		<item-type>Number:Intensity</item-type>
+		<item-type unitHint="W/m²">Number:Intensity</item-type>
 		<label>@text/channel-type.openmeteo.forecast.direct-radiation.label</label>
 		<description>@text/channel-type.openmeteo.forecast.direct-radiation.description</description>
 		<category>Sun</category>
@@ -72,7 +72,7 @@
 	</channel-type>
 
 	<channel-type id="direct-normal-irradiance" advanced="true">
-		<item-type>Number:Intensity</item-type>
+		<item-type unitHint="W/m²">Number:Intensity</item-type>
 		<label>@text/channel-type.openmeteo.forecast.direct-normal-irradiance.label</label>
 		<description>@text/channel-type.openmeteo.forecast.direct-normal-irradiance.description</description>
 		<category>Sun</category>
@@ -84,7 +84,7 @@
 	</channel-type>
 
 	<channel-type id="diffuse-radiation" advanced="true">
-		<item-type>Number:Intensity</item-type>
+		<item-type unitHint="W/m²">Number:Intensity</item-type>
 		<label>@text/channel-type.openmeteo.forecast.diffuse-radiation.label</label>
 		<description>@text/channel-type.openmeteo.forecast.diffuse-radiation.description</description>
 		<category>Sun</category>
@@ -107,7 +107,7 @@
 	</channel-type>
 
 	<channel-type id="cape" advanced="true">
-		<item-type>Number</item-type>
+		<item-type unitHint="J/kg">Number:Energy</item-type>
 		<label>@text/channel-type.openmeteo.forecast.cape.label</label>
 		<description>@text/channel-type.openmeteo.forecast.cape.description</description>
 		<category>Energy</category>
@@ -155,7 +155,7 @@
 	</channel-type>
 
 	<channel-type id="precipitation-hours" advanced="true">
-		<item-type>Number</item-type>
+		<item-type unitHint="h">Number:Time</item-type>
 		<label>@text/channel-type.openmeteo.forecast.precipitation-hours.label</label>
 		<description>@text/channel-type.openmeteo.forecast.precipitation-hours.description</description>
 		<category>Rain</category>
@@ -179,7 +179,7 @@
 	</channel-type>
 
 	<channel-type id="precipitation-probability">
-		<item-type>Number:Dimensionless</item-type>
+		<item-type unitHint="%">Number:Dimensionless</item-type>
 		<label>@text/channel-type.openmeteo.forecast.precipitation-probability.label</label>
 		<description>@text/channel-type.openmeteo.forecast.precipitation-probability.description</description>
 		<category>Rain</category>
@@ -271,14 +271,14 @@
 	</channel-type>
 
 	<channel-type id="sunshine-duration" advanced="true">
-		<item-type>Number:Time</item-type>
+		<item-type unitHint="s">Number:Time</item-type>
 		<label>@text/channel-type.openmeteo.forecast.sunshine-duration.label</label>
 		<description>@text/channel-type.openmeteo.forecast.sunshine-duration.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
 	<channel-type id="daylight-duration" advanced="true">
-		<item-type>Number:Time</item-type>
+		<item-type unitHint="s">Number:Time</item-type>
 		<label>@text/channel-type.openmeteo.forecast.daylight-duration.label</label>
 		<description>@text/channel-type.openmeteo.forecast.daylight-duration.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
