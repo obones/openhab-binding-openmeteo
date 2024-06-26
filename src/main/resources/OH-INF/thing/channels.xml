@@ -301,14 +301,14 @@
 	<!-- Channel Type - of Air Quality Forecast -->
 
 	<channel-type id="particulate-concentration" advanced="false">
-		<item-type>Number</item-type>
+		<item-type unitHint="μg/m³">Number:Density</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.particulate-concentration.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.particulate-concentration.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
 	<channel-type id="gaz-concentration" advanced="false">
-		<item-type>Number</item-type>
+		<item-type unitHint="μg/m³">Number:Density</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.gaz-concentration.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.gaz-concentration.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
@@ -322,14 +322,14 @@
 	</channel-type>
 
 	<channel-type id="dust" advanced="false">
-		<item-type>Number</item-type>
+		<item-type unitHint="μg/m³">Number:Density</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.dust.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.dust.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
 	<channel-type id="pollen" advanced="false">
-		<item-type>Number</item-type>
+		<item-type unitHint="grains/m³">Number:Density</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.pollen.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.pollen.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
