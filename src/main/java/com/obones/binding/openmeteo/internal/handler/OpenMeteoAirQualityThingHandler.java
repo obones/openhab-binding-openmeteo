@@ -159,8 +159,9 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 "channel.openmeteo.air-quality.european-aqi-pm2_5.label", null, //
                 labelArguments, null);
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_NITROGEN_DIOXIDE,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiNitrogenDioxide, //
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_AIR_QUALITY_EUROPEAN_AQI_NITROGEN_DIOXIDE, CHANNEL_TYPE_UID_EUROPEAN_AQI,
+                config.includeEuropeanAqiNitrogenDioxide, //
                 "channel.openmeteo.air-quality.european-aqi-nitrogen-dioxide.label", null, //
                 labelArguments, null);
 
