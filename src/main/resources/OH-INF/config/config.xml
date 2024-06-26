@@ -315,9 +315,9 @@
 			<default>48</default>
 		</parameter>
 
-		<parameter name="hourly" type="boolean" groupName="hourlyParameters">
-			<label>@text/config.openmeteo.thing.air-quality.hourly.label</label>
-			<description>@text/config.openmeteo.thing.air-quality.hourly.description</description>
+		<parameter name="hourlyTimeSeries" type="boolean" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.air-quality.hourlyTimeSeries.label</label>
+			<description>@text/config.openmeteo.thing.air-quality.hourlyTimeSeries.description</description>
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
