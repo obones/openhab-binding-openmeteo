@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OpenMeteo Binding -->
+<thing:thing-descriptions bindingId="openmeteo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<!-- -->
+	<!-- OpenMeteo air-quality thing -->
+	<!-- -->
+	<thing-type id="air-quality">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="openmeteo"/>
+		</supported-bridge-type-refs>
+		<label>@text/thing-type.openmeteo.air-quality.label</label>
+		<description>@text/thing-type.openmeteo.air-quality.description</description>
+		<category>forecast</category>
+		<channel-groups>
+			<channel-group id="forecastHourly" typeId="hourlyTimeSeries">
+				<label>@text/channel-group-type.openmeteo.air-quality.hourly.label</label>
+				<description>@text/channel-group-type.openmeteo.air-quality.hourly.description</description>
+			</channel-group>
+			<channel-group id="current" typeId="current">
+				<label>@text/channel-group-type.openmeteo.air-quality.current.label</label>
+				<description>@text/channel-group-type.openmeteo.air-quality.current.description</description>
+			</channel-group>
+		</channel-groups>
+		<representation-property>location</representation-property>
+		<config-description-ref uri="thing-type:openmeteo:air-quality"/>
+	</thing-type>
+</thing:thing-descriptions>

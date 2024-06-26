@@ -300,45 +300,17 @@
 
 	<!-- Channel Type - of Air Quality Forecast -->
 
-	<channel-type id="particulate-10" advanced="false">
+	<channel-type id="particulate-concentration" advanced="false">
 		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.particulate-10.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.particulate-10.description</description>
+		<label>@text/channel-type.openmeteo.air-quality.particulate-concentration.label</label>
+		<description>@text/channel-type.openmeteo.air-quality.particulate-concentration.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
-	<channel-type id="particulate-2_5" advanced="false">
+	<channel-type id="gaz-concentration" advanced="false">
 		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.particulate-2_5.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.particulate-2_5.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="carbon-monoxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.carbon-monoxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.carbon-monoxide.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="nitrogen-dioxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.nitrogen-dioxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.nitrogen-dioxide.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="sulphur-dioxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.sulphur-dioxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.sulphur-dioxide.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="ozone" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.ozone.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.ozone.description</description>
+		<label>@text/channel-type.openmeteo.air-quality.gaz-concentration.label</label>
+		<description>@text/channel-type.openmeteo.air-quality.gaz-concentration.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
@@ -356,52 +328,10 @@
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
-	<channel-type id="ammonia" advanced="false">
+	<channel-type id="pollen" advanced="false">
 		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.ammonia.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.ammonia.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="alder-pollen" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.alder-pollen.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.alder-pollen.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="birch-pollen" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.birch-pollen.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.birch-pollen.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="mugwort-pollen" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.mugwort-pollen.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.mugwort-pollen.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="grass-pollen" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.grass-pollen.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.grass-pollen.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="olive-pollen" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.olive-pollen.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.olive-pollen.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="ragweed-pollen" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.ragweed-pollen.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.ragweed-pollen.description</description>
+		<label>@text/channel-type.openmeteo.air-quality.pollen.label</label>
+		<description>@text/channel-type.openmeteo.air-quality.pollen.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
@@ -412,87 +342,10 @@
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
-	<channel-type id="european-aqi-pm2_5" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.european-aqi-pm2_5.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.european-aqi-pm2_5.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="european-aqi-pm10" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.european-aqi-pm10.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.european-aqi-pm10.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="european-aqi-nitrogen-dioxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.european-aqi-nitrogen-dioxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.european-aqi-nitrogen-dioxide.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="european-aqi-ozone" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.european-aqi-ozone.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.european-aqi-ozone.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="european-aqi-sulphur-dioxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.european-aqi-sulphur-dioxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.european-aqi-sulphur-dioxide.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
 	<channel-type id="us-aqi" advanced="false">
 		<item-type>Number</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.us-aqi.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.us-aqi.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="us-aqi-pm2_5" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.us-aqi-pm2_5.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.us-aqi-pm2_5.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="us-aqi-pm10" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.us-aqi-pm10.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.us-aqi-pm10.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="us-aqi-nitrogen-dioxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.us-aqi-nitrogen-dioxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.us-aqi-nitrogen-dioxide.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="us-aqi-ozone" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.us-aqi-ozone.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.us-aqi-ozone.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="us-aqi-sulphur-dioxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.us-aqi-sulphur-dioxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.us-aqi-sulphur-dioxide.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
-	</channel-type>
-
-	<channel-type id="us-aqi-carbon-monoxide" advanced="false">
-		<item-type>Number</item-type>
-		<label>@text/channel-type.openmeteo.air-quality.us-aqi-carbon-monoxide.label</label>
-		<description>@text/channel-type.openmeteo.air-quality.us-aqi-carbon-monoxide.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 

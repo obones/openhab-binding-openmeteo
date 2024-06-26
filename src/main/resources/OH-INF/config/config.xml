@@ -33,8 +33,8 @@
 	<config-description uri="thing-type:openmeteo:forecast">
 		<parameter name="location" type="text" required="true">
 			<context>location</context>
-			<label>@text/config.openmeteo.thing.forecast..label</label>
-			<description>@text/config.openmeteo.thing.forecast..description</description>
+			<label>@text/config.openmeteo.thing..location.label</label>
+			<description>@text/config.openmeteo.thing..location.description</description>
 		</parameter>
 
 		<!-- Hourly parameters -->
@@ -298,8 +298,8 @@
 	<config-description uri="thing-type:openmeteo:air-quality">
 		<parameter name="location" type="text" required="true">
 			<context>location</context>
-			<label>@text/config.openmeteo.thing.air-quality..label</label>
-			<description>@text/config.openmeteo.thing.air-quality..description</description>
+			<label>@text/config.openmeteo.thing..location.label</label>
+			<description>@text/config.openmeteo.thing..location.description</description>
 		</parameter>
 
 		<!-- Hourly parameters -->

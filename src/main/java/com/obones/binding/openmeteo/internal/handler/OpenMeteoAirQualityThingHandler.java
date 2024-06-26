@@ -73,25 +73,41 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_TYPE_UID_UV_INDEX_CLEAR_SKY, config.includeUVIndexClearSky, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_PARTICULATE_10,
-                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM10, labelArguments);
+                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM10, //
+                "channel.openmeteo.air-quality.particulate-10.label", //
+                "channel.openmeteo.air-quality.particulate-10.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_PARTICULATE_2_5,
-                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM2_5, labelArguments);
+                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM2_5, //
+                "channel.openmeteo.air-quality.particulate-2_5.label", //
+                "channel.openmeteo.air-quality.particulate-2_5.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_CARBON_MONOXIDE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeCarbonMonoxide, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeCarbonMonoxide, //
+                "channel.openmeteo.air-quality.carbon-monoxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_NITROGEN_DIOXIDE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeNitrogenDioxide, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeNitrogenDioxide, //
+                "channel.openmeteo.air-quality.nitrogen-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_SULPHUR_DIOXIDE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeSulphurDioxide, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeSulphurDioxide, //
+                "channel.openmeteo.air-quality.sulphur-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_OZONE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeOzone, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeOzone, //
+                "channel.openmeteo.air-quality.ozone.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_AMMONIA,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeAmmonia, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeAmmonia, //
+                "channel.openmeteo.air-quality.ammonia.label", "channel.openmeteo.air-quality.ammonia.description",
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_AEROSOL_OPTICAL_DEPTH, CHANNEL_TYPE_UID_AEROSOL_OPTICAL_DEPTH,
@@ -101,65 +117,99 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_TYPE_UID_DUST, config.includeDust, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_ALDER_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeAlderPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeAlderPollen, //
+                "channel.openmeteo.air-quality.alder-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_BIRCH_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeBirchPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeBirchPollen, //
+                "channel.openmeteo.air-quality.birch-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_GRASS_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeGrassPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeGrassPollen, //
+                "channel.openmeteo.air-quality.grass-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_MUGWORT_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeMugwortPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeMugwortPollen, //
+                "channel.openmeteo.air-quality.mugwort-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_OLIVE_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeOlivePollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeOlivePollen, //
+                "channel.openmeteo.air-quality.olive-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_RAGWEED_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeRagweedPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeRagweedPollen, //
+                "channel.openmeteo.air-quality.ragweed-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI,
                 CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqi, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI_PM_10,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM10, labelArguments);
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM10, //
+                "channel.openmeteo.air-quality.european-aqi-pm10.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI_PM_2_5,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM2_5, labelArguments);
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM2_5, //
+                "channel.openmeteo.air-quality.european-aqi-pm2_5.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_NITROGEN_DIOXIDE,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiNitrogenDioxide, labelArguments);
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiNitrogenDioxide, //
+                "channel.openmeteo.air-quality.european-aqi-nitrogen-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI_OZONE,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiOzone, labelArguments);
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiOzone, //
+                "channel.openmeteo.air-quality.european-aqi-ozone.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_EUROPEAN_AQI_SULPHUR_DIOXIDE, CHANNEL_TYPE_UID_EUROPEAN_AQI,
-                config.includeEuropeanAqiSulphurDioxide, labelArguments);
+                config.includeEuropeanAqiSulphurDioxide, //
+                "channel.openmeteo.air-quality.european-aqi-sulphur-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI,
                 CHANNEL_TYPE_UID_US_AQI, config.includeUSAqi, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI_PM_10,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM10, labelArguments);
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM10, //
+                "channel.openmeteo.air-quality.us-aqi-pm10.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI_PM_2_5,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM2_5, labelArguments);
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM2_5, //
+                "channel.openmeteo.air-quality.us-aqi-pm2_5.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_US_AQI_NITROGEN_DIOXIDE, CHANNEL_TYPE_UID_US_AQI,
-                config.includeUSAqiNitrogenDioxide, labelArguments);
+                config.includeUSAqiNitrogenDioxide, //
+                "channel.openmeteo.air-quality.us-aqi-nitrogen-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI_OZONE,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiOzone, labelArguments);
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiOzone, //
+                "channel.openmeteo.air-quality.us-aqi-ozone.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_US_AQI_SULPHUR_DIOXIDE, CHANNEL_TYPE_UID_US_AQI, //
-                config.includeUSAqiSulphurDioxide, labelArguments);
+                config.includeUSAqiSulphurDioxide, //
+                "channel.openmeteo.air-quality.us-aqi-sulphur-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_US_AQI_CARBON_MONOXIDE, CHANNEL_TYPE_UID_US_AQI, //
-                config.includeUSAqiCarbonMonoxide, labelArguments);
+                config.includeUSAqiCarbonMonoxide, //
+                "channel.openmeteo.air-quality.us-aqi-carbon-monoxide.label", null, //
+                labelArguments, null);
 
         return builder;
     }
@@ -177,25 +227,39 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_TYPE_UID_UV_INDEX_CLEAR_SKY, config.includeUVIndexClearSky, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_PARTICULATE_10,
-                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM10, labelArguments);
+                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM10, //
+                "channel.openmeteo.air-quality.particulate-10.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_PARTICULATE_2_5,
-                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM2_5, labelArguments);
+                CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION, config.includePM2_5, //
+                "channel.openmeteo.air-quality.particulate-2_5.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_CARBON_MONOXIDE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeCarbonMonoxide, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeCarbonMonoxide, //
+                "channel.openmeteo.air-quality.carbon-monoxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_NITROGEN_DIOXIDE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeNitrogenDioxide, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeNitrogenDioxide, //
+                "channel.openmeteo.air-quality.nitrogen-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_SULPHUR_DIOXIDE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeSulphurDioxide, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeSulphurDioxide, //
+                "channel.openmeteo.air-quality.sulphur-dioxide.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_OZONE,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeOzone, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeOzone, //
+                "channel.openmeteo.air-quality.ozone.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_AMMONIA,
-                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeAmmonia, labelArguments);
+                CHANNEL_TYPE_UID_GAZ_CONCENTRATION, config.includeAmmonia, //
+                "channel.openmeteo.air-quality.ammonia.label", "channel.openmeteo.air-quality.ammonia.description",
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_AEROSOL_OPTICAL_DEPTH, CHANNEL_TYPE_UID_AEROSOL_OPTICAL_DEPTH,
@@ -205,22 +269,34 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_TYPE_UID_DUST, config.includeDust, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_ALDER_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeAlderPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeAlderPollen, //
+                "channel.openmeteo.air-quality.alder-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_BIRCH_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeBirchPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeBirchPollen, //
+                "channel.openmeteo.air-quality.birch-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_GRASS_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeGrassPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeGrassPollen, //
+                "channel.openmeteo.air-quality.grass-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_MUGWORT_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeMugwortPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeMugwortPollen, //
+                "channel.openmeteo.air-quality.mugwort-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_OLIVE_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeOlivePollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeOlivePollen, //
+                "channel.openmeteo.air-quality.olive-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_RAGWEED_POLLEN,
-                CHANNEL_TYPE_UID_POLLEN, config.includeRagweedPollen, labelArguments);
+                CHANNEL_TYPE_UID_POLLEN, config.includeRagweedPollen, //
+                "channel.openmeteo.air-quality.ragweed-pollen.label", null, //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI,
                 CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqi, labelArguments);
