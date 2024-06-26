@@ -157,7 +157,7 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
     @Override
     public void childHandlerInitialized(ThingHandler childHandler, Thing childThing) {
         scheduler.schedule(() -> {
-            updateThing((OpenMeteoForecastThingHandler) childHandler, childThing);
+            updateThing((OpenMeteoBaseThingHandler) childHandler, childThing);
         }, INITIAL_DELAY_IN_SECONDS, TimeUnit.SECONDS);
     }
 
@@ -166,13 +166,13 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
         List<Thing> children = getThing().getThings().stream().filter(Thing::isEnabled).collect(Collectors.toList());
         if (!children.isEmpty()) {
             for (Thing thing : children) {
-                updateThing((OpenMeteoForecastThingHandler) thing.getHandler(), thing);
+                updateThing((OpenMeteoBaseThingHandler) thing.getHandler(), thing);
             }
         }
         updateStatus(status);
     }
 
-    private ThingStatus updateThing(@Nullable OpenMeteoForecastThingHandler handler, Thing thing) {
+    private ThingStatus updateThing(@Nullable OpenMeteoBaseThingHandler handler, Thing thing) {
         var connection = this.connection; // store in a local variable to avoid null checking error
         if (handler != null && ThingHandlerHelper.isHandlerInitialized(handler) && connection != null) {
             handler.updateData(connection);
