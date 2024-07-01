@@ -22,8 +22,6 @@ import org.osgi.service.component.annotations.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
-
 /***
  * The{@link OpenMeteoUSAirQualityIndicatorTransformationService} is responsible for providing a transformation from
  * US Air Quality indicator as number to a string representation of various air quality levels
@@ -31,7 +29,7 @@ import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
  * @author Olivier Sannier - Initial contribution
  */
 @NonNullByDefault
-@Component(property = { "openhab.transform=OPENMETEO_US_AQI" })
+@Component(service = OpenMeteoUSAirQualityIndicatorTransformationService.class)
 public class OpenMeteoUSAirQualityIndicatorTransformationService implements TransformationService {
 
     protected @NonNullByDefault({}) final Logger logger = LoggerFactory
@@ -39,7 +37,8 @@ public class OpenMeteoUSAirQualityIndicatorTransformationService implements Tran
 
     @Override
     public @Nullable String transform(String config, String value) throws TransformationException {
-        logger.debug("about to transform '{}' by '{}'", value, OpenMeteoBridgeHandler.class.getName());
+        logger.debug("about to transform '{}' by '{}'", value,
+                OpenMeteoEuropeanAirQualityIndicatorTransformationService.class.getName());
 
         try {
             double numberValue = Double.parseDouble(value);
