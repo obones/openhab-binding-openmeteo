@@ -1,3 +1,15 @@
+/**
+ * Copyright (c) 2023-2024 Olivier Sannier
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
+ * you can obtain one at https://mozilla.org/MPL/2.0/.
+ *
+ * SPDX-License-Identifier: MPL-2.0
+ */
 package com.obones.binding.openmeteo.internal.handler;
 
 import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
@@ -37,6 +49,12 @@ import com.openmeteo.sdk.WeatherApiResponse;
 
 import tech.units.indriya.unit.ProductUnit;
 
+/***
+ * The{@link OpenMeteoAirQualityThingHandler} is responsible for updating air quality related channels, which are
+ * retrieved via {@link OpenMeteoBridgeHandler}.
+ *
+ * @author Olivier Sannier - Initial contribution
+ */
 @NonNullByDefault
 public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
     private static Unit<Density> GRAINS_PER_CUBICMETRE = new ProductUnit<Density>(

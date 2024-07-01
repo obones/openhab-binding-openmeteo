@@ -4,8 +4,8 @@
  * See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -42,6 +42,12 @@ import org.slf4j.LoggerFactory;
 
 import com.obones.binding.openmeteo.internal.utils.Localization;
 
+/***
+ * The{@link OpenMeteoForecastThingTypeProvider} is responsible for providing the weather forecast thing type
+ * via code instead of XML definition as it is much easier to provide hundreds of channels this way
+ *
+ * @author Olivier Sannier - Initial contribution
+ */
 @NonNullByDefault
 @Component(service = ThingTypeProvider.class)
 public class OpenMeteoForecastThingTypeProvider implements ThingTypeProvider {

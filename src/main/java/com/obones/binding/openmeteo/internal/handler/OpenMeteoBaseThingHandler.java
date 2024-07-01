@@ -64,6 +64,11 @@ import com.openmeteo.sdk.VariablesSearch;
 import com.openmeteo.sdk.VariablesWithTime;
 import com.openmeteo.sdk.WeatherApiResponse;
 
+/***
+ * The{@link OpenMeteoBaseThingHandler} is the base class for all Open Meteo thing handlers
+ *
+ * @author Olivier Sannier - Initial contribution
+ */
 @NonNullByDefault
 public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 

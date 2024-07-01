@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2023-2024 Olivier Sannier 
+ * Copyright (c) 2023-2024 Olivier Sannier
  ** See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -39,6 +39,12 @@ import org.slf4j.LoggerFactory;
 
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
 
+/**
+ * The {@link OpenMeteoDiscoveryService} is responsible for discovering the system location as defined in global
+ * options.
+ *
+ * @author Olivier Sannier - Initial contribution.
+ */
 @NonNullByDefault
 public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);

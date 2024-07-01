@@ -51,6 +51,12 @@ import com.openmeteo.sdk.WeatherApiResponse;
 
 import tech.units.indriya.unit.ProductUnit;
 
+/***
+ * The{@link OpenMeteoForecastThingHandler} is responsible for updating weather forecast related channels, which are
+ * retrieved via {@link OpenMeteoBridgeHandler}.
+ *
+ * @author Olivier Sannier - Initial contribution
+ */
 @NonNullByDefault
 public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
     private static Unit<?> JOULES_PER_KILOGRAM = new ProductUnit<>(
