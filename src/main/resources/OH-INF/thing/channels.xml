@@ -335,18 +335,50 @@
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
-	<channel-type id="european-aqi" advanced="false">
+	<channel-type id="european-aqi" advanced="true">
 		<item-type>Number</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.european-aqi.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.european-aqi.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
 	</channel-type>
 
-	<channel-type id="us-aqi" advanced="false">
+	<channel-type id="us-aqi" advanced="true">
 		<item-type>Number</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.us-aqi.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.us-aqi.description</description>
 		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="european-aqi-as-string" advanced="false">
+		<item-type>String</item-type>
+		<label>@text/channel-type.openmeteo.air-quality.european-aqi.label</label>
+		<description>@text/channel-type.openmeteo.air-quality.european-aqi-as-string.description</description>
+		<state readOnly="true">
+			<options>
+				<option value="GOOD">@text/channel-type.openmeteo.air-quality.european-aqi-as-string.good</option>
+				<option value="FAIR">@text/channel-type.openmeteo.air-quality.european-aqi-as-string.fair</option>
+				<option value="MODERATE">@text/channel-type.openmeteo.air-quality.european-aqi-as-string.moderate</option>
+				<option value="POOR">@text/channel-type.openmeteo.air-quality.european-aqi-as-string.poor</option>
+				<option value="VERY_POOR">@text/channel-type.openmeteo.air-quality.european-aqi-as-string.very-poor</option>
+				<option value="EXTREMELY_POOR">@text/channel-type.openmeteo.air-quality.european-aqi-as-string.extremely-poor</option>
+			</options>
+		</state>
+	</channel-type>
+
+	<channel-type id="us-aqi-as-string" advanced="false">
+		<item-type>String</item-type>
+		<label>@text/channel-type.openmeteo.air-quality.us-aqi.label</label>
+		<description>@text/channel-type.openmeteo.air-quality.us-aqi-as-string.description</description>
+		<state readOnly="true">
+			<options>
+				<option value="GOOD">@text/channel-type.openmeteo.air-quality.us-aqi-as-string.good</option>
+				<option value="MODERATE">@text/channel-type.openmeteo.air-quality.us-aqi-as-string.moderate</option>
+				<option value="UNHEALTHY_FOR_SENSITIVE_GROUPS">@text/channel-type.openmeteo.air-quality.us-aqi-as-string.unhealthy-for-sensitive-groups</option>
+				<option value="UNHEALTHY">@text/channel-type.openmeteo.air-quality.us-aqi-as-string.unhealthy</option>
+				<option value="VERY_UNHEALTHY">@text/channel-type.openmeteo.air-quality.us-aqi-as-string.very-unhealthy</option>
+				<option value="HAZARDOUS">@text/channel-type.openmeteo.air-quality.us-aqi-as-string.hazardous</option>
+			</options>
+		</state>
 	</channel-type>
 
 	<!-- Channel Group Type - of Forecast -->

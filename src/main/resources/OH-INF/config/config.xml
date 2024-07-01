@@ -301,6 +301,11 @@
 			<label>@text/config.openmeteo.thing..location.label</label>
 			<description>@text/config.openmeteo.thing..location.description</description>
 		</parameter>
+		<parameter name="airQualityIndicatorsAsString" type="boolean">
+			<label>@text/config.openmeteo.thing.air-quality.airQualityIndicatorsAsString.label</label>
+			<advanced>true</advanced>
+			<default>true</default>
+		</parameter>
 
 		<!-- Hourly parameters -->
 		<parameter-group name="hourlyParameters">

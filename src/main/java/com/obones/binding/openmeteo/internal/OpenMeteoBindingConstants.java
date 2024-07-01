@@ -4,8 +4,8 @@
  * See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -266,6 +266,12 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_NITROGEN_DIOXIDE = "european-aqi-nitrogen-dioxide";
     public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_OZONE = "european-aqi-ozone";
     public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_SULPHUR_DIOXIDE = "european-aqi-sulphur-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING = "european-aqi-as-string";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_PM_2_5 = "european-aqi-as-string-pm2_5";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_PM_10 = "european-aqi-as-string-pm10";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_NITROGEN_DIOXIDE = "european-aqi-as-string-nitrogen-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_OZONE = "european-aqi-as-string-ozone";
+    public static final String CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_SULPHUR_DIOXIDE = "european-aqi-as-string-sulphur-dioxide";
     public static final String CHANNEL_AIR_QUALITY_US_AQI = "us-aqi";
     public static final String CHANNEL_AIR_QUALITY_US_AQI_PM_2_5 = "us-aqi-pm2_5";
     public static final String CHANNEL_AIR_QUALITY_US_AQI_PM_10 = "us-aqi-pm10";
@@ -273,6 +279,13 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_AIR_QUALITY_US_AQI_OZONE = "us-aqi-ozone";
     public static final String CHANNEL_AIR_QUALITY_US_AQI_SULPHUR_DIOXIDE = "us-aqi-sulphur-dioxide";
     public static final String CHANNEL_AIR_QUALITY_US_AQI_CARBON_MONOXIDE = "us-aqi-carbon-monoxide";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING = "us-aqi-as-string";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_PM_2_5 = "us-aqi-as-string-pm2_5";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_PM_10 = "us-aqi-as-string-pm10";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_NITROGEN_DIOXIDE = "us-aqi-as-string-nitrogen-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_OZONE = "us-aqi-as-string-ozone";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_SULPHUR_DIOXIDE = "us-aqi-as-string-sulphur-dioxide";
+    public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_CARBON_MONOXIDE = "us-aqi-as-string-carbon-monoxide";
 
     // Air quality channel type ids
     public static final String CHANNEL_TYPE_PARTICULATE_CONCENTRATION = "particulate-concentration";
@@ -281,7 +294,9 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_TYPE_DUST = "dust";
     public static final String CHANNEL_TYPE_POLLEN = "pollen";
     public static final String CHANNEL_TYPE_EUROPEAN_AQI = "european-aqi";
+    public static final String CHANNEL_TYPE_EUROPEAN_AQI_AS_STRING = "european-aqi-as-string";
     public static final String CHANNEL_TYPE_US_AQI = "us-aqi";
+    public static final String CHANNEL_TYPE_US_AQI_AS_STRING = "us-aqi-as-string";
 
     // Air quality channel type UIDs
     public static final ChannelTypeUID CHANNEL_TYPE_UID_PARTICULATE_CONCENTRATION = new ChannelTypeUID(BINDING_ID,
@@ -296,6 +311,10 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_POLLEN);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_EUROPEAN_AQI = new ChannelTypeUID(BINDING_ID, //
             CHANNEL_TYPE_EUROPEAN_AQI);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_EUROPEAN_AQI_AS_STRING = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_EUROPEAN_AQI_AS_STRING);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_US_AQI = new ChannelTypeUID(BINDING_ID, //
             CHANNEL_TYPE_US_AQI);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_US_AQI_AS_STRING = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_US_AQI_AS_STRING);
 }
