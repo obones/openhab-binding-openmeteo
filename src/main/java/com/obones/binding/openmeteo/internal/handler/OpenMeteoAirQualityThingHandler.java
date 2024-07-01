@@ -41,8 +41,8 @@ import org.openhab.core.types.UnDefType;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoAirQualityThingConfiguration;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.AirQualityValue;
-import com.obones.binding.openmeteo.internal.transformation.EuropeanAirQualityIndicatorTransformationService;
-import com.obones.binding.openmeteo.internal.transformation.USAirQualityIndicatorTransformationService;
+import com.obones.binding.openmeteo.internal.transformation.OpenMeteoEuropeanAirQualityIndicatorTransformationService;
+import com.obones.binding.openmeteo.internal.transformation.OpenMeteoUSAirQualityIndicatorTransformationService;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 import com.openmeteo.sdk.Variable;
 import com.openmeteo.sdk.WeatherApiResponse;
@@ -548,7 +548,7 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
             return UnDefType.NULL;
 
         try {
-            String value = EuropeanAirQualityIndicatorTransformationService.transform(floatValue);
+            String value = OpenMeteoEuropeanAirQualityIndicatorTransformationService.transform(floatValue);
             return new StringType(value);
 
         } catch (TransformationException e) {
@@ -562,7 +562,7 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
             return UnDefType.NULL;
 
         try {
-            String value = USAirQualityIndicatorTransformationService.transform(floatValue);
+            String value = OpenMeteoUSAirQualityIndicatorTransformationService.transform(floatValue);
             return new StringType(value);
 
         } catch (TransformationException e) {

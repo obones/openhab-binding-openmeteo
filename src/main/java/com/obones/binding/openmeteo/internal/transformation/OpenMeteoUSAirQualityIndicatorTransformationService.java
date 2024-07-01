@@ -25,16 +25,17 @@ import org.slf4j.LoggerFactory;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
 
 /***
- * The{@link EuropeanAirQualityIndicatorTransformationService} is responsible for providing a transformation from
- * European Air Quality indicator as number to a string representation of various air quality levels
+ * The{@link OpenMeteoUSAirQualityIndicatorTransformationService} is responsible for providing a transformation from
+ * US Air Quality indicator as number to a string representation of various air quality levels
  *
  * @author Olivier Sannier - Initial contribution
  */
 @NonNullByDefault
-@Component(property = { "openhab.transform=OPENMETEO_EUROPEAN_AQI" })
-public class EuropeanAirQualityIndicatorTransformationService implements TransformationService {
+@Component(property = { "openhab.transform=OPENMETEO_US_AQI" })
+public class OpenMeteoUSAirQualityIndicatorTransformationService implements TransformationService {
+
     protected @NonNullByDefault({}) final Logger logger = LoggerFactory
-            .getLogger(EuropeanAirQualityIndicatorTransformationService.class);
+            .getLogger(OpenMeteoEuropeanAirQualityIndicatorTransformationService.class);
 
     @Override
     public @Nullable String transform(String config, String value) throws TransformationException {
@@ -53,17 +54,17 @@ public class EuropeanAirQualityIndicatorTransformationService implements Transfo
     public static String transform(double value) throws TransformationException {
         if (value < 0)
             throw new TransformationException("A negative value is not supported");
-        if (value < 20)
+        if (value < 50)
             return CHANNEL_AIR_QUALITY_AQI_LEVEL_GOOD;
-        if (value < 40)
-            return CHANNEL_AIR_QUALITY_AQI_LEVEL_FAIR;
-        if (value < 60)
-            return CHANNEL_AIR_QUALITY_AQI_LEVEL_MODERATE;
-        if (value < 80)
-            return CHANNEL_AIR_QUALITY_AQI_LEVEL_POOR;
         if (value < 100)
-            return CHANNEL_AIR_QUALITY_AQI_LEVEL_VERY_POOR;
+            return CHANNEL_AIR_QUALITY_AQI_LEVEL_MODERATE;
+        if (value < 150)
+            return CHANNEL_AIR_QUALITY_AQI_LEVEL_UNHEALTHY_FOR_SENSITIVE_GROUPS;
+        if (value < 200)
+            return CHANNEL_AIR_QUALITY_AQI_LEVEL_UNHEALTHY;
+        if (value < 300)
+            return CHANNEL_AIR_QUALITY_AQI_LEVEL_VERY_UNHEALTHY;
 
-        return CHANNEL_AIR_QUALITY_AQI_LEVEL_EXTREMELY_POOR;
+        return CHANNEL_AIR_QUALITY_AQI_LEVEL_HAZARDOUS;
     }
 }
