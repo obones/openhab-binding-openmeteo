@@ -15,11 +15,16 @@ package com.obones.binding.openmeteo.internal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.core.thing.ThingTypeUID;
+import org.openhab.core.thing.profiles.ProfileType;
+import org.openhab.core.thing.profiles.ProfileTypeBuilder;
+import org.openhab.core.thing.profiles.ProfileTypeUID;
 import org.openhab.core.thing.type.ChannelGroupTypeUID;
 import org.openhab.core.thing.type.ChannelTypeUID;
+import org.openhab.core.transform.TransformationService;
 
 /**
  * The {@link OpenMeteoBindingConstants} class defines common constants, which are
@@ -329,4 +334,21 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_US_AQI);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_US_AQI_AS_STRING = new ChannelTypeUID(BINDING_ID, //
             CHANNEL_TYPE_US_AQI_AS_STRING);
+
+    // Profile types
+    public static final String EUROPEAN_AQI_PROFILE_TYPE = "EUROPEAN_AQI_PROFILE";
+    public static final String US_AQI_PROFILE_TYPE = "US_AQI_PROFILE";
+
+    // Profile type UIDs
+    public static final ProfileTypeUID EUROPEAN_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(
+            TransformationService.TRANSFORM_PROFILE_SCOPE, EUROPEAN_AQI_PROFILE_TYPE);
+    public static final ProfileTypeUID US_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(
+            TransformationService.TRANSFORM_PROFILE_SCOPE, US_AQI_PROFILE_TYPE);
+
+    public static final Set<ProfileTypeUID> SUPPORTED_PROFILE_TYPE_UIDS = new HashSet<>(
+            Arrays.asList(EUROPEAN_AQI_PROFILE_TYPE_UID, US_AQI_PROFILE_TYPE_UID));
+
+    public static final Set<ProfileType> SUPPORTED_PROFILE_TYPES = SUPPORTED_PROFILE_TYPE_UIDS.stream()
+            .map(uid -> ProfileTypeBuilder.newState(uid, uid.getId()).build()) //
+            .collect(Collectors.toSet());
 }
