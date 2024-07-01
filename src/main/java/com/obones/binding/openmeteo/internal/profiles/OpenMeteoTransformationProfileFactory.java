@@ -79,9 +79,17 @@ public class OpenMeteoTransformationProfileFactory implements ProfileFactory, Pr
 
     private ProfileType getProfileType(ProfileTypeUID uid) {
         @Nullable
-        String label = PROFILE_TYPE_DETAILS.get(uid);
+        ProfileTypeDetail detail = PROFILE_TYPE_DETAILS.get(uid);
 
-        return ProfileTypeBuilder.newState(uid, localization.getText((label == null) ? "" : label)).build();
+        if (detail == null) {
+            logger.error("Profile type details are missing for {}", uid.getAsString());
+            return ProfileTypeBuilder.newState(uid, uid.getId()).build();
+        } else {
+            return ProfileTypeBuilder //
+                    .newState(uid, localization.getText(detail.labelKey))
+                    .withSupportedChannelTypeUIDs(detail.channelTypeUID) //
+                    .build();
+        }
     }
 
     @Override

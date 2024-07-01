@@ -343,10 +343,22 @@ public class OpenMeteoBindingConstants {
     public static final ProfileTypeUID US_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(
             TransformationService.TRANSFORM_PROFILE_SCOPE, US_AQI_PROFILE_TYPE);
 
+    public static class ProfileTypeDetail {
+        public String labelKey;
+        public ChannelTypeUID channelTypeUID;
+
+        ProfileTypeDetail(String labelKey, ChannelTypeUID channelTypeUID) {
+            this.labelKey = labelKey;
+            this.channelTypeUID = channelTypeUID;
+        }
+    }
+
     // Profile types details
-    public static final Map<ProfileTypeUID, String> PROFILE_TYPE_DETAILS = Map.of( //
-            EUROPEAN_AQI_PROFILE_TYPE_UID, "@text/profile.openmeteo.air-quality.european-aqi.label", //
-            US_AQI_PROFILE_TYPE_UID, "@text/profile.openmeteo.air-quality.us-aqi.label");
+    public static final Map<ProfileTypeUID, ProfileTypeDetail> PROFILE_TYPE_DETAILS = Map.of( //
+            EUROPEAN_AQI_PROFILE_TYPE_UID, //
+            new ProfileTypeDetail("profile.openmeteo.air-quality.european-aqi.label", CHANNEL_TYPE_UID_EUROPEAN_AQI), //
+            US_AQI_PROFILE_TYPE_UID, //
+            new ProfileTypeDetail("profile.openmeteo.air-quality.us-aqi.label", CHANNEL_TYPE_UID_US_AQI));
 
     public static final Set<ProfileTypeUID> SUPPORTED_PROFILE_TYPE_UIDS = new HashSet<>(
             Arrays.asList(EUROPEAN_AQI_PROFILE_TYPE_UID, US_AQI_PROFILE_TYPE_UID));
