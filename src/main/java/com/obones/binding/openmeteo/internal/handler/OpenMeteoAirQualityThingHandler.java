@@ -14,6 +14,7 @@ import org.openhab.core.i18n.ConfigurationException;
 import org.openhab.core.i18n.TimeZoneProvider;
 import org.openhab.core.library.dimension.Density;
 import org.openhab.core.library.types.PointType;
+import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.unit.Units;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
@@ -21,12 +22,15 @@ import org.openhab.core.thing.ThingUID;
 import org.openhab.core.thing.binding.ThingHandlerCallback;
 import org.openhab.core.thing.binding.builder.ThingBuilder;
 import org.openhab.core.thing.type.ChannelTypeRegistry;
+import org.openhab.core.transform.TransformationException;
 import org.openhab.core.types.State;
 import org.openhab.core.types.UnDefType;
 
 import com.obones.binding.openmeteo.internal.config.OpenMeteoAirQualityThingConfiguration;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.AirQualityValue;
+import com.obones.binding.openmeteo.internal.transformation.EuropeanAirQualityIndicatorTransformationService;
+import com.obones.binding.openmeteo.internal.transformation.USAirQualityIndicatorTransformationService;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 import com.openmeteo.sdk.Variable;
 import com.openmeteo.sdk.WeatherApiResponse;
@@ -521,6 +525,34 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
         };
     }
 
+    private State getEuropeanStringAirQualityState(@Nullable Float floatValue) {
+        if (floatValue == null)
+            return UnDefType.NULL;
+
+        try {
+            String value = EuropeanAirQualityIndicatorTransformationService.transform(floatValue);
+            return new StringType(value);
+
+        } catch (TransformationException e) {
+            logger.error("Error while getting european AQI as string", e);
+            return UnDefType.UNDEF;
+        }
+    }
+
+    private State getUSStringAirQualityState(@Nullable Float floatValue) {
+        if (floatValue == null)
+            return UnDefType.NULL;
+
+        try {
+            String value = USAirQualityIndicatorTransformationService.transform(floatValue);
+            return new StringType(value);
+
+        } catch (TransformationException e) {
+            logger.error("Error while getting US AQI as string", e);
+            return UnDefType.UNDEF;
+        }
+    }
+
     protected State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue) {
         State state = UnDefType.UNDEF;
 
@@ -594,6 +626,24 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
             case CHANNEL_AIR_QUALITY_EUROPEAN_AQI_SULPHUR_DIOXIDE:
                 state = getDecimalTypeState(floatValue);
                 break;
+            case CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING:
+                state = getEuropeanStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_PM_2_5:
+                state = getEuropeanStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_PM_10:
+                state = getEuropeanStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_NITROGEN_DIOXIDE:
+                state = getEuropeanStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_OZONE:
+                state = getEuropeanStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_EUROPEAN_AQI_AS_STRING_SULPHUR_DIOXIDE:
+                state = getEuropeanStringAirQualityState(floatValue);
+                break;
             case CHANNEL_AIR_QUALITY_US_AQI:
                 state = getDecimalTypeState(floatValue);
                 break;
@@ -614,6 +664,27 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 break;
             case CHANNEL_AIR_QUALITY_US_AQI_CARBON_MONOXIDE:
                 state = getDecimalTypeState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_US_AQI_AS_STRING:
+                state = getUSStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_PM_2_5:
+                state = getUSStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_PM_10:
+                state = getUSStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_NITROGEN_DIOXIDE:
+                state = getUSStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_OZONE:
+                state = getUSStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_SULPHUR_DIOXIDE:
+                state = getUSStringAirQualityState(floatValue);
+                break;
+            case CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_CARBON_MONOXIDE:
+                state = getUSStringAirQualityState(floatValue);
                 break;
             default:
                 // This should not happen

@@ -287,6 +287,18 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_SULPHUR_DIOXIDE = "us-aqi-as-string-sulphur-dioxide";
     public static final String CHANNEL_AIR_QUALITY_US_AQI_AS_STRING_CARBON_MONOXIDE = "us-aqi-as-string-carbon-monoxide";
 
+    // Air quality AQI indicator levels (keep in sync with options in XML definition)
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_GOOD = "GOOD";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_FAIR = "FAIR";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_MODERATE = "MODERATE";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_POOR = "POOR";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_VERY_POOR = "VERY_POOR";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_EXTREMELY_POOR = "EXTREMELY_POOR";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_UNHEALTHY_FOR_SENSITIVE_GROUPS = "UNHEALTHY_FOR_SENSITIVE_GROUPS";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_UNHEALTHY = "UNHEALTHY";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_VERY_UNHEALTHY = "VERY_UNHEALTHY";
+    public static final String CHANNEL_AIR_QUALITY_AQI_LEVEL_HAZARDOUS = "HAZARDOUS";
+
     // Air quality channel type ids
     public static final String CHANNEL_TYPE_PARTICULATE_CONCENTRATION = "particulate-concentration";
     public static final String CHANNEL_TYPE_GAZ_CONCENTRATION = "gaz-concentration";
