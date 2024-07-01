@@ -14,13 +14,11 @@ package com.obones.binding.openmeteo.internal;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.core.thing.ThingTypeUID;
-import org.openhab.core.thing.profiles.ProfileType;
-import org.openhab.core.thing.profiles.ProfileTypeBuilder;
 import org.openhab.core.thing.profiles.ProfileTypeUID;
 import org.openhab.core.thing.type.ChannelGroupTypeUID;
 import org.openhab.core.thing.type.ChannelTypeUID;
@@ -345,10 +343,11 @@ public class OpenMeteoBindingConstants {
     public static final ProfileTypeUID US_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(
             TransformationService.TRANSFORM_PROFILE_SCOPE, US_AQI_PROFILE_TYPE);
 
+    // Profile types details
+    public static final Map<ProfileTypeUID, String> PROFILE_TYPE_DETAILS = Map.of( //
+            EUROPEAN_AQI_PROFILE_TYPE_UID, "@text/profile.openmeteo.air-quality.european-aqi.label", //
+            US_AQI_PROFILE_TYPE_UID, "@text/profile.openmeteo.air-quality.us-aqi.label");
+
     public static final Set<ProfileTypeUID> SUPPORTED_PROFILE_TYPE_UIDS = new HashSet<>(
             Arrays.asList(EUROPEAN_AQI_PROFILE_TYPE_UID, US_AQI_PROFILE_TYPE_UID));
-
-    public static final Set<ProfileType> SUPPORTED_PROFILE_TYPES = SUPPORTED_PROFILE_TYPE_UIDS.stream()
-            .map(uid -> ProfileTypeBuilder.newState(uid, uid.getId()).build()) //
-            .collect(Collectors.toSet());
 }
