@@ -21,8 +21,6 @@ import org.openhab.core.thing.profiles.ProfileContext;
 import org.openhab.core.thing.profiles.ProfileTypeUID;
 import org.openhab.core.thing.profiles.StateProfile;
 import org.openhab.core.transform.TransformationException;
-import org.openhab.core.transform.TransformationHelper;
-import org.openhab.core.transform.TransformationService;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.State;
 import org.openhab.core.types.Type;
@@ -43,7 +41,7 @@ public class OpenMeteoUSAirQualityIndicatorTransformationProfile implements Stat
     private final Logger logger = LoggerFactory
             .getLogger(OpenMeteoEuropeanAirQualityIndicatorTransformationProfile.class);
 
-    private final TransformationService service;
+    private final OpenMeteoUSAirQualityIndicatorTransformationService service;
     private final ProfileCallback callback;
 
     public OpenMeteoUSAirQualityIndicatorTransformationProfile(ProfileCallback callback, ProfileContext context,
@@ -82,9 +80,9 @@ public class OpenMeteoUSAirQualityIndicatorTransformationProfile implements Stat
     private Type transformState(Type state) {
         String result = state.toFullString();
         try {
-            result = TransformationHelper.transform(service, "", "", state.toFullString());
+            result = service.transform("", result);
         } catch (TransformationException e) {
-            logger.warn("Could not transform state '{}' with function '{}' and format '{}'", state, "", "");
+            logger.warn("Could not transform state '{}': {}", state, e.getMessage());
         }
         StringType resultType = new StringType(result);
         logger.debug("Transformed '{}' into '{}'", state, resultType);
