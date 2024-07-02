@@ -23,6 +23,7 @@ import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.i18n.LocaleProvider;
 import org.openhab.core.i18n.TranslationProvider;
+import org.openhab.core.library.CoreItemFactory;
 import org.openhab.core.thing.profiles.Profile;
 import org.openhab.core.thing.profiles.ProfileCallback;
 import org.openhab.core.thing.profiles.ProfileContext;
@@ -36,6 +37,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.ProfileTypeDetail;
 import com.obones.binding.openmeteo.internal.transformation.OpenMeteoEuropeanAirQualityIndicatorTransformationService;
 import com.obones.binding.openmeteo.internal.transformation.OpenMeteoUSAirQualityIndicatorTransformationService;
 import com.obones.binding.openmeteo.internal.utils.Localization;
@@ -87,7 +89,8 @@ public class OpenMeteoTransformationProfileFactory implements ProfileFactory, Pr
         } else {
             return ProfileTypeBuilder //
                     .newState(uid, localization.getText(detail.labelKey))
-                    .withSupportedChannelTypeUIDs(detail.channelTypeUID) //
+                    .withSupportedChannelTypeUIDs(detail.channelTypeUID) // does nothing because of Issue #4293
+                    .withSupportedItemTypesOfChannel(CoreItemFactory.NUMBER) // filter on minimum
                     .build();
         }
     }
