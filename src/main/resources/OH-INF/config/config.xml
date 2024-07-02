@@ -321,18 +321,18 @@
 			<description>@text/config.openmeteo.thing.air-quality.hourlyParameters.description</description>
 		</parameter-group>
 
-		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" max="168" step="1">
-			<label>@text/config.openmeteo.thing.air-quality.hourlyHours.label</label>
-			<description>@text/config.openmeteo.thing.air-quality.hourlyHours.description</description>
-			<advanced>false</advanced>
-			<default>48</default>
-		</parameter>
-
 		<parameter name="hourlyTimeSeries" type="boolean" groupName="hourlyParameters">
 			<label>@text/config.openmeteo.thing.air-quality.hourlyTimeSeries.label</label>
 			<description>@text/config.openmeteo.thing.air-quality.hourlyTimeSeries.description</description>
 			<advanced>false</advanced>
 			<default>true</default>
+		</parameter>
+
+		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" max="168" step="1">
+			<label>@text/config.openmeteo.thing.air-quality.hourlyHours.label</label>
+			<description>@text/config.openmeteo.thing.air-quality.hourlyHours.description</description>
+			<advanced>false</advanced>
+			<default>48</default>
 		</parameter>
 
 		<!-- Current parameters -->
