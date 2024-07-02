@@ -17,14 +17,11 @@ import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 import java.util.EnumSet;
 import java.util.Optional;
 
-import javax.measure.Unit;
-
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.i18n.CommunicationException;
 import org.openhab.core.i18n.ConfigurationException;
 import org.openhab.core.i18n.TimeZoneProvider;
-import org.openhab.core.library.dimension.Density;
 import org.openhab.core.library.types.PointType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.unit.Units;
@@ -38,6 +35,7 @@ import org.openhab.core.transform.TransformationException;
 import org.openhab.core.types.State;
 import org.openhab.core.types.UnDefType;
 
+import com.obones.binding.openmeteo.internal.OpenMeteoBindingUnits;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoAirQualityThingConfiguration;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.AirQualityValue;
@@ -47,8 +45,6 @@ import com.obones.binding.openmeteo.internal.utils.Localization;
 import com.openmeteo.sdk.Variable;
 import com.openmeteo.sdk.WeatherApiResponse;
 
-import tech.units.indriya.unit.ProductUnit;
-
 /***
  * The{@link OpenMeteoAirQualityThingHandler} is responsible for updating air quality related channels, which are
  * retrieved via {@link OpenMeteoBridgeHandler}.
@@ -57,9 +53,6 @@ import tech.units.indriya.unit.ProductUnit;
  */
 @NonNullByDefault
 public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
-    private static Unit<Density> GRAINS_PER_CUBICMETRE = new ProductUnit<Density>(
-            Units.ONE.divide(tech.units.indriya.unit.Units.CUBIC_METRE));
-
     public OpenMeteoAirQualityThingHandler(Thing thing, Localization localization,
             final TimeZoneProvider timeZoneProvider, ChannelTypeRegistry channelTypeRegistry) {
         super(thing, localization, timeZoneProvider, channelTypeRegistry);
@@ -613,22 +606,22 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, Units.MICROGRAM_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_ALDER_POLLEN:
-                state = getQuantityTypeState(floatValue, GRAINS_PER_CUBICMETRE);
+                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_BIRCH_POLLEN:
-                state = getQuantityTypeState(floatValue, GRAINS_PER_CUBICMETRE);
+                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_MUGWORT_POLLEN:
-                state = getQuantityTypeState(floatValue, GRAINS_PER_CUBICMETRE);
+                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_GRASS_POLLEN:
-                state = getQuantityTypeState(floatValue, GRAINS_PER_CUBICMETRE);
+                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_OLIVE_POLLEN:
-                state = getQuantityTypeState(floatValue, GRAINS_PER_CUBICMETRE);
+                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_RAGWEED_POLLEN:
-                state = getQuantityTypeState(floatValue, GRAINS_PER_CUBICMETRE);
+                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_EUROPEAN_AQI:
                 state = getDecimalTypeState(floatValue);

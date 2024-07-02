@@ -20,8 +20,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.measure.Unit;
-
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.i18n.CommunicationException;
@@ -42,14 +40,13 @@ import org.openhab.core.types.UnDefType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.obones.binding.openmeteo.internal.OpenMeteoBindingUnits;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoForecastThingConfiguration;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 import com.openmeteo.sdk.Variable;
 import com.openmeteo.sdk.WeatherApiResponse;
-
-import tech.units.indriya.unit.ProductUnit;
 
 /***
  * The{@link OpenMeteoForecastThingHandler} is responsible for updating weather forecast related channels, which are
@@ -59,9 +56,6 @@ import tech.units.indriya.unit.ProductUnit;
  */
 @NonNullByDefault
 public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
-    private static Unit<?> JOULES_PER_KILOGRAM = new ProductUnit<>(
-            Units.JOULE.divide(tech.units.indriya.unit.Units.KILOGRAM));
-
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
 
     private static final Pattern CHANNEL_GROUP_HOURLY_FORECAST_PREFIX_PATTERN = Pattern
@@ -738,7 +732,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
                 break;
             case CHANNEL_FORECAST_CAPE:
-                state = getQuantityTypeState(floatValue, JOULES_PER_KILOGRAM);
+                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.JOULES_PER_KILOGRAM);
                 break;
             case CHANNEL_FORECAST_EVAPOTRANSPIRATION:
                 state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
