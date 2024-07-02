@@ -5,6 +5,7 @@ public class OpenMeteoAirQualityThingConfiguration extends OpenMeteoBaseThingCon
      * Default values - should not be modified
      */
     public boolean airQualityIndicatorsAsString = true;
+    public boolean airQualityIndicatorsAsNumber = false;
 
     public int hourlyHours = 48;
     public boolean hourlyTimeSeries = true;

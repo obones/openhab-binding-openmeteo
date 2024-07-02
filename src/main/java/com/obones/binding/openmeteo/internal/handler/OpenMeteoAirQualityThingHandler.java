@@ -169,33 +169,33 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqi && !config.airQualityIndicatorsAsString,
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqi && config.airQualityIndicatorsAsNumber,
                 labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI_PM_10,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM10 && !config.airQualityIndicatorsAsString, //
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM10 && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.european-aqi-pm10.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI_PM_2_5,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM2_5 && !config.airQualityIndicatorsAsString, //
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiPM2_5 && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.european-aqi-pm2_5.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_EUROPEAN_AQI_NITROGEN_DIOXIDE, CHANNEL_TYPE_UID_EUROPEAN_AQI,
-                config.includeEuropeanAqiNitrogenDioxide, //
+                config.includeEuropeanAqiNitrogenDioxide && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.european-aqi-nitrogen-dioxide.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI_OZONE,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiOzone && !config.airQualityIndicatorsAsString, //
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqiOzone && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.european-aqi-ozone.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_EUROPEAN_AQI_SULPHUR_DIOXIDE, CHANNEL_TYPE_UID_EUROPEAN_AQI,
-                config.includeEuropeanAqiSulphurDioxide && !config.airQualityIndicatorsAsString, //
+                config.includeEuropeanAqiSulphurDioxide && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.european-aqi-sulphur-dioxide.label", null, //
                 labelArguments, null);
 
@@ -235,38 +235,38 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqi && !config.airQualityIndicatorsAsString, labelArguments);
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqi && config.airQualityIndicatorsAsNumber, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI_PM_10,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM10 && !config.airQualityIndicatorsAsString, //
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM10 && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.us-aqi-pm10.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI_PM_2_5,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM2_5 && !config.airQualityIndicatorsAsString, //
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiPM2_5 && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.us-aqi-pm2_5.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_US_AQI_NITROGEN_DIOXIDE, CHANNEL_TYPE_UID_US_AQI,
-                config.includeUSAqiNitrogenDioxide && !config.airQualityIndicatorsAsString, //
+                config.includeUSAqiNitrogenDioxide && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.us-aqi-nitrogen-dioxide.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI_OZONE,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiOzone && !config.airQualityIndicatorsAsString, //
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqiOzone && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.us-aqi-ozone.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_US_AQI_SULPHUR_DIOXIDE, CHANNEL_TYPE_UID_US_AQI, //
-                config.includeUSAqiSulphurDioxide && !config.airQualityIndicatorsAsString, //
+                config.includeUSAqiSulphurDioxide && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.us-aqi-sulphur-dioxide.label", null, //
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_AIR_QUALITY_US_AQI_CARBON_MONOXIDE, CHANNEL_TYPE_UID_US_AQI, //
-                config.includeUSAqiCarbonMonoxide && !config.airQualityIndicatorsAsString, //
+                config.includeUSAqiCarbonMonoxide && config.airQualityIndicatorsAsNumber, //
                 "channel.openmeteo.air-quality.us-aqi-carbon-monoxide.label", null, //
                 labelArguments, null);
 
@@ -398,7 +398,7 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_EUROPEAN_AQI,
-                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqi && !config.airQualityIndicatorsAsString,
+                CHANNEL_TYPE_UID_EUROPEAN_AQI, config.includeEuropeanAqi && config.airQualityIndicatorsAsNumber,
                 labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
@@ -407,7 +407,7 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI,
-                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqi && !config.airQualityIndicatorsAsString, labelArguments);
+                CHANNEL_TYPE_UID_US_AQI, config.includeUSAqi && config.airQualityIndicatorsAsNumber, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_AIR_QUALITY_US_AQI_AS_STRING,
                 CHANNEL_TYPE_UID_US_AQI_AS_STRING, config.includeUSAqi && config.airQualityIndicatorsAsString,
