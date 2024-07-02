@@ -508,7 +508,11 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
     }
 
     protected int getVariableIndex(String channelId) {
-        return switch (channelId.toString()) {
+        // The "AQI as string" channels get their value from the number AQI which gets later
+        // transformed to an option string
+        channelId = channelId.replace("aqi-as-string", "aqi");
+
+        return switch (channelId) {
             case CHANNEL_AIR_QUALITY_UV_INDEX -> Variable.uv_index;
             case CHANNEL_AIR_QUALITY_UV_INDEX_CLEAR_SKY -> Variable.uv_index_clear_sky;
             case CHANNEL_AIR_QUALITY_PARTICULATE_10 -> Variable.pm10;
