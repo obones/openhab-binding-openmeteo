@@ -35,7 +35,6 @@ import org.openhab.core.transform.TransformationException;
 import org.openhab.core.types.State;
 import org.openhab.core.types.UnDefType;
 
-import com.obones.binding.openmeteo.internal.OpenMeteoBindingUnits;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoAirQualityThingConfiguration;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.AirQualityValue;
@@ -568,6 +567,10 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
         }
     }
 
+    private State getPollenState(@Nullable Float floatValue) {
+        return getDecimalTypeState(floatValue); // , OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
+    }
+
     protected State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue) {
         State state = UnDefType.UNDEF;
 
@@ -606,22 +609,22 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, Units.MICROGRAM_PER_CUBICMETRE);
                 break;
             case CHANNEL_AIR_QUALITY_ALDER_POLLEN:
-                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
+                state = getPollenState(floatValue);
                 break;
             case CHANNEL_AIR_QUALITY_BIRCH_POLLEN:
-                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
+                state = getPollenState(floatValue);
                 break;
             case CHANNEL_AIR_QUALITY_MUGWORT_POLLEN:
-                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
+                state = getPollenState(floatValue);
                 break;
             case CHANNEL_AIR_QUALITY_GRASS_POLLEN:
-                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
+                state = getPollenState(floatValue);
                 break;
             case CHANNEL_AIR_QUALITY_OLIVE_POLLEN:
-                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
+                state = getPollenState(floatValue);
                 break;
             case CHANNEL_AIR_QUALITY_RAGWEED_POLLEN:
-                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.GRAINS_PER_CUBICMETRE);
+                state = getPollenState(floatValue);
                 break;
             case CHANNEL_AIR_QUALITY_EUROPEAN_AQI:
                 state = getDecimalTypeState(floatValue);

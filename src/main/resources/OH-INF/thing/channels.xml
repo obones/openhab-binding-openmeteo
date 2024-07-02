@@ -107,7 +107,7 @@
 	</channel-type>
 
 	<channel-type id="cape" advanced="true">
-		<item-type unitHint="J/kg">Number:Energy</item-type>
+		<item-type>Number</item-type>
 		<label>@text/channel-type.openmeteo.forecast.cape.label</label>
 		<description>@text/channel-type.openmeteo.forecast.cape.description</description>
 		<category>Energy</category>
@@ -115,7 +115,7 @@
 			<tag>Measurement</tag>
 			<tag>Energy</tag>
 		</tags>
-		<state readOnly="true" pattern="%.2f %unit%"/>
+		<state readOnly="true" pattern="%.2f J/kg"/>
 	</channel-type>
 
 	<channel-type id="evapotranspiration" advanced="true">
@@ -329,10 +329,10 @@
 	</channel-type>
 
 	<channel-type id="pollen" advanced="false">
-		<item-type unitHint="grains/m³">Number:Density</item-type>
+		<item-type>Number</item-type>
 		<label>@text/channel-type.openmeteo.air-quality.pollen.label</label>
 		<description>@text/channel-type.openmeteo.air-quality.pollen.description</description>
-		<state readOnly="true" pattern="%.1f %unit%"/>
+		<state readOnly="true" pattern="%.1f grains/m³"/>
 	</channel-type>
 
 	<channel-type id="european-aqi" advanced="true">

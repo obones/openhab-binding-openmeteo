@@ -40,7 +40,6 @@ import org.openhab.core.types.UnDefType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.obones.binding.openmeteo.internal.OpenMeteoBindingUnits;
 import com.obones.binding.openmeteo.internal.config.OpenMeteoForecastThingConfiguration;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
@@ -732,7 +731,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
                 break;
             case CHANNEL_FORECAST_CAPE:
-                state = getQuantityTypeState(floatValue, OpenMeteoBindingUnits.JOULES_PER_KILOGRAM);
+                state = getDecimalTypeState(floatValue); // OpenMeteoBindingUnits.JOULES_PER_KILOGRAM);
                 break;
             case CHANNEL_FORECAST_EVAPOTRANSPIRATION:
                 state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
