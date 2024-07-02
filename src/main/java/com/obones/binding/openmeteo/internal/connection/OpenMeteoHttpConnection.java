@@ -353,7 +353,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             case BIRCH_POLLEN:
                 return "birch_pollen";
             case MUGWORT_POLLEN:
-                return "mugword_pollen";
+                return "mugwort_pollen";
             case GRASS_POLLEN:
                 return "grass_pollen";
             case OLIVE_POLLEN:
@@ -361,7 +361,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             case RAGWEED_POLLEN:
                 return "ragweed_pollen";
             case EUROPEAN_AQI:
-                return "european_aqi_";
+                return "european_aqi";
             case EUROPEAN_AQI_PM_2_5:
                 return "european_aqi_pm2_5";
             case EUROPEAN_AQI_PM_10:
