@@ -387,9 +387,9 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             case US_AQI_CARBON_MONOXIDE:
                 return "us_aqi_carbon_monoxide";
             case UV_INDEX:
-                return "uv_index_max";
+                return "uv_index";
             case UV_INDEX_CLEAR_SKY:
-                return "uv_index_clear_sky_max";
+                return "uv_index_clear_sky";
         }
         return "";
     }
