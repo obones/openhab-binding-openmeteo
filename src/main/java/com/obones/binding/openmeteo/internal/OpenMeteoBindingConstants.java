@@ -153,6 +153,7 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_FORECAST_DAYLIGHT_DURATION = "daylight-duration";
     public static final String CHANNEL_FORECAST_UV_INDEX = "uv-index";
     public static final String CHANNEL_FORECAST_UV_INDEX_CLEAR_SKY = "uv-index-clear-sky";
+    public static final String CHANNEL_FORECAST_TIME_STAMP = "time-stamp";
 
     // Forecast channel type ids
     public static final String CHANNEL_TYPE_DEW_POINT = "dew-point";
@@ -184,6 +185,7 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_TYPE_DAYLIGHT_DURATION = "daylight-duration";
     public static final String CHANNEL_TYPE_UV_INDEX = "uv-index";
     public static final String CHANNEL_TYPE_UV_INDEX_CLEAR_SKY = "uv-index-clear-sky";
+    public static final String CHANNEL_TYPE_TIME_STAMP = "time-stamp";
 
     // Forecast channel type UIDs
     public static final ChannelTypeUID CHANNEL_TYPE_UID_DEW_POINT = new ChannelTypeUID(BINDING_ID,
@@ -244,6 +246,8 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_UV_INDEX);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_UV_INDEX_CLEAR_SKY = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_UV_INDEX_CLEAR_SKY);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_TIME_STAMP = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_TIME_STAMP);
 
     // List of all air quality channel/property ids
     public static final String CHANNEL_AIR_QUALITY_UV_INDEX = "uv-index";

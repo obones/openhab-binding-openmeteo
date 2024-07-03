@@ -125,6 +125,11 @@
 			<description>@text/config.openmeteo.thing.forecast.channelParameters.description</description>
 		</parameter-group>
 
+		<parameter name="includeTimeStamp" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeTimeStamp.label</label>
+			<advanced>true</advanced>
+			<default>true</default>
+		</parameter>
 		<parameter name="includeTemperature" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.includeTemperature.label</label>
 			<advanced>false</advanced>

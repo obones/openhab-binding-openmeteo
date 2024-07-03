@@ -298,6 +298,14 @@
 		<state readOnly="true" pattern="%.1f"/>
 	</channel-type>
 
+	<channel-type id="time-stamp">
+		<item-type>DateTime</item-type>
+		<label>@text/channel-type.openmeteo.forecast.time-stamp.label</label>
+		<description>@text/channel-type.openmeteo.forecast.time-stamp.description</description>
+		<category>Time</category>
+		<state readOnly="true" pattern="%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS"/>
+	</channel-type>
+
 	<!-- Channel Type - of Air Quality Forecast -->
 
 	<channel-type id="particulate-concentration" advanced="false">

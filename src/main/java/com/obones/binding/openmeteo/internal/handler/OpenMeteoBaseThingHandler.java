@@ -11,6 +11,8 @@
  */
 package com.obones.binding.openmeteo.internal.handler;
 
+import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
+
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.Map;
@@ -442,14 +444,24 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         String channelGroupId = channelUID.getGroupId();
 
         if (forecast != null) {
-            VariableWithValues values = getVariableValues(channelId, forecast);
-            if (values != null) {
-                State state = getForecastState(channelId.toString(), values, index);
+            @Nullable
+            State state = null;
+
+            if (CHANNEL_FORECAST_TIME_STAMP.contentEquals(channelId)) {
+                state = getDateTimeTypeState(forecast.time() + ((index == null) ? 0 : index) * forecast.interval());
+            } else {
+                VariableWithValues values = getVariableValues(channelId, forecast);
+                if (values != null) {
+                    state = getForecastState(channelId.toString(), values, index);
+                } else {
+                    logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
+                }
+            }
+
+            if (state != null) {
                 logger.debug("Update channel '{}' of group '{}' with new state '{}'.", channelId, channelGroupId,
                         state);
                 updateState(channelUID, state);
-            } else {
-                logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
             }
         }
     }

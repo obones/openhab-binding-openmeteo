@@ -33,6 +33,7 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public boolean minutely15 = false;
     public int minutely15Steps = 48;
 
+    public boolean includeTimeStamp = true;
     public boolean includeTemperature = true;
     public boolean includeHumidity = true;
     public boolean includeDewPoint = true;

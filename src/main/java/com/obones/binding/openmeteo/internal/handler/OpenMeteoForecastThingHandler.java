@@ -121,6 +121,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
 
         Object[] labelArguments = { labelSuffix };
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TIME_STAMP,
+                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp, labelArguments);
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
                 "channel-type.openmeteo.forecast.temperature.label",
@@ -226,6 +229,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId, String labelSuffix) {
 
         Object[] labelArguments = { labelSuffix };
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TIME_STAMP,
+                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE_MIN,
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
@@ -345,6 +351,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
 
         Object[] labelArguments = { localization.getText("channel-type.openmeteo.forecast.label-suffix.current") };
         String channelGroupId = CHANNEL_GROUP_CURRENT;
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TIME_STAMP,
+                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
