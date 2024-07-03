@@ -14,7 +14,10 @@ package com.obones.binding.openmeteo.internal.handler;
 import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -364,8 +367,12 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         logger.debug("Update weather and forecast data of thing '{}'.", getThing().getUID());
 
         var location = this.location;
-        if (location != null)
+        if (location != null) {
             forecastData = requestData(connection, location);
+
+            var now = OffsetDateTime.now(ZoneOffset.UTC).withNano(0);
+            thing.setProperty(PROPERTY_THING_LAST_UPDATED, DateTimeFormatter.ISO_DATE_TIME.format(now));
+        }
 
         return true;
     }
