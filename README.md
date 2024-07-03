@@ -2,9 +2,29 @@
 
 openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast service 
 
+- [Open Meteo Binding](#open-meteo-binding)
+  - [Supported Things](#supported-things)
+    - [Open Meteo bridge](#open-meteo-bridge)
+    - [Weather forecast](#weather-forecast)
+    - [Air quality forecast](#air-quality-forecast)
+  - [Discovery](#discovery)
+  - [Thing Configuration](#thing-configuration)
+    - [Open Meteo bridge](#open-meteo-bridge-1)
+    - [Weather forecast](#weather-forecast-1)
+    - [Air quality forecast](#air-quality-forecast-1)
+  - [Channels](#channels)
+    - [Hourly weather forecast](#hourly-weather-forecast)
+    - [Daily weather forecast](#daily-weather-forecast)
+    - [15 minutely weather forecast](#15-minutely-weather-forecast)
+    - [Current weather conditions](#current-weather-conditions)
+    - [Hourly air quality forecast](#hourly-air-quality-forecast)
+    - [Current air quality conditions](#current-air-quality-conditions)
+  - [Persisting Time Series](#persisting-time-series)
+    - [Configuration](#configuration)
+
 ## Supported Things
 
-There are two supported things.
+There are three supported things.
 
 ### Open Meteo bridge
 
@@ -19,10 +39,20 @@ It requires coordinates of the location of your interest.
 
 You can add as many `forecast` things for different locations to your setup as you like to observe.
 
+Note: The first item in any forecast always include the current time period. For instance, an hourly weather forecast for 4 hours retrieved at 14:12 provides 4 values at the following times: 14:00, 15:00, 16:00, 17:00
+
+### Air quality forecast
+
+The third thing `air-quality` supports the following air-quality forecasts for a specific location: hourly, daily. It also offers the current air-quality conditions, extrapolated from the hourly forecast.
+
+It requires coordinates of the location of your interest.
+
+You can add as many `air-quality` things for different locations to your setup as you like to observe.
+
 ## Discovery
 
 If a system location is set, a "System OpenMeteo weather forecast" (`forecast`) thing will be automatically discovered for this location.
-If the system location is be changed, the background discovery updates the configuration of the thing accordingly.
+If the system location was to be changed, the background discovery would update the configuration of the thing accordingly.
 
 ## Thing Configuration
 
@@ -48,6 +78,7 @@ If the system location is be changed, the background discovery updates the confi
 | current          | Whether to create a channel group for the current weather conditions. (default = false) |
 | minutely15       | Whether to create a 15 minutely time series channel group or not. Time series are new in 4.1 (default = false) |
 | minutely15Steps  | Number of 15 minutes steps to get the forecast for. Optional, the default value is 48 (min="1" max="288" step="1") |
+| includeTimeStamp           | Create a channel in split groups for the forecast date time |
 | includeTemperature         | Create channels for temperature, instant on hourly, min and max on daily (default: true) |
 | includeHumidity            | Create a channel for humidity (default: true) |
 | includeDewPoint            | Create a channel for dew point (default: true) |
@@ -86,9 +117,50 @@ Additional details on the various possible channel values are available in Open 
 
 Any change to the parameters will recreate channels and channel groups with the same ids, thus not breaking any item link.
 
+### Air quality forecast
+
+| Parameter        | Description                                                                                                                    |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| location         | Location of air quality in geographical coordinates (latitude/longitude/altitude). **Mandatory**                                   |
+| airQualityIndicatorsAsString | Create Air Quality Indicators as string channels, showing an appreciation rather than a number (default: true) |
+| airQualityIndicatorsAsNumber | Create Air Quality Indicators as number channels, see Open Meteo's [documentation](https://open-meteo.com/en/docs) for ranges  (default: false) |
+| hourlyHours      | Number of hours for hourly forecast. Optional, the default value is 48 (min="1", max="168", step="1").                         |
+| hourlyTimeSeries | Whether to create a hourly time series channel group or not. Time series are new in 4.1 (default: true)          |
+| current          | Whether to create a channel group for the current air quality conditions. (default: false) |
+| includePM10                       | Create a channel for Particulate Matter PM10 concentration (default: true) |
+| includePM2_5                      | Create a channel for Particulate Matter PM2.5 concentration (default: true) |
+| includeCarbonMonoxide             | Create a channel for Carbon Monoxide CO concentration (default: false) |
+| includeNitrogenDioxide            | Create a channel for Nitrogen Dioxide NO2 concentration (default: false) |
+| includeSulphurDioxide             | Create a channel for Sulphur Dioxide SO2 concentration (default: false) |
+| includeOzone                      | Create a channel for Ozone O3 concentration (default: false) |
+| includeAmmonia                    | Create a channel for Ammonia NH3 concentration (default: false) |
+| includeAerosolOpticalDepth        | Create a channel for Aerosol Optical Depth (default: false) |
+| includeDust                       | Create a channel for Dust concentration (default: false) |
+| includeUVIndex                    | Create a channel for UV Index (default: false) |
+| includeUVIndexClearSky            | Create a channel for UV index if there was no cloud (default: false) |
+| includeAlderPollen                | Create a channel for Alder pollen concentration (default: false) |
+| includeBirchPollen                | Create a channel for Birch pollen concentration (default: false) |
+| includeGrassPollen                | Create a channel for Grass pollen concentration (default: false) |
+| includeMugwortPollen              | Create a channel for Mugwort pollen concentration (default: false) |
+| includeOlivePollen                | Create a channel for Oliver pollen concentration (default: true) |
+| includeRagweedPollen              | Create a channel for Ragweed pollen concentration (default: false) |
+| includeEuropeanAqi                | Create a channel for European Air Quality Indicator (default: true) |
+| includeEuropeanAqiPM10            | Create a channel for European Air Quality PM10 Indicator (only for hourly forecast, default: false) |
+| includeEuropeanAqiPM2_5           | Create a channel for European Air Quality PM2.5 Indicator (only for hourly forecast, default: false) |
+| includeEuropeanAqiNitrogenDioxide | Create a channel for European Air Quality Nitrogen Dioxide Indicator (only for hourly forecast, default: false) |
+| includeEuropeanAqiOzone           | Create a channel for European Air Quality Ozone Indicator (only for hourly forecast, default: false) |
+| includeEuropeanAqiSulphurDioxide  | Create a channel for European Air Quality Sulphur Dioxide Indicator (only for hourly forecast, default: false) |
+| includeUSAqi                      | Create a channel for US Air Quality Indicator (default: true) |
+| includeUSAqiPM10                  | Create a channel for US Air Quality PM10 Indicator (only for hourly forecast, default: false) |
+| includeUSAqiPM2_5                 | Create a channel for US Air Quality PM2.5 Indicator (only for hourly forecast, default: false) |
+| includeUSAqiNitrogenDioxide       | Create a channel for US Air Quality Nitrogen Dioxide Indicator (only for hourly forecast, default: false) |
+| includeUSAqiOzone                 | Create a channel for US Air Quality Ozone Indicator (only for hourly forecast, default: false) |
+| includeUSAqiSulphurDioxide        | Create a channel for US Air Quality Sulphur Dioxide Indicator (only for hourly forecast, default: false) |
+| includeUSAqiCarbonMonoxide        | Create a channel for US Air Quality Carbon Monoxide Indicator (only for hourly forecast, default: false) |
+
 ## Channels
 
-### Hourly forecast
+### Hourly weather forecast
 
 The channels are placed in groups named `forecastHourly` for [time series support](#persisting-time-series), and  `forecastHours01` to `forecastHours384` for split channels support.
 
@@ -122,7 +194,7 @@ The channels are placed in groups named `forecastHourly` for [time series suppor
 | visibility                     | Number:Length        |  Current visibility. |
 | is-day                         | Switch               |  Active if daylight, inactive at night |
 
-### Daily forecast
+### Daily weather forecast
 
 The channels are placed in groups named `forecastDaily` for [time series support](#persisting-time-series), and  `forecastDayToday`, `forecastDayTomorrow`, `forecastDay02` to `forecastDay16` for split channels support.
 
@@ -154,7 +226,7 @@ The channels are placed in groups named `forecastDaily` for [time series support
 | uv-index                       | Number               |  Daily maximum in UV Index starting from 0 |
 | uv-index-clear-sky             | Number               |  Daily maximum in UV Index starting from 0 assuming cloud free conditions |
 
-### 15 minutely forecast
+### 15 minutely weather forecast
 
 The channels are placed in a group named `forecastMinutely15` as a [time series](#persisting-time-series).
 
@@ -181,7 +253,7 @@ The channels are placed in a group named `forecastMinutely15` as a [time series]
 | visibility                 | Number:Length        |  Current visibility. |
 | weather-code               | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
 
-### Current conditions
+### Current weather conditions
 
 The channels are placed in a group named `current`.
 
@@ -202,6 +274,85 @@ The channels are placed in a group named `current`.
 | wind-direction             | Number:Angle         |  Forecast wind direction |
 | gust-speed                 | Number:Speed         |  Forecast gust speed. |
 
+### Hourly air quality forecast
+
+The channels are placed in groups named `forecastHourly` with [time series support](#persisting-time-series)
+
+| Channel ID                              | Item Type            | Description |
+|-----------------------------------------|----------------------|-----------------------------------|
+| uv-index                                | Number               | UV Index starting from 0 |
+| uv-index-clear-sky                      | Number               | UV Index starting from 0 assuming cloud free conditions |
+| particulate-10                          | Number:Density       | Particulate matter with diameter smaller than 10 µm close to surface (10 meter above ground) |
+| particulate-2_5                         | Number:Density       | Particulate matter with diameter smaller than 2.5 µm close to surface (10 meter above ground) |
+| carbon-monoxide                         | Number:Density       | Carbon Monoxide CO concentration close to surface (10 meter above ground) |
+| nitrogen-dioxide                        | Number:Density       | Nitrogen Dioxide NO2 concentration close to surface (10 meter above ground) |
+| sulphur-dioxide                         | Number:Density       | Sulphur Dioxide SO2 concentration close to surface (10 meter above ground) |
+| ozone                                   | Number:Density       | Ozone O3 concentration close to surface (10 meter above ground) |
+| aerosol-optical-depth                   | Number:Dimensionless | Aerosol optical depth at 550 nm of the entire atmosphere to indicate haze |
+| dust                                    | Number:Density       | Saharan dust particles close to surface level (10 meter above ground). |
+| ammonia                                 | Number:Density       | Ammonia NH3 concentration close to surface (10 meter above ground), Europe only |
+| alder-pollen                            | Number               | Alder Pollen, Europe only |
+| birch-pollen                            | Number               | Birch Pollen, Europe only |
+| mugwort-pollen                          | Number               | Mugwort Pollen, Europe only |
+| grass-pollen                            | Number               | Grass Pollen, Europe only |
+| olive-pollen                            | Number               | Olive Pollen, Europe only |
+| ragweed-pollen                          | Number               | Ragweed Pollen, Europe only |
+| european-aqi                            | Number               | European AQI. Ranges from 0-20 (good), 20-40 (fair), 40-60 (moderate), 60-80 (poor), 80-100 (very poor) and exceeds 100 for extremely poor conditions. |
+| european-aqi-pm2_5                      | Number               | European AQI PM2.5 concentration |
+| european-aqi-pm10                       | Number               | European AQI PM10 concentration |
+| european-aqi-nitrogen-dioxide           | Number               | European AQI Nitrogen Dioxide concentration |
+| european-aqi-ozone                      | Number               | European AQI Ozone concentration |
+| european-aqi-sulphur-dioxide            | Number               | European AQI Sulphur Dioxide concentration |
+| european-aqi-as-string                  | String               | European AQI as a human readable string. Possible values are good, fair, moderate, poor, very poor and  extremely poor conditions. |
+| european-aqi-as-string-pm2_5            | String               | European AQI PM2.5 concentration as a human readable string. Same values as European AQI |
+| european-aqi-as-string-pm10             | String               | European AQI PM10 concentration as a human readable string. Same values as European AQI |
+| european-aqi-as-string-nitrogen-dioxide | String               | European AQI Nitrogen concentration as a human readable string. Same values as European AQI |
+| european-aqi-as-string-ozone            | String               | European AQI Ozone concentration as a human readable string. Same values as European AQI |
+| european-aqi-as-string-sulphur-dioxide  | String               | European AQI Sulphur Dioxide concentration as a human readable string. Same values as European AQI |
+| us-aqi                                  | Number               | United States AQI. Ranges from 0-50 (good), 51-100 (moderate), 101-150 (unhealthy for sensitive groups), 151-200 (unhealthy), 201-300 (very unhealthy) and 301-500 (hazardous). |
+| us-aqi-pm2_5                            | Number               | United States AQI PM2.5 concentration |
+| us-aqi-pm10                             | Number               | United States AQI PM10 concentration |
+| us-aqi-nitrogen-dioxide                 | Number               | United States Nitrogen Dioxide concentration |
+| us-aqi-ozone                            | Number               | United States Ozone concentration |
+| us-aqi-sulphur-dioxide                  | Number               | United States Sulphur Dioxide concentration |
+| us-aqi-carbon-monoxide                  | Number               | United States Carbon Monoxide concentration |
+| us-aqi-as-string                        | String               | United States AQI as a human readable string. Possible values are good, moderate, unhealthy for sensitive groups, unhealthy, very unhealthy and hazardous. |
+| us-aqi-as-string-pm2_5                  | String               | United States AQI PM2.5 concentration as a human readable string. Same values as United States AQI |
+| us-aqi-as-string-pm10                   | String               | United States AQI PM10 concentration as a human readable string. Same values as United States AQI |
+| us-aqi-as-string-nitrogen-dioxide       | String               | United States Nitrogen Dioxide concentration as a human readable string. Same values as United States AQI |
+| us-aqi-as-string-ozone                  | String               | United States Ozone concentration as a human readable string. Same values as United States AQI |
+| us-aqi-as-string-sulphur-dioxide        | String               | United States Sulphur Dioxide concentration as a human readable string. Same values as United States AQI |
+| us-aqi-as-string-carbon-monoxide        | String               | United States Carbon Monoxide concentration as a human readable string. Same values as United States AQI |
+
+
+### Current air quality conditions
+
+The channels are placed in a group named `current`.
+
+| Channel ID                              | Item Type            | Description |
+|-----------------------------------------|----------------------|-----------------------------------|
+| uv-index                                | Number               | UV Index starting from 0 |
+| uv-index-clear-sky                      | Number               | UV Index starting from 0 assuming cloud free conditions |
+| particulate-10                          | Number:Density       | Particulate matter with diameter smaller than 10 µm close to surface (10 meter above ground) |
+| particulate-2_5                         | Number:Density       | Particulate matter with diameter smaller than 2.5 µm close to surface (10 meter above ground) |
+| carbon-monoxide                         | Number:Density       | Carbon Monoxide CO concentration close to surface (10 meter above ground) |
+| nitrogen-dioxide                        | Number:Density       | Nitrogen Dioxide NO2 concentration close to surface (10 meter above ground) |
+| sulphur-dioxide                         | Number:Density       | Sulphur Dioxide SO2 concentration close to surface (10 meter above ground) |
+| ozone                                   | Number:Density       | Ozone O3 concentration close to surface (10 meter above ground) |
+| aerosol-optical-depth                   | Number:Dimensionless | Aerosol optical depth at 550 nm of the entire atmosphere to indicate haze |
+| dust                                    | Number:Density       | Saharan dust particles close to surface level (10 meter above ground). |
+| ammonia                                 | Number:Density       | Ammonia NH3 concentration close to surface (10 meter above ground), Europe only |
+| alder-pollen                            | Number               | Alder Pollen, Europe only |
+| birch-pollen                            | Number               | Birch Pollen, Europe only |
+| mugwort-pollen                          | Number               | Mugwort Pollen, Europe only |
+| grass-pollen                            | Number               | Grass Pollen, Europe only |
+| olive-pollen                            | Number               | Olive Pollen, Europe only |
+| ragweed-pollen                          | Number               | Ragweed Pollen, Europe only |
+| european-aqi                            | Number               | European AQI. Ranges from 0-20 (good), 20-40 (fair), 40-60 (moderate), 60-80 (poor), 80-100 (very poor) and exceeds 100 for extremely poor conditions. |
+| european-aqi-as-string                  | String               | European AQI as a human readable string. Possible values are good, fair, moderate, poor, very poor and  extremely poor conditions. |
+| us-aqi                                  | Number               | United States AQI. Ranges from 0-50 (good), 51-100 (moderate), 101-150 (unhealthy for sensitive groups), 151-200 (unhealthy), 201-300 (very unhealthy) and 301-500 (hazardous). |
+| us-aqi-as-string                        | String               | United States AQI as a human readable string. Possible values are good, moderate, unhealthy for sensitive groups, unhealthy, very unhealthy and hazardous. |
+
 ## Persisting Time Series
 
 The binding offers support for persisting forecast values.
@@ -220,5 +371,7 @@ Next, enable persistence for these Items using the `forecast` persistence strate
 * Save your configuration
 
 Finally, open the UI, search for one of the newly created Items, open the analyzer and select a future time range.
+
+Please note that if you apply a strategy to some items, the “default strategy” will no longer apply and you’ll need to create a “catch all” strategy yourself, as discussed [here](https://community.openhab.org/t/default-persistence-strategy-is-not-applied-if-a-group-configuration-is-defined/155022/3 )
 
 To access forecast data stored in persistence from scripts and rules, use the [Persistence Extensions](https://www.openhab.org/docs/configuration/persistence.html#persistence-extensions-in-scripts-and-rules).
