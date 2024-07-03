@@ -12,6 +12,7 @@ openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast servi
     - [Open Meteo bridge](#open-meteo-bridge-1)
     - [Weather forecast](#weather-forecast-1)
     - [Air quality forecast](#air-quality-forecast-1)
+  - [Properties](#properties)
   - [Channels](#channels)
     - [Hourly weather forecast](#hourly-weather-forecast)
     - [Daily weather forecast](#daily-weather-forecast)
@@ -21,6 +22,7 @@ openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast servi
     - [Current air quality conditions](#current-air-quality-conditions)
   - [Persisting Time Series](#persisting-time-series)
     - [Configuration](#configuration)
+  - [Transformation profiles](#transformation-profiles)
 
 ## Supported Things
 
@@ -157,6 +159,12 @@ Any change to the parameters will recreate channels and channel groups with the 
 | includeUSAqiOzone                 | Create a channel for US Air Quality Ozone Indicator (only for hourly forecast, default: false) |
 | includeUSAqiSulphurDioxide        | Create a channel for US Air Quality Sulphur Dioxide Indicator (only for hourly forecast, default: false) |
 | includeUSAqiCarbonMonoxide        | Create a channel for US Air Quality Carbon Monoxide Indicator (only for hourly forecast, default: false) |
+
+## Properties
+
+All things but the bridge offer a `last-updated` property that contains the last time the thing retrieved its values from the bridge.
+
+This is a string in ISO 8601 format, such as: 2024-07-03T14:17:37Z
 
 ## Channels
 
@@ -375,3 +383,11 @@ Finally, open the UI, search for one of the newly created Items, open the analyz
 Please note that if you apply a strategy to some items, the “default strategy” will no longer apply and you’ll need to create a “catch all” strategy yourself, as discussed [here](https://community.openhab.org/t/default-persistence-strategy-is-not-applied-if-a-group-configuration-is-defined/155022/3 )
 
 To access forecast data stored in persistence from scripts and rules, use the [Persistence Extensions](https://www.openhab.org/docs/configuration/persistence.html#persistence-extensions-in-scripts-and-rules).
+
+## Transformation profiles
+
+Should you want to use the Air Quality Indicators both as a number and as a string, you may want to implement the mapping from one to the other manually.
+
+You can either do it via scripts, or use one of the two transformation profiles provided by this binding.
+
+They appear on item / channel links of the `Number` type.
