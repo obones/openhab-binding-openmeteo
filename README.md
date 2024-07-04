@@ -14,6 +14,7 @@ openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast servi
     - [Air quality forecast](#air-quality-forecast-1)
   - [Properties](#properties)
   - [Channels](#channels)
+    - [Open Meteo bridge](#open-meteo-bridge-2)
     - [Hourly weather forecast](#hourly-weather-forecast)
     - [Daily weather forecast](#daily-weather-forecast)
     - [15 minutely weather forecast](#15-minutely-weather-forecast)
@@ -167,6 +168,14 @@ All things but the bridge offer a `last-updated` property that contains the last
 This is a string in ISO 8601 format, such as: 2024-07-03T14:17:37Z
 
 ## Channels
+
+### Open Meteo bridge
+
+The bridge provides the following channels.
+
+| Channel ID                 | Item Type            | Description |
+|----------------------------|----------------------|-----------------------------------|
+| last-updated               | DateTime             |  Date and time when the bridge last triggered an update of all things connected to it |
 
 ### Hourly weather forecast
 

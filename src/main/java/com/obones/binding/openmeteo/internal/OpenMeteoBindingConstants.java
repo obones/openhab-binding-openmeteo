@@ -98,6 +98,9 @@ public class OpenMeteoBindingConstants {
     public static final String PROPERTY_THING_LOCATION = "location";
     public static final String PROPERTY_THING_LAST_UPDATED = "last-updated";
 
+    // List of all bridge channel/ids
+    public static final String CHANNEL_BRIDGE_LAST_UPDATED = "last-updated";
+
     // List of all forecast channel group ids
     public static final String CHANNEL_GROUP_HOURLY_TIME_SERIES = "forecastHourly";
     public static final String CHANNEL_GROUP_HOURLY_PREFIX = "forecastHours";

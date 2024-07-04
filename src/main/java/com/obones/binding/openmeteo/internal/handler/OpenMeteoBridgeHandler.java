@@ -11,6 +11,9 @@
  */
 package com.obones.binding.openmeteo.internal.handler;
 
+import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
+
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.core.library.types.DateTimeType;
 import org.openhab.core.thing.Bridge;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
@@ -163,6 +167,9 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
 
     private void updateThings() {
         ThingStatus status = ThingStatus.ONLINE;
+
+        updateState(CHANNEL_BRIDGE_LAST_UPDATED, new DateTimeType(ZonedDateTime.now()));
+
         List<Thing> children = getThing().getThings().stream().filter(Thing::isEnabled).collect(Collectors.toList());
         if (!children.isEmpty()) {
             for (Thing thing : children) {

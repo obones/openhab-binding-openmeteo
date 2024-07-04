@@ -11,6 +11,10 @@
 		<description>@text/bridge-type.openmeteo.openmeteo.description</description>
 
 		<channels>
+			<channel id="last-updated" typeId="time-stamp">
+				<label>@text/channel.openmeteo.openmeteo.last-updated.label</label>
+				<description>@text/channel.openmeteo.openmeteo.last-updated.description</description>
+			</channel>
 		</channels>
 
 		<properties>
