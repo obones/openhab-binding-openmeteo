@@ -1,6 +1,6 @@
 # Open Meteo Binding
 
-openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast service 
+openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast service
 
 - [Open Meteo Binding](#open-meteo-binding)
   - [Supported Things](#supported-things)
@@ -23,6 +23,7 @@ openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast servi
     - [Current air quality conditions](#current-air-quality-conditions)
   - [Persisting Time Series](#persisting-time-series)
     - [Configuration](#configuration)
+    - [Usage](#usage)
   - [Transformation profiles](#transformation-profiles)
 
 ## Supported Things
@@ -380,7 +381,7 @@ The recommended persistence strategy is `forecast`, as it ensures a clean histor
 Make sure you have a persistence service installed and ready for use.
 
 To configure persisting forecast data, first create and link Items to those channels with time series support (as usual).
-Next, enable persistence for these Items using the `forecast` persistence strategy: 
+Next, enable persistence for these Items using the `forecast` persistence strategy:
 * Settings, Add-ons Settings, Your persistence addon, Configure persistence
 * Add configuration
 * Select group/items from the forecast
@@ -391,7 +392,53 @@ Finally, open the UI, search for one of the newly created Items, open the analyz
 
 Please note that if you apply a strategy to some items, the “default strategy” will no longer apply and you’ll need to create a “catch all” strategy yourself, as discussed [here](https://community.openhab.org/t/default-persistence-strategy-is-not-applied-if-a-group-configuration-is-defined/155022/3 )
 
+### Usage
+
 To access forecast data stored in persistence from scripts and rules, use the [Persistence Extensions](https://www.openhab.org/docs/configuration/persistence.html#persistence-extensions-in-scripts-and-rules).
+
+Here is an example in Javascript, extracted from the [ohab-weather-display](https://github.com/obones/ohab-weather-display/blob/master/doc/OpenHABRule.md) project:
+
+```javascript
+// retrieve the current time and use it to get our desired forecast boundaries
+const now = time.toZDT();
+const forecastStart = now.withHour(0).withMinute(0).withSecond(0);
+const forecastEnd = forecastStart.plusDays(6);
+
+// retrieve historic states from the time series item
+const dailyWMOCodeItem = items.weather_forecast_WMO_code_Daily;
+const dailyWMOCodeHistoricItems = dailyWMOCodeItem.history.getAllStatesBetween(forecastStart, forecastEnd);
+
+// Declare a method that returns an numeric value from an historic item state.
+// This avoids duplicating this code should you want to work on multiple items at once, like what is done
+// in the ohab-weather-display project for instance.
+function getNumericValue(historicItems, forecastIndex, unit)
+{
+  const historicItem = historicItems[forecastIndex];
+  if (historicItem)
+  {
+    const quantityState = historicItem.quantityState;
+    const numericState = historicItem.numericState;
+    if (quantityState && unit)
+    {
+      return quantityState.toUnit(unit).float;
+    }
+    else if (numericState)
+    {
+      return historicItem.numericState;
+    }
+  }
+
+  return NaN;
+}
+
+// loop over all historic states
+for (let forecastIndex = 0; forecastIndex < dailyWMOCodeHistoricItems.length; forecastIndex++)
+{
+  const conditionCode = getNumericValue(dailyWMOCodeHistoricItems, forecastIndex);
+
+  // ...
+}
+```
 
 ## Transformation profiles
 
