@@ -65,5 +65,7 @@ jobs:
       - name: Create attestation
         uses: actions/attest-build-provenance@v1
         with:
-          subject-path: 'openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*.jar'
+          subject-path: |
+            openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*.jar
+            !openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*-sources.jar
 
