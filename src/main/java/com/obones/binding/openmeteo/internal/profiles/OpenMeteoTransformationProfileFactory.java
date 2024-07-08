@@ -66,10 +66,10 @@ public class OpenMeteoTransformationProfileFactory implements ProfileFactory, Pr
 
         if (EUROPEAN_AQI_PROFILE_TYPE_UID.equals(profileTypeUID))
             return new OpenMeteoEuropeanAirQualityIndicatorTransformationProfile(callback, profileContext,
-                    europeanAQITransformationService);
+                    europeanAQITransformationService, localization);
         else if (US_AQI_PROFILE_TYPE_UID.equals(profileTypeUID))
             return new OpenMeteoUSAirQualityIndicatorTransformationProfile(callback, profileContext,
-                    usAQITransformationService);
+                    usAQITransformationService, localization);
 
         return null;
     }

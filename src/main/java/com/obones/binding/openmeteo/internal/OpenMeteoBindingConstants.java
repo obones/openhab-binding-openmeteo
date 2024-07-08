@@ -22,7 +22,6 @@ import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.profiles.ProfileTypeUID;
 import org.openhab.core.thing.type.ChannelGroupTypeUID;
 import org.openhab.core.thing.type.ChannelTypeUID;
-import org.openhab.core.transform.TransformationService;
 
 /**
  * The {@link OpenMeteoBindingConstants} class defines common constants, which are
@@ -342,14 +341,14 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_US_AQI_AS_STRING);
 
     // Profile types
-    public static final String EUROPEAN_AQI_PROFILE_TYPE = "EUROPEAN_AQI_PROFILE";
-    public static final String US_AQI_PROFILE_TYPE = "US_AQI_PROFILE";
+    public static final String EUROPEAN_AQI_PROFILE_TYPE = "european-aqi";
+    public static final String US_AQI_PROFILE_TYPE = "us-aqi";
 
     // Profile type UIDs
-    public static final ProfileTypeUID EUROPEAN_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(
-            TransformationService.TRANSFORM_PROFILE_SCOPE, EUROPEAN_AQI_PROFILE_TYPE);
-    public static final ProfileTypeUID US_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(
-            TransformationService.TRANSFORM_PROFILE_SCOPE, US_AQI_PROFILE_TYPE);
+    public static final ProfileTypeUID EUROPEAN_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(BINDING_ID,
+            EUROPEAN_AQI_PROFILE_TYPE);
+    public static final ProfileTypeUID US_AQI_PROFILE_TYPE_UID = new ProfileTypeUID(BINDING_ID, //
+            US_AQI_PROFILE_TYPE);
 
     public static class ProfileTypeDetail {
         public String labelKey;

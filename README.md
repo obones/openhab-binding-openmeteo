@@ -447,3 +447,5 @@ Should you want to use the Air Quality Indicators both as a number and as a stri
 You can either do it via scripts, or use one of the two transformation profiles provided by this binding.
 
 They appear on item / channel links of the `Number` type.
+
+For your convenience, you can choose whether you want human readable strings (Good, Fair, Very poor...) or options values, identical to the values output by the "as strings" AQI channels (GOOD, FAIR, VERY_POOR...)

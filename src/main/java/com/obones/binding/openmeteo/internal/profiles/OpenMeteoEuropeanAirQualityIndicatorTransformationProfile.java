@@ -15,19 +15,14 @@ package com.obones.binding.openmeteo.internal.profiles;
 import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
-import org.openhab.core.library.types.StringType;
 import org.openhab.core.thing.profiles.ProfileCallback;
 import org.openhab.core.thing.profiles.ProfileContext;
 import org.openhab.core.thing.profiles.ProfileTypeUID;
-import org.openhab.core.thing.profiles.StateProfile;
-import org.openhab.core.transform.TransformationException;
-import org.openhab.core.types.Command;
-import org.openhab.core.types.State;
-import org.openhab.core.types.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.obones.binding.openmeteo.internal.transformation.OpenMeteoEuropeanAirQualityIndicatorTransformationService;
+import com.obones.binding.openmeteo.internal.utils.Localization;
 
 /**
  * Profile to offer the OpenMeteoEuropeanAirQualityTransformationService on an ItemChannelLink
@@ -36,19 +31,15 @@ import com.obones.binding.openmeteo.internal.transformation.OpenMeteoEuropeanAir
  *
  */
 @NonNullByDefault
-public class OpenMeteoEuropeanAirQualityIndicatorTransformationProfile implements StateProfile {
+public class OpenMeteoEuropeanAirQualityIndicatorTransformationProfile
+        extends OpenMeteoBaseAirQualityIndicatorTransformProfile {
 
     private final Logger logger = LoggerFactory
             .getLogger(OpenMeteoEuropeanAirQualityIndicatorTransformationProfile.class);
 
-    private final OpenMeteoEuropeanAirQualityIndicatorTransformationService service;
-    private final ProfileCallback callback;
-
     public OpenMeteoEuropeanAirQualityIndicatorTransformationProfile(ProfileCallback callback, ProfileContext context,
-            OpenMeteoEuropeanAirQualityIndicatorTransformationService service) {
-
-        this.service = service;
-        this.callback = callback;
+            OpenMeteoEuropeanAirQualityIndicatorTransformationService service, Localization localization) {
+        super(callback, context, service, localization);
 
         logger.debug("{} Profile configured",
                 OpenMeteoEuropeanAirQualityIndicatorTransformationProfile.class.getName());
@@ -60,32 +51,7 @@ public class OpenMeteoEuropeanAirQualityIndicatorTransformationProfile implement
     }
 
     @Override
-    public void onStateUpdateFromItem(State state) {
-    }
-
-    @Override
-    public void onCommandFromItem(Command command) {
-        callback.handleCommand(command);
-    }
-
-    @Override
-    public void onCommandFromHandler(Command command) {
-    }
-
-    @Override
-    public void onStateUpdateFromHandler(State state) {
-        callback.sendUpdate((State) transformState(state));
-    }
-
-    private Type transformState(Type state) {
-        String result = state.toFullString();
-        try {
-            result = service.transform("", result);
-        } catch (TransformationException e) {
-            logger.warn("Could not transform state '{}': {}", state, e.getMessage());
-        }
-        StringType resultType = new StringType(result);
-        logger.debug("Transformed '{}' into '{}'", state, resultType);
-        return resultType;
+    protected String getHumanReadableStringPrefix() {
+        return "channel-type.openmeteo.air-quality.european-aqi-as-string.";
     }
 }

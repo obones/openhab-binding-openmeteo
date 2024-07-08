@@ -510,5 +510,24 @@
 			<default>false</default>
 		</parameter>
 	</config-description>
+	<!-- -->
+	<!-- Open Meteo AQI profiles -->
+	<!-- -->
+	<config-description uri="profile:openmeteo:european-aqi">
+		<parameter name="stateAsOption" type="boolean">
+			<label>@text/config.openmeteo.profile.aqi.stateAsOption.label</label>
+			<description>@text/config.openmeteo.profile.aqi.stateAsOption.description</description>
+			<default>false</default>
+			<advanced>false</advanced>
+		</parameter>
+	</config-description>
+	<config-description uri="profile:openmeteo:us-aqi">
+		<parameter name="stateAsOption" type="boolean">
+			<label>@text/config.openmeteo.profile.aqi.stateAsOption.label</label>
+			<description>@text/config.openmeteo.profile.aqi.stateAsOption.description</description>
+			<default>false</default>
+			<advanced>false</advanced>
+		</parameter>
+	</config-description>
 
 </config-description:config-descriptions>
