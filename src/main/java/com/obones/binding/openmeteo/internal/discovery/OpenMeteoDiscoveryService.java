@@ -135,12 +135,20 @@ public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
         ThingUID bridgeUID = bridgeHandler.getThing().getUID();
 
         createWeatherForecastResult(locationString, bridgeUID);
+        createAirQualityResult(locationString, bridgeUID);
     }
 
     private void createWeatherForecastResult(String location, ThingUID bridgeUID) {
         thingDiscovered(DiscoveryResultBuilder
                 .create(new ThingUID(THING_TYPE_OPENMETEO_FORECAST, bridgeUID, SYSTEM_LOCATION_THING_ID))
                 .withLabel("@text/discovery.forecast.system.label").withProperty(PROPERTY_THING_LOCATION, location)
+                .withRepresentationProperty(PROPERTY_THING_LOCATION).withBridge(bridgeUID).build());
+    }
+
+    private void createAirQualityResult(String location, ThingUID bridgeUID) {
+        thingDiscovered(DiscoveryResultBuilder
+                .create(new ThingUID(THING_TYPE_OPENMETEO_AIR_QUALITY, bridgeUID, SYSTEM_LOCATION_THING_ID))
+                .withLabel("@text/discovery.air-quality.system.label").withProperty(PROPERTY_THING_LOCATION, location)
                 .withRepresentationProperty(PROPERTY_THING_LOCATION).withBridge(bridgeUID).build());
     }
 }

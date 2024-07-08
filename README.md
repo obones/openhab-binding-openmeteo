@@ -55,8 +55,12 @@ You can add as many `air-quality` things for different locations to your setup a
 
 ## Discovery
 
-If a system location is set, a "System OpenMeteo weather forecast" (`forecast`) thing will be automatically discovered for this location.
-If the system location was to be changed, the background discovery would update the configuration of the thing accordingly.
+If a system location is set the following things will be automatically discovered for this location:
+
+* a "System OpenMeteo weather forecast" (`forecast`) thing
+* a "System OpenMeteo air quality report" (`air-quality`) thing
+
+If the system location was to be changed, the background discovery would update the configuration of the things accordingly within one minute.
 
 ## Thing Configuration
 
