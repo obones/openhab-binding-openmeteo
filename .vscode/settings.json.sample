@@ -22,5 +22,6 @@ Copy file to settings.json, replace below values with valid content and remove t
     "cSpell.words": [
     ],
     "cSpell.ignoreWords": [
-    ]
+    ],
+    "files.trimTrailingWhitespace": true
 }
