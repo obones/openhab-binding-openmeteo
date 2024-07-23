@@ -11,7 +11,7 @@ jobs:
         java: [ '17' ]
         maven: [ '3.9.4' ]
         os: [ 'ubuntu-22.04' ]
-        addons-ref: [ '4.1.x', 'main' ]
+        addons-ref: [ '4.1.x', '4.2.x', 'main' ]
     name: Build on ${{ matrix.addons-ref }} (Java ${{ matrix.java }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     permissions:
