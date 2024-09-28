@@ -75,7 +75,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             String labelSuffix = localization
                     .getText("channel-type.openmeteo.forecast.label-suffix.hourly.time-series");
             initializeHourlyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_HOURLY_TIME_SERIES,
-                    labelSuffix);
+                    labelSuffix, true);
         }
 
         if (config.hourlySplit) {
@@ -84,27 +84,29 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
 
             for (int hour = 1; hour <= config.hourlyHours; hour++)
                 initializeHourlyGroupOptionalChannels(callback, builder, thingUID, config,
-                        CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour), String.format(labelSuffix, hour));
+                        CHANNEL_GROUP_HOURLY_PREFIX + hourlyFormatter.format(hour), String.format(labelSuffix, hour),
+                        false);
         }
 
         if (config.dailyTimeSeries) {
             String labelSuffix = localization.getText("channel-type.openmeteo.forecast.label-suffix.daily.time-series");
             initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TIME_SERIES,
-                    labelSuffix);
+                    labelSuffix, true);
         }
 
         if (config.dailySplit) {
             initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TODAY,
-                    localization.getText("channel-type.openmeteo.forecast.label-suffix.daily.today"));
+                    localization.getText("channel-type.openmeteo.forecast.label-suffix.daily.today"), false);
             if (config.dailyDays >= 2)
                 initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TOMORROW,
-                        localization.getText("channel-type.openmeteo.forecast.label-suffix.daily.tomorrow"));
+                        localization.getText("channel-type.openmeteo.forecast.label-suffix.daily.tomorrow"), false);
 
             DecimalFormat dailyFormatter = new DecimalFormat("00");
             String labelSuffix = localization.getText("channel-type.openmeteo.forecast.label-suffix.daily.split");
             for (int day = 2; day < config.dailyDays; day++)
                 initializeDailyGroupOptionalChannels(callback, builder, thingUID, config,
-                        CHANNEL_GROUP_DAILY_PREFIX + dailyFormatter.format(day), String.format(labelSuffix, day));
+                        CHANNEL_GROUP_DAILY_PREFIX + dailyFormatter.format(day), String.format(labelSuffix, day),
+                        false);
         }
 
         if (config.current) {
@@ -117,12 +119,13 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
     }
 
     protected ThingBuilder initializeHourlyGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
-            ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId, String labelSuffix) {
+            ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId, String labelSuffix,
+            boolean isTimeSeries) {
 
         Object[] labelArguments = { labelSuffix };
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TIME_STAMP,
-                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp, labelArguments);
+                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp && !isTimeSeries, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
@@ -226,12 +229,13 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
     }
 
     protected ThingBuilder initializeDailyGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
-            ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId, String labelSuffix) {
+            ThingUID thingUID, OpenMeteoForecastThingConfiguration config, String channelGroupId, String labelSuffix,
+            boolean isTimeSeries) {
 
         Object[] labelArguments = { labelSuffix };
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TIME_STAMP,
-                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp, labelArguments);
+                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp && !isTimeSeries, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE_MIN,
                 SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
