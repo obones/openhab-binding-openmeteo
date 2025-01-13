@@ -114,23 +114,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         } else if (thisBridge.getStatus() == ThingStatus.ONLINE) {
             logger.trace("initialize() checking for configuration validity.");
 
-            boolean configValid = true;
-            OpenMeteoBaseThingConfiguration config = getConfigAs(OpenMeteoBaseThingConfiguration.class);
-            if (config.location.trim().isEmpty()) {
-                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
-                        "@text/offline.conf-error-missing-location");
-                configValid = false;
-            }
-
-            try {
-                location = new PointType(config.location);
-            } catch (IllegalArgumentException e) {
-                logger.warn("Error parsing 'location' parameter: {}", e.getMessage());
-                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
-                        "@text/offline.conf-error-parsing-location");
-                location = null;
-                configValid = false;
-            }
+            boolean configValid = validateConfig();
 
             if (configValid) {
                 initializeProperties();
@@ -143,6 +127,27 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.BRIDGE_OFFLINE);
         }
         logger.trace("initialize() done.");
+    }
+
+    protected synchronized boolean validateConfig() {
+        OpenMeteoBaseThingConfiguration config = getConfigAs(OpenMeteoBaseThingConfiguration.class);
+        if (config.location.trim().isEmpty()) {
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                    "@text/offline.conf-error-missing-location");
+            return false;
+        }
+
+        try {
+            location = new PointType(config.location);
+        } catch (IllegalArgumentException e) {
+            logger.warn("Error parsing 'location' parameter: {}", e.getMessage());
+            updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                    "@text/offline.conf-error-parsing-location");
+            location = null;
+            return false;
+        }
+
+        return true;
     }
 
     protected synchronized void initializeProperties() {

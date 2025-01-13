@@ -31,6 +31,8 @@ import org.openhab.core.library.unit.SIUnits;
 import org.openhab.core.library.unit.Units;
 import org.openhab.core.thing.ChannelUID;
 import org.openhab.core.thing.Thing;
+import org.openhab.core.thing.ThingStatus;
+import org.openhab.core.thing.ThingStatusDetail;
 import org.openhab.core.thing.ThingUID;
 import org.openhab.core.thing.binding.ThingHandlerCallback;
 import org.openhab.core.thing.binding.builder.ThingBuilder;
@@ -66,6 +68,31 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             final TimeZoneProvider timeZoneProvider, ChannelTypeRegistry channelTypeRegistry) {
         super(thing, localization, timeZoneProvider, channelTypeRegistry);
         logger.trace("OpenMeteoForecastHandler(thing={},localization={}) constructor called.", thing, localization);
+    }
+
+    @Override
+    protected synchronized boolean validateConfig() {
+        boolean result = super.validateConfig();
+
+        if (result) {
+            OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
+
+            if (config.includeGlobalTiltedIrradiance) {
+                if (config.panelAzimuth == null) {
+                    updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                            "@text/offline.conf-error-missing-panel-azimuth");
+                    return false;
+                }
+
+                if (config.panelTilt == null) {
+                    updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                            "@text/offline.conf-error-missing-panel-tilt");
+                    return false;
+                }
+            }
+        }
+
+        return result;
     }
 
     protected void initializeChannels(ThingHandlerCallback callback, ThingBuilder builder, ThingUID thingUID) {
@@ -181,6 +208,14 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIFFUSE_RADIATION,
                 CHANNEL_TYPE_UID_DIFFUSE_RADIATION, config.includeDiffuseRadiation, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE, CHANNEL_TYPE_UID_GLOBAL_TILTED_IRRADIANCE,
+                config.includeGlobalTiltedIrradiance, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION, CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION,
+                config.includeTerrestrialSolarRadiation, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT,
                 CHANNEL_TYPE_UID_VAPOUR_PRESSURE_DEFICIT, config.includeVapourPressureDeficit, labelArguments);
@@ -455,6 +490,14 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIFFUSE_RADIATION,
                 CHANNEL_TYPE_UID_DIFFUSE_RADIATION, config.includeDiffuseRadiation, labelArguments);
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE, CHANNEL_TYPE_UID_GLOBAL_TILTED_IRRADIANCE,
+                config.includeGlobalTiltedIrradiance, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION, CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION,
+                config.includeTerrestrialSolarRadiation, labelArguments);
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SUNSHINE_DURATION,
                 CHANNEL_TYPE_UID_SUNSHINE_DURATION, config.includeSunshineDuration, labelArguments);
 
@@ -509,7 +552,8 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 (config.hourlyTimeSeries || config.hourlySplit) ? config.hourlyHours : null, //
                 (config.dailyTimeSeries || config.dailySplit) ? config.dailyDays : null, //
                 config.current, //
-                (config.minutely15) ? config.minutely15Steps : null);
+                (config.minutely15) ? config.minutely15Steps : null, //
+                config.panelTilt, config.panelAzimuth);
     }
 
     private EnumSet<OpenMeteoConnection.ForecastValue> getForecastValues() {
@@ -542,6 +586,10 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             result.add(ForecastValue.DIRECT_NORMAL_IRRADIANCE);
         if (config.includeDiffuseRadiation)
             result.add(ForecastValue.DIFFUSE_RADIATION);
+        if (config.includeGlobalTiltedIrradiance)
+            result.add(ForecastValue.GLOBAL_TILTED_IRRADIANCE);
+        if (config.includeTerrestrialSolarRadiation)
+            result.add(ForecastValue.TERRESTRIAL_SOLAR_RADIATION);
         if (config.includeVapourPressureDeficit)
             result.add(ForecastValue.VAPOUR_PRESSURE_DEFICIT);
         if (config.includeCape)
@@ -672,6 +720,8 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             case CHANNEL_FORECAST_DIRECT_RADIATION -> Variable.direct_radiation;
             case CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE -> Variable.direct_normal_irradiance;
             case CHANNEL_FORECAST_DIFFUSE_RADIATION -> Variable.diffuse_radiation;
+            case CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE -> Variable.global_tilted_irradiance;
+            case CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION -> Variable.terrestrial_radiation;
             case CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT -> Variable.vapour_pressure_deficit;
             case CHANNEL_FORECAST_CAPE -> Variable.cape;
             case CHANNEL_FORECAST_EVAPOTRANSPIRATION -> Variable.evapotranspiration;
@@ -738,6 +788,12 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_DIFFUSE_RADIATION:
+                state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                break;
+            case CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE:
+                state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
+                break;
+            case CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION:
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT:

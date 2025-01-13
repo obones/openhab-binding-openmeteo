@@ -128,6 +128,8 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_FORECAST_DIRECT_RADIATION = "direct-radiation";
     public static final String CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE = "direct-normal-irradiance";
     public static final String CHANNEL_FORECAST_DIFFUSE_RADIATION = "diffuse-radiation";
+    public static final String CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE = "global-tilted-irradiance";
+    public static final String CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION = "terrestrial-solar-radiation";
     public static final String CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT = "vapour-pressure-deficit";
     public static final String CHANNEL_FORECAST_CAPE = "cape";
     public static final String CHANNEL_FORECAST_EVAPOTRANSPIRATION = "evapotranspiration";
@@ -167,6 +169,8 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_TYPE_DIRECT_RADIATION = "direct-radiation";
     public static final String CHANNEL_TYPE_DIRECT_NORMAL_IRRADIANCE = "direct-normal-irradiance";
     public static final String CHANNEL_TYPE_DIFFUSE_RADIATION = "diffuse-radiation";
+    public static final String CHANNEL_TYPE_GLOBAL_TILTED_IRRADIANCE = "global-tilted-irradiance";
+    public static final String CHANNEL_TYPE_TERRESTRIAL_SOLAR_RADIATION = "terrestrial-solar-radiation";
     public static final String CHANNEL_TYPE_VAPOUR_PRESSURE_DEFICIT = "vapour-pressure-deficit";
     public static final String CHANNEL_TYPE_CAPE = "cape";
     public static final String CHANNEL_TYPE_EVAPOTRANSPIRATION = "evapotranspiration";
@@ -207,6 +211,10 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_DIRECT_NORMAL_IRRADIANCE);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_DIFFUSE_RADIATION = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_DIFFUSE_RADIATION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_GLOBAL_TILTED_IRRADIANCE = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_GLOBAL_TILTED_IRRADIANCE);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_TERRESTRIAL_SOLAR_RADIATION);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_VAPOUR_PRESSURE_DEFICIT = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_VAPOUR_PRESSURE_DEFICIT);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_CAPE = new ChannelTypeUID(BINDING_ID, //

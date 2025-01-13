@@ -75,6 +75,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
                 return "direct_normal_irradiance";
             case DIFFUSE_RADIATION:
                 return "diffuse_radiation";
+            case GLOBAL_TILTED_IRRADIANCE:
+                return "global_tilted_irradiance";
+            case TERRESTRIAL_SOLAR_RADIATION:
+                return "terrestrial_radiation";
             case VAPOUR_PRESSURE_DEFICIT:
                 return "vapour_pressure_deficit";
             case CAPE:
@@ -183,6 +187,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             case DIRECT_RADIATION:
             case DIRECT_NORMAL_IRRADIANCE:
             case DIFFUSE_RADIATION:
+            case GLOBAL_TILTED_IRRADIANCE:
+            case TERRESTRIAL_SOLAR_RADIATION:
             case VAPOUR_PRESSURE_DEFICIT:
             case CAPE:
             case EVAPOTRANSPIRATION:
@@ -213,6 +219,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             case DIRECT_RADIATION:
             case DIRECT_NORMAL_IRRADIANCE:
             case DIFFUSE_RADIATION:
+            case GLOBAL_TILTED_IRRADIANCE:
+            case TERRESTRIAL_SOLAR_RADIATION:
             case SUNSHINE_DURATION:
             case PRECIPITATION:
             case SNOW:
@@ -289,7 +297,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
     public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
-            @Nullable Integer minutely15Steps) {
+            @Nullable Integer minutely15Steps, @Nullable Double panelTilt, @Nullable Double panelAzimuth) {
 
         if (hourlyHours == null && dailyDays == null && !current && minutely15Steps == null) {
             logger.warn("No point in getting a forecast if no elements are required");
@@ -323,6 +331,14 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (minutely15Steps != null) {
             builder.queryParam("forecast_minutely_15", minutely15Steps);
             builder.queryParam("minutely_15", String.join(",", requiredMinutely15Fields));
+        }
+
+        if (panelTilt != null) {
+            builder.queryParam("tilt", panelTilt);
+        }
+
+        if (panelAzimuth != null) {
+            builder.queryParam("azimuth", panelAzimuth);
         }
 
         return getResponse(builder);

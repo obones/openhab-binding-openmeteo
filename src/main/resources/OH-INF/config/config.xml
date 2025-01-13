@@ -61,6 +61,16 @@
 			<advanced>false</advanced>
 			<default>false</default>
 		</parameter>
+		<parameter name="panelTilt" type="decimal" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.forecast.panelTilt.label</label>
+			<description>@text/config.openmeteo.thing.forecast.panelTilt.description</description>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="panelAzimuth" type="decimal" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.forecast.panelAzimuth.label</label>
+			<description>@text/config.openmeteo.thing.forecast.panelAzimuth.description</description>
+			<advanced>true</advanced>
+		</parameter>
 
 		<!-- Daily parameters -->
 		<parameter-group name="dailyParameters">
@@ -192,6 +202,16 @@
 		</parameter>
 		<parameter name="includeDiffuseRadiation" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.includeDiffuseRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeGlobalTiltedIrradiance" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeGlobalTiltedIrradiance.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeTerrestrialSolarRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeTerrestrialSolarRadiation.label</label>
 			<advanced>true</advanced>
 			<default>false</default>
 		</parameter>

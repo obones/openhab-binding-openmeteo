@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2023-2024 Olivier Sannier 
+ * Copyright (c) 2023-2024 Olivier Sannier
  ** See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -40,6 +40,8 @@ public interface OpenMeteoConnection {
         DIRECT_RADIATION,
         DIRECT_NORMAL_IRRADIANCE,
         DIFFUSE_RADIATION,
+        GLOBAL_TILTED_IRRADIANCE,
+        TERRESTRIAL_SOLAR_RADIATION,
         VAPOUR_PRESSURE_DEFICIT,
         CAPE,
         EVAPOTRANSPIRATION,
@@ -64,7 +66,7 @@ public interface OpenMeteoConnection {
 
     WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
-            @Nullable Integer minutely15Steps);
+            @Nullable Integer minutely15Steps, @Nullable Double panelTilt, @Nullable Double panelAzimuth);
 
     enum AirQualityValue {
         UV_INDEX,

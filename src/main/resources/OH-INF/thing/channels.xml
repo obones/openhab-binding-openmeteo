@@ -95,6 +95,30 @@
 		<state readOnly="true" pattern="%.2f %unit%"/>
 	</channel-type>
 
+	<channel-type id="global-tilted-irradiance" advanced="true">
+		<item-type unitHint="W/m²">Number:Intensity</item-type>
+		<label>@text/channel-type.openmeteo.forecast.global-tilted-irradiance.label</label>
+		<description>@text/channel-type.openmeteo.forecast.global-tilted-irradiance.description</description>
+		<category>Sun</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Irradiance</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
+	<channel-type id="terrestrial-solar-radiation" advanced="true">
+		<item-type unitHint="W/m²">Number:Intensity</item-type>
+		<label>@text/channel-type.openmeteo.forecast.terrestrial-solar-radiation.label</label>
+		<description>@text/channel-type.openmeteo.forecast.terrestrial-solar-radiation.description</description>
+		<category>Sun</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Radiation</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f %unit%"/>
+	</channel-type>
+
 	<channel-type id="vapour-pressure-deficit" advanced="true">
 		<item-type>Number:Pressure</item-type>
 		<label>@text/channel-type.openmeteo.forecast.vapour-pressure-deficit.label</label>

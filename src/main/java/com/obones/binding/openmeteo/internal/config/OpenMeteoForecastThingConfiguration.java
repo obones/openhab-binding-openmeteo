@@ -4,8 +4,8 @@
  * See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -13,6 +13,7 @@
 package com.obones.binding.openmeteo.internal.config;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
 
 @NonNullByDefault
 public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfiguration {
@@ -33,6 +34,9 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public boolean minutely15 = false;
     public int minutely15Steps = 48;
 
+    public @Nullable Double panelTilt = null;
+    public @Nullable Double panelAzimuth = null;
+
     public boolean includeTimeStamp = true;
     public boolean includeTemperature = true;
     public boolean includeHumidity = true;
@@ -47,6 +51,8 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public boolean includeDirectRadiation = false;
     public boolean includeDirectNormalIrradiance = false;
     public boolean includeDiffuseRadiation = false;
+    public boolean includeGlobalTiltedIrradiance = false;
+    public boolean includeTerrestrialSolarRadiation = false;
     public boolean includeVapourPressureDeficit = false;
     public boolean includeCape = false;
     public boolean includeEvapotranspiration = false;
