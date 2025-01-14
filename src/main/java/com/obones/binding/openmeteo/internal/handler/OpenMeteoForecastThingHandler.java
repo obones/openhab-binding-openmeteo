@@ -217,6 +217,55 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION, CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION,
                 config.includeTerrestrialSolarRadiation, labelArguments);
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_SHORTWAVE_RADIATION, CHANNEL_TYPE_UID_SHORTWAVE_RADIATION,
+                config.includeInstantShortwaveRadiation, //
+                "channel-type.openmeteo.forecast.shortwave-radiation-instant.label",
+                "channel-type.openmeteo.forecast.shortwave-radiation-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_DIRECT_RADIATION, CHANNEL_TYPE_UID_DIRECT_RADIATION,
+                config.includeInstantDirectRadiation, //
+                "channel-type.openmeteo.forecast.direct-radiation-instant.label",
+                "channel-type.openmeteo.forecast.direct-radiation-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_DIRECT_NORMAL_IRRADIANCE, CHANNEL_TYPE_UID_DIRECT_NORMAL_IRRADIANCE,
+                config.includeInstantDirectNormalIrradiance, //
+                "channel-type.openmeteo.forecast.direct-normal-irradiance-instant.label",
+                "channel-type.openmeteo.forecast.direct-normal-irradiance-instant", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_DIFFUSE_RADIATION, CHANNEL_TYPE_UID_DIFFUSE_RADIATION,
+                config.includeInstantDiffuseRadiation, //
+                "channel-type.openmeteo.forecast.diffuse-radiation-instant.label",
+                "channel-type.openmeteo.forecast.diffuse-radiation-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_GLOBAL_TILTED_IRRADIANCE, CHANNEL_TYPE_UID_GLOBAL_TILTED_IRRADIANCE,
+                config.includeInstantGlobalTiltedIrradiance, //
+                "channel-type.openmeteo.forecast.global-tilted-irradiance-instant.label",
+                "channel-type.openmeteo.forecast.global-tilted-irradiance-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_TERRESTRIAL_SOLAR_RADIATION, CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION,
+                config.includeInstantTerrestrialSolarRadiation, //
+                "channel-type.openmeteo.forecast.terrestrial-solar-radiation-instant.label",
+                "channel-type.openmeteo.forecast.terrestrial-solar-radiation-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_TERRESTRIAL_SOLAR_RADIATION, CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION,
+                config.includeInstantTerrestrialSolarRadiation, //
+                "channel-type.openmeteo.forecast.shortwave-radiation-instant.label",
+                "channel-type.openmeteo.forecast.shortwave-radiation-instant.description", //
+                labelArguments, null);
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT,
                 CHANNEL_TYPE_UID_VAPOUR_PRESSURE_DEFICIT, config.includeVapourPressureDeficit, labelArguments);
 
@@ -478,25 +527,79 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_TYPE_UID_APPARENT_TEMPERATURE, config.includeApparentTemperature, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHORTWAVE_RADIATION,
-                CHANNEL_TYPE_UID_SHORTWAVE_RADIATION, config.includeShortwaveRadiation, labelArguments);
+                CHANNEL_TYPE_UID_SHORTWAVE_RADIATION, config.includeShortwaveRadiation, //
+                null, "channel-type.openmeteo.forecast.shortwave-radiation-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIRECT_RADIATION,
-                CHANNEL_TYPE_UID_DIRECT_RADIATION, config.includeDirectRadiation, labelArguments);
+                CHANNEL_TYPE_UID_DIRECT_RADIATION, config.includeDirectRadiation, //
+                null, "channel-type.openmeteo.forecast.direct-radiation-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE, CHANNEL_TYPE_UID_DIRECT_NORMAL_IRRADIANCE,
-                config.includeDirectNormalIrradiance, labelArguments);
+                config.includeDirectNormalIrradiance, //
+                null, "channel-type.openmeteo.forecast.direct-normal-irradiance-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_DIFFUSE_RADIATION,
-                CHANNEL_TYPE_UID_DIFFUSE_RADIATION, config.includeDiffuseRadiation, labelArguments);
+                CHANNEL_TYPE_UID_DIFFUSE_RADIATION, config.includeDiffuseRadiation, //
+                null, "channel-type.openmeteo.forecast.diffuse-radiation-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE, CHANNEL_TYPE_UID_GLOBAL_TILTED_IRRADIANCE,
-                config.includeGlobalTiltedIrradiance, labelArguments);
+                config.includeGlobalTiltedIrradiance, //
+                null, "channel-type.openmeteo.forecast.global-tilted-irradiance-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
                 CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION, CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION,
-                config.includeTerrestrialSolarRadiation, labelArguments);
+                config.includeTerrestrialSolarRadiation, //
+                null, "channel-type.openmeteo.forecast.terrestrial-solar-radiation-fifteen-minutes.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_SHORTWAVE_RADIATION, CHANNEL_TYPE_UID_SHORTWAVE_RADIATION,
+                config.includeInstantShortwaveRadiation, //
+                "channel-type.openmeteo.forecast.shortwave-radiation-instant.label",
+                "channel-type.openmeteo.forecast.shortwave-radiation-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_DIRECT_RADIATION, CHANNEL_TYPE_UID_DIRECT_RADIATION,
+                config.includeInstantDirectRadiation, //
+                "channel-type.openmeteo.forecast.direct-radiation-instant.label",
+                "channel-type.openmeteo.forecast.direct-radiation-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_DIRECT_NORMAL_IRRADIANCE, CHANNEL_TYPE_UID_DIRECT_NORMAL_IRRADIANCE,
+                config.includeInstantDirectNormalIrradiance, //
+                "channel-type.openmeteo.forecast.direct-normal-irradiance-instant.label",
+                "channel-type.openmeteo.forecast.direct-normal-irradiance-instant", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_DIFFUSE_RADIATION, CHANNEL_TYPE_UID_DIFFUSE_RADIATION,
+                config.includeInstantDiffuseRadiation, //
+                "channel-type.openmeteo.forecast.diffuse-radiation-instant.label",
+                "channel-type.openmeteo.forecast.diffuse-radiation-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_GLOBAL_TILTED_IRRADIANCE, CHANNEL_TYPE_UID_GLOBAL_TILTED_IRRADIANCE,
+                config.includeInstantGlobalTiltedIrradiance, //
+                "channel-type.openmeteo.forecast.global-tilted-irradiance-instant.label",
+                "channel-type.openmeteo.forecast.global-tilted-irradiance-instant.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_FORECAST_INSTANT_TERRESTRIAL_SOLAR_RADIATION, CHANNEL_TYPE_UID_TERRESTRIAL_SOLAR_RADIATION,
+                config.includeInstantTerrestrialSolarRadiation, //
+                "channel-type.openmeteo.forecast.terrestrial-solar-radiation-instant.label",
+                "channel-type.openmeteo.forecast.terrestrial-solar-radiation-instant.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SUNSHINE_DURATION,
                 CHANNEL_TYPE_UID_SUNSHINE_DURATION, config.includeSunshineDuration, labelArguments);
@@ -590,6 +693,18 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             result.add(ForecastValue.GLOBAL_TILTED_IRRADIANCE);
         if (config.includeTerrestrialSolarRadiation)
             result.add(ForecastValue.TERRESTRIAL_SOLAR_RADIATION);
+        if (config.includeInstantShortwaveRadiation)
+            result.add(ForecastValue.INSTANT_SHORTWAVE_RADIATION);
+        if (config.includeInstantDirectRadiation)
+            result.add(ForecastValue.INSTANT_DIRECT_RADIATION);
+        if (config.includeInstantDirectNormalIrradiance)
+            result.add(ForecastValue.INSTANT_DIRECT_NORMAL_IRRADIANCE);
+        if (config.includeInstantDiffuseRadiation)
+            result.add(ForecastValue.INSTANT_DIFFUSE_RADIATION);
+        if (config.includeInstantGlobalTiltedIrradiance)
+            result.add(ForecastValue.INSTANT_GLOBAL_TILTED_IRRADIANCE);
+        if (config.includeInstantTerrestrialSolarRadiation)
+            result.add(ForecastValue.INSTANT_TERRESTRIAL_SOLAR_RADIATION);
         if (config.includeVapourPressureDeficit)
             result.add(ForecastValue.VAPOUR_PRESSURE_DEFICIT);
         if (config.includeCape)
@@ -722,6 +837,12 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             case CHANNEL_FORECAST_DIFFUSE_RADIATION -> Variable.diffuse_radiation;
             case CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE -> Variable.global_tilted_irradiance;
             case CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION -> Variable.terrestrial_radiation;
+            case CHANNEL_FORECAST_INSTANT_SHORTWAVE_RADIATION -> Variable.shortwave_radiation_instant;
+            case CHANNEL_FORECAST_INSTANT_DIRECT_RADIATION -> Variable.direct_radiation_instant;
+            case CHANNEL_FORECAST_INSTANT_DIRECT_NORMAL_IRRADIANCE -> Variable.direct_normal_irradiance_instant;
+            case CHANNEL_FORECAST_INSTANT_DIFFUSE_RADIATION -> Variable.diffuse_radiation_instant;
+            case CHANNEL_FORECAST_INSTANT_GLOBAL_TILTED_IRRADIANCE -> Variable.global_tilted_irradiance_instant;
+            case CHANNEL_FORECAST_INSTANT_TERRESTRIAL_SOLAR_RADIATION -> Variable.terrestrial_radiation_instant;
             case CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT -> Variable.vapour_pressure_deficit;
             case CHANNEL_FORECAST_CAPE -> Variable.cape;
             case CHANNEL_FORECAST_EVAPOTRANSPIRATION -> Variable.evapotranspiration;
@@ -779,21 +900,27 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, Units.METRE_PER_SECOND);
                 break;
             case CHANNEL_FORECAST_SHORTWAVE_RADIATION:
+            case CHANNEL_FORECAST_INSTANT_SHORTWAVE_RADIATION:
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_DIRECT_RADIATION:
+            case CHANNEL_FORECAST_INSTANT_DIRECT_RADIATION:
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_DIRECT_NORMAL_IRRADIANCE:
+            case CHANNEL_FORECAST_INSTANT_DIRECT_NORMAL_IRRADIANCE:
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_DIFFUSE_RADIATION:
+            case CHANNEL_FORECAST_INSTANT_DIFFUSE_RADIATION:
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE:
+            case CHANNEL_FORECAST_INSTANT_GLOBAL_TILTED_IRRADIANCE:
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION:
+            case CHANNEL_FORECAST_INSTANT_TERRESTRIAL_SOLAR_RADIATION:
                 state = getQuantityTypeState(floatValue, 100, Units.MICROWATT_PER_SQUARE_CENTIMETRE);
                 break;
             case CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT:

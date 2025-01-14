@@ -130,6 +130,12 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_FORECAST_DIFFUSE_RADIATION = "diffuse-radiation";
     public static final String CHANNEL_FORECAST_GLOBAL_TILTED_IRRADIANCE = "global-tilted-irradiance";
     public static final String CHANNEL_FORECAST_TERRESTRIAL_SOLAR_RADIATION = "terrestrial-solar-radiation";
+    public static final String CHANNEL_FORECAST_INSTANT_SHORTWAVE_RADIATION = "shortwave-radiation-instant";
+    public static final String CHANNEL_FORECAST_INSTANT_DIRECT_RADIATION = "direct-radiation-instant";
+    public static final String CHANNEL_FORECAST_INSTANT_DIRECT_NORMAL_IRRADIANCE = "direct-normal-irradiance-instant";
+    public static final String CHANNEL_FORECAST_INSTANT_DIFFUSE_RADIATION = "diffuse-radiation-instant";
+    public static final String CHANNEL_FORECAST_INSTANT_GLOBAL_TILTED_IRRADIANCE = "global-tilted-irradiance-instant";
+    public static final String CHANNEL_FORECAST_INSTANT_TERRESTRIAL_SOLAR_RADIATION = "terrestrial-solar-radiation-instant";
     public static final String CHANNEL_FORECAST_VAPOUR_PRESSURE_DEFICIT = "vapour-pressure-deficit";
     public static final String CHANNEL_FORECAST_CAPE = "cape";
     public static final String CHANNEL_FORECAST_EVAPOTRANSPIRATION = "evapotranspiration";

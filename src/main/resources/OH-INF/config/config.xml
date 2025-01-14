@@ -215,6 +215,36 @@
 			<advanced>true</advanced>
 			<default>false</default>
 		</parameter>
+		<parameter name="includeInstantShortwaveRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeInstantShortwaveRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeInstantDirectRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeInstantDirectRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeInstantDirectNormalIrradiance" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeInstantDirectNormalIrradiance.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeInstantDiffuseRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeInstantDiffuseRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeInstantGlobalTiltedIrradiance" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeInstantGlobalTiltedIrradiance.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeInstantTerrestrialSolarRadiation" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeInstantTerrestrialSolarRadiation.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
 		<parameter name="includeVapourPressureDeficit" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.includeVapourPressureDeficit.label</label>
 			<advanced>true</advanced>

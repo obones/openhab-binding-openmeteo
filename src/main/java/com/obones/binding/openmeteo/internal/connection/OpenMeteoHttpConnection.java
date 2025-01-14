@@ -79,6 +79,18 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
                 return "global_tilted_irradiance";
             case TERRESTRIAL_SOLAR_RADIATION:
                 return "terrestrial_radiation";
+            case INSTANT_SHORTWAVE_RADIATION:
+                return "shortwave_radiation_instant";
+            case INSTANT_DIRECT_RADIATION:
+                return "direct_radiation_instant";
+            case INSTANT_DIRECT_NORMAL_IRRADIANCE:
+                return "direct_normal_irradiance_instant";
+            case INSTANT_DIFFUSE_RADIATION:
+                return "diffuse_radiation_instant";
+            case INSTANT_GLOBAL_TILTED_IRRADIANCE:
+                return "global_tilted_irradiance_instant";
+            case INSTANT_TERRESTRIAL_SOLAR_RADIATION:
+                return "terrestrial_radiation_instant";
             case VAPOUR_PRESSURE_DEFICIT:
                 return "vapour_pressure_deficit";
             case CAPE:
@@ -189,6 +201,12 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             case DIFFUSE_RADIATION:
             case GLOBAL_TILTED_IRRADIANCE:
             case TERRESTRIAL_SOLAR_RADIATION:
+            case INSTANT_SHORTWAVE_RADIATION:
+            case INSTANT_DIRECT_RADIATION:
+            case INSTANT_DIRECT_NORMAL_IRRADIANCE:
+            case INSTANT_DIFFUSE_RADIATION:
+            case INSTANT_GLOBAL_TILTED_IRRADIANCE:
+            case INSTANT_TERRESTRIAL_SOLAR_RADIATION:
             case VAPOUR_PRESSURE_DEFICIT:
             case CAPE:
             case EVAPOTRANSPIRATION:
@@ -221,6 +239,12 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             case DIFFUSE_RADIATION:
             case GLOBAL_TILTED_IRRADIANCE:
             case TERRESTRIAL_SOLAR_RADIATION:
+            case INSTANT_SHORTWAVE_RADIATION:
+            case INSTANT_DIRECT_RADIATION:
+            case INSTANT_DIRECT_NORMAL_IRRADIANCE:
+            case INSTANT_DIFFUSE_RADIATION:
+            case INSTANT_GLOBAL_TILTED_IRRADIANCE:
+            case INSTANT_TERRESTRIAL_SOLAR_RADIATION:
             case SUNSHINE_DURATION:
             case PRECIPITATION:
             case SNOW:

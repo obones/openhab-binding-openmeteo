@@ -53,6 +53,12 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public boolean includeDiffuseRadiation = false;
     public boolean includeGlobalTiltedIrradiance = false;
     public boolean includeTerrestrialSolarRadiation = false;
+    public boolean includeInstantShortwaveRadiation = false;
+    public boolean includeInstantDirectRadiation = false;
+    public boolean includeInstantDirectNormalIrradiance = false;
+    public boolean includeInstantDiffuseRadiation = false;
+    public boolean includeInstantGlobalTiltedIrradiance = false;
+    public boolean includeInstantTerrestrialSolarRadiation = false;
     public boolean includeVapourPressureDeficit = false;
     public boolean includeCape = false;
     public boolean includeEvapotranspiration = false;
