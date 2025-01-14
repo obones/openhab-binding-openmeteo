@@ -69,6 +69,7 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public boolean includeRain = true;
     public boolean includeShowers = false;
     public boolean includeWeatherCode = true;
+    public boolean includeIconId = false;
     public boolean includeSnowDepth = false;
     public boolean includeFreezingLevelHeight = false;
     public boolean includeVisibility = true;

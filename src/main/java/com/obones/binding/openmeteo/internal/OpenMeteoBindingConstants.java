@@ -154,6 +154,7 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_FORECAST_SHOWERS = "showers";
     public static final String CHANNEL_FORECAST_SHOWERS_SUM = "showers-sum";
     public static final String CHANNEL_FORECAST_WEATHER_CODE = "weather-code";
+    public static final String CHANNEL_FORECAST_ICON_ID = "icon-id";
     public static final String CHANNEL_FORECAST_SNOW_DEPTH = "snow-depth";
     public static final String CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT = "freezing-level-height";
     public static final String CHANNEL_FORECAST_VISIBILITY = "visibility";
@@ -188,6 +189,7 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_TYPE_RAIN = "rain";
     public static final String CHANNEL_TYPE_SHOWERS = "showers";
     public static final String CHANNEL_TYPE_WEATHER_CODE = "weather-code";
+    public static final String CHANNEL_TYPE_ICON_ID = "icon-id";
     public static final String CHANNEL_TYPE_SNOW_DEPTH = "snow-depth";
     public static final String CHANNEL_TYPE_FREEZING_LEVEL_HEIGHT = "freezing-level-height";
     public static final String CHANNEL_TYPE_VISIBILITY = "visibility";
@@ -243,6 +245,8 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_SHOWERS);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_WEATHER_CODE = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_WEATHER_CODE);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_ICON_ID = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_ICON_ID);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_SNOW_DEPTH = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_SNOW_DEPTH);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_FREEZING_LEVEL_HEIGHT = new ChannelTypeUID(BINDING_ID,

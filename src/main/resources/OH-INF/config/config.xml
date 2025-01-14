@@ -295,6 +295,11 @@
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
+		<parameter name="includeIconId" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeIconId.label</label>
+			<advanced>false</advanced>
+			<default>false</default>
+		</parameter>
 		<parameter name="includeSnowDepth" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.includeSnowDepth.label</label>
 			<advanced>true</advanced>

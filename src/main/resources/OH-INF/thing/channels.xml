@@ -242,6 +242,14 @@
 		<state readOnly="true"/>
 	</channel-type>
 
+	<channel-type id="icon-id">
+		<item-type>String</item-type>
+		<label>@text/channel-type.openmeteo.forecast.icon-id.label</label>
+		<description>@text/channel-type.openmeteo.forecast.icon-id.description</description>
+		<category>Sun_Clouds</category>
+		<state readOnly="true"/>
+	</channel-type>
+
 	<channel-type id="snow-depth" advanced="true">
 		<item-type>Number:Length</item-type>
 		<label>@text/channel-type.openmeteo.forecast.snow-depth.label</label>
@@ -442,6 +450,7 @@
 			<channel id="rain" typeId="rain"/>
 			<channel id="showers" typeId="showers"/>
 			<channel id="weather-code" typeId="weather-code"/>
+			<channel id="icon-id" typeId="icon-id"/>
 			<channel id="snow-depth" typeId="snow-depth"/>
 			<channel id="freezing-level-height" typeId="freezing-level-height"/>
 			<channel id="visibility" typeId="visibility"/>

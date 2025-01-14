@@ -25,7 +25,10 @@ import org.eclipse.jdt.annotation.Nullable;
 import org.openhab.core.i18n.CommunicationException;
 import org.openhab.core.i18n.ConfigurationException;
 import org.openhab.core.i18n.TimeZoneProvider;
+import org.openhab.core.library.types.DecimalType;
+import org.openhab.core.library.types.OnOffType;
 import org.openhab.core.library.types.PointType;
+import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.unit.MetricPrefix;
 import org.openhab.core.library.unit.SIUnits;
 import org.openhab.core.library.unit.Units;
@@ -47,6 +50,7 @@ import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.ForecastValue;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 import com.openmeteo.sdk.Variable;
+import com.openmeteo.sdk.VariableWithValues;
 import com.openmeteo.sdk.WeatherApiResponse;
 
 /***
@@ -297,6 +301,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
                 CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode, labelArguments);
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_ICON_ID,
+                CHANNEL_TYPE_UID_ICON_ID, config.includeIconId, labelArguments);
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW_DEPTH,
                 CHANNEL_TYPE_UID_SNOW_DEPTH, config.includeSnowDepth, labelArguments);
 
@@ -390,6 +397,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
                 CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode, labelArguments);
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_ICON_ID,
+                CHANNEL_TYPE_UID_ICON_ID, config.includeIconId, labelArguments);
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SUNRISE,
                 CHANNEL_TYPE_UID_SUNRISE, config.includeSunrise, labelArguments);
 
@@ -475,6 +485,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
                 CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_ICON_ID,
+                CHANNEL_TYPE_UID_ICON_ID, config.includeIconId, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUDINESS,
                 CHANNEL_TYPE_UID_CLOUDINESS, config.includeCloudiness, labelArguments);
@@ -645,6 +658,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
                 CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_ICON_ID,
+                CHANNEL_TYPE_UID_ICON_ID, config.includeIconId, labelArguments);
     }
 
     protected WeatherApiResponse requestData(OpenMeteoConnection connection, PointType location)
@@ -725,6 +741,10 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             result.add(ForecastValue.SHOWERS);
         if (config.includeWeatherCode)
             result.add(ForecastValue.WEATHER_CODE);
+        if (config.includeIconId) {
+            result.add(ForecastValue.WEATHER_CODE);
+            result.add(ForecastValue.IS_DAY);
+        }
         if (config.includeSnowDepth)
             result.add(ForecastValue.SNOW_DEPTH);
         if (config.includeFreezingLevelHeight)
@@ -820,6 +840,68 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         }
     }
 
+    private State getIconIdState(int weatherCode, boolean isDay) {
+        // inspired by this mapping: https://gist.github.com/stellasphere/9490c195ed2b53c707087c8c2db4ec0c
+        String iconId;
+
+        switch (weatherCode) {
+            case 0:
+            case 1:
+                iconId = "01";
+                break;
+            case 2:
+                iconId = "02";
+                break;
+            case 3:
+                iconId = "03";
+                break;
+            case 45:
+            case 48:
+                iconId = "50";
+                break;
+            case 51:
+            case 53:
+            case 55:
+            case 56:
+            case 57:
+                iconId = "09";
+                break;
+            case 61:
+            case 63:
+            case 65:
+            case 66:
+            case 67:
+                iconId = "10";
+                break;
+            case 71:
+            case 73:
+            case 75:
+            case 77:
+                iconId = "13";
+                break;
+            case 80:
+            case 81:
+            case 82:
+                iconId = "09";
+                break;
+            case 85:
+            case 86:
+                iconId = "13";
+                break;
+            case 95:
+            case 96:
+            case 99:
+                iconId = "11";
+                break;
+            default:
+                iconId = "01";
+        }
+
+        iconId += (isDay) ? "d" : "n";
+
+        return new StringType(iconId);
+    }
+
     protected int getVariableIndex(String channelId) {
         return switch (channelId.toString()) {
             case CHANNEL_FORECAST_TEMPERATURE -> Variable.temperature;
@@ -854,6 +936,8 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             case CHANNEL_FORECAST_RAIN -> Variable.rain;
             case CHANNEL_FORECAST_SHOWERS -> Variable.showers;
             case CHANNEL_FORECAST_WEATHER_CODE -> Variable.weather_code;
+            case CHANNEL_FORECAST_ICON_ID -> Variable.weather_code; // return the weather code to serve as the basis for
+                                                                    // icon id mapping
             case CHANNEL_FORECAST_SNOW_DEPTH -> Variable.snow_depth;
             case CHANNEL_FORECAST_FREEZING_LEVEL_HEIGHT -> Variable.freezing_level_height;
             case CHANNEL_FORECAST_VISIBILITY -> Variable.visibility;
@@ -866,6 +950,20 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             case CHANNEL_FORECAST_UV_INDEX_CLEAR_SKY -> Variable.uv_index_clear_sky;
             default -> Variable.undefined;
         };
+    }
+
+    @Override
+    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex) {
+        State channelState = super.getForecastState(channelId, values, valueIndex);
+
+        if (channelId.equals(CHANNEL_FORECAST_ICON_ID)) {
+            int weatherCode = channelState.as(DecimalType.class).intValue();
+            State isDayState = super.getForecastState(CHANNEL_FORECAST_IS_DAY, values, valueIndex);
+
+            return getIconIdState(weatherCode, (isDayState == OnOffType.ON));
+        }
+
+        return channelState;
     }
 
     protected State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue) {
@@ -954,6 +1052,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, MetricPrefix.MILLI(SIUnits.METRE));
                 break;
             case CHANNEL_FORECAST_WEATHER_CODE:
+            case CHANNEL_FORECAST_ICON_ID: // same as above
                 state = getDecimalTypeState(floatValue);
                 break;
             case CHANNEL_FORECAST_SNOW_DEPTH:
