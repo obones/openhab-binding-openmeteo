@@ -198,6 +198,7 @@ The channels are placed in groups named `forecastHourly` for [time series suppor
 
 | Channel ID                 | Item Type            | Description |
 |----------------------------|----------------------|-----------------------------------|
+| time-stamp                 | DateTime             |  The forecast date time (only for split channels) |
 | temperature                | Number:Temperature   |  Forecast outdoor temperature |
 | humidity                   | Number:Dimensionless |  Forecast atmospheric relative humidity |
 | dew-point                  | Number:Temperature   |  Forecasted dew-point temperature. |
@@ -241,6 +242,7 @@ The channels are placed in groups named `forecastDaily` for [time series support
 
 | Channel ID                     | Item Type            | Description |
 |--------------------------------|----------------------|-----------------------------------|
+| time-stamp                     | DateTime             |  The forecast date time (only for split channels) |
 | temperature-min                | Number:Temperature   |  Forecast minimum outdoor temperature |
 | temperature-max                | Number:Temperature   |  Forecast maximum outdoor temperature |
 | apparent-temperature-min       | Number:Temperature   |  Forecast minimum apparent temperature. |
@@ -288,6 +290,7 @@ The channels are placed in a group named `forecastMinutely15` as a [time series]
 | diffuse-radiation-instant          | Number:Intensity     |  Diffuse solar radiation at the indicated time.  |
 | global-tilted-irradiance-instant   | Number:Intensity     |  Global tilted irradiance at the indicated time.  |
 | terrestrial-solar-radiation-instant| Number:Intensity     |  Terrestrial solar radiation at the indicated time.  |
+| sunshine-duration          | Number:Time          |  The number of seconds of sunshine for the preceding 15 minutes. |
 | precipitation              | Number:Length        |  Total precipitation (rain, showers, snow) sum of the preceding 15 minutes |
 | snow                       | Number:Length        |  Snow volume of the last 15 minutes. |
 | rain                       | Number:Length        |  Rain volume of the last 15 minutes. |
@@ -307,6 +310,7 @@ The channels are placed in a group named `current`.
 
 | Channel ID                 | Item Type            | Description |
 |----------------------------|----------------------|-----------------------------------|
+| time-stamp                 | DateTime             |  The date time for which the current observations were computed |
 | temperature                | Number:Temperature   |  Forecast outdoor temperature |
 | humidity                   | Number:Dimensionless |  Forecast atmospheric relative humidity |
 | apparent-temperature       | Number:Temperature   |  Forecast apparent temperature. |
