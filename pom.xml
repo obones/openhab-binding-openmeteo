@@ -45,5 +45,5 @@
 
   <description>This binding integrates the Open Meteo weather foreceast service.</description>
 
-  <version>0.2.1</version>
+  <version>0.3.0</version>
 </project>
