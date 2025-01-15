@@ -120,6 +120,7 @@ If the system location was to be changed, the background discovery would update 
 | includeRain                     | Create a channel for rain (default: true) |
 | includeShowers                  | Create a channel for convective showers (default: false) |
 | includeWeatherCode              | Create a channel for weather code, using the WMO table values (default: true) |
+| includeIconId                   | Create a channel for icon id, compatible with OpenWeatherMap icon ids |
 | includeSnowDepth                | Create a channel for snow depth (default: false) |
 | includeFreezingLevelHeight      | Create a channel for 0°C altitude (default: false) |
 | includeVisibility               | Create a channel for visibility distance (default: true) |
@@ -230,6 +231,7 @@ The channels are placed in groups named `forecastHourly` for [time series suppor
 | rain                           | Number:Length        |  Rain volume of the last hour. |
 | showers                        | Number:Length        |  Showers from convective precipitation from the preceding hour |
 | weather-code                   | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
+| icon-id                        | String               |  Weather condition as an Icon Id. Follows OpenWeatherMap icon Ids. |
 | snow-depth                     | Number:Length        | Snow depth on the ground |
 | freezing-level-height          | Number:Length        | Altitude above sea level of the 0°C level |
 | visibility                     | Number:Length        |  Current visibility. |
@@ -256,6 +258,7 @@ The channels are placed in groups named `forecastDaily` for [time series support
 | precipitation-probability-max  | Number:Dimensionless |  Forecast maximum precipitation probability. |
 | precipitation-probability-mean | Number:Dimensionless |  Forecast mean precipitation probability. |
 | weather-code                   | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
+| icon-id                        | String               |  Weather condition as an Icon Id. Follows OpenWeatherMap icon Ids. |
 | sunrise                        | DateTime             |  Sunrise time |
 | sunset                         | DateTime             |  Sunset time |
 | sunshine-duration              | Number:Time          |  The number of seconds of sunshine per day, always less than daylight duration due to dawn and dusk. |
@@ -303,6 +306,7 @@ The channels are placed in a group named `forecastMinutely15` as a [time series]
 | gust-speed                 | Number:Speed         |  Forecast gust speed. |
 | visibility                 | Number:Length        |  Current visibility. |
 | weather-code               | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
+| icon-id                    | String               |  Weather condition as an Icon Id. Follows OpenWeatherMap icon Ids. |
 
 ### Current weather conditions
 
@@ -320,6 +324,7 @@ The channels are placed in a group named `current`.
 | showers                    | Number:Length        |  Showers from convective precipitation from the preceding hour |
 | snow                       | Number:Length        |  Snow volume of the last hour. |
 | weather-code               | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
+| icon-id                    | String               |  Weather condition as an Icon Id. Follows OpenWeatherMap icon Ids. |
 | cloudiness                 | Number:Dimensionless |  Forecast cloudiness. |
 | pressure                   | Number:Pressure      |  Forecast barometric surface pressure |
 | wind-speed                 | Number:Speed         |  Forecast wind speed |
