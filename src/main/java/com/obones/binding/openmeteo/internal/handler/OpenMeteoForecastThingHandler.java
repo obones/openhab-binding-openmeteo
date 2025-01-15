@@ -618,16 +618,24 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_TYPE_UID_SUNSHINE_DURATION, config.includeSunshineDuration, labelArguments);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION,
-                CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation, labelArguments);
+                CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation, //
+                null, "channel-type.openmeteo.forecast.precipitation-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW,
-                CHANNEL_TYPE_UID_SNOW, config.includeSnow, labelArguments);
+                CHANNEL_TYPE_UID_SNOW, config.includeSnow, //
+                null, "channel-type.openmeteo.forecast.snow-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_RAIN,
-                CHANNEL_TYPE_UID_RAIN, config.includeRain, labelArguments);
+                CHANNEL_TYPE_UID_RAIN, config.includeRain, //
+                null, "channel-type.openmeteo.forecast.rain-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHOWERS,
-                CHANNEL_TYPE_UID_SHOWERS, config.includeShowers, labelArguments);
+                CHANNEL_TYPE_UID_SHOWERS, config.includeShowers, //
+                null, "channel-type.openmeteo.forecast.showers-fifteen-minutes.description", //
+                labelArguments, null);
 
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW_DEPTH,
                 CHANNEL_TYPE_UID_SNOW_DEPTH, config.includeSnowDepth, labelArguments);
