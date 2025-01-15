@@ -86,6 +86,8 @@ If the system location was to be changed, the background discovery would update 
 | current          | Whether to create a channel group for the current weather conditions. (default = false) |
 | minutely15       | Whether to create a 15 minutely time series channel group or not. Time series are new in 4.1 (default = false) |
 | minutely15Steps  | Number of 15 minutes steps to get the forecast for. Optional, the default value is 48 (min="1" max="288" step="1") |
+| panelTilt        | The solar panel tilt (0° horizontal) |
+| panelAzimuth     | The solar panel azimuth (0° S, -90° E, 90° W) |
 | includeTimeStamp           | Create a channel in split groups for the forecast date time |
 | includeTemperature         | Create channels for temperature, instant on hourly, min and max on daily (default: true) |
 | includeHumidity            | Create a channel for humidity (default: true) |
@@ -100,6 +102,14 @@ If the system location was to be changed, the background discovery would update 
 | includeDirectRadiation     | Create a channel for direct radiation (default: false) |
 | includeDirectNormalIrradiance | Create a channel for normal irradiance (default: false) |
 | includeDiffuseRadiation       | Create a channel for diffuse radiation (default: false) |
+| includeGlobalTiltedIrradiance | Create a channel for global tilted irradiance, requires panelTilt and panelAzimuth to be defined (default: false) |
+| includeTerrestrialSolarRadiation | Create a channel for terrestrial solar radiation (default: false) |
+| includeInstantShortwaveRadiation  | Create a channel for instant shortwave radiation (default: false) |
+| includeInstantDirectRadiation     | Create a channel for instant direct radiation (default: false) |
+| includeInstantDirectNormalIrradiance | Create a channel for instant normal irradiance (default: false) |
+| includeInstantDiffuseRadiation       | Create a channel for instant diffuse radiation (default: false) |
+| includeInstantGlobalTiltedIrradiance | Create a channel for instant global tilted irradiance, requires panelTilt and panelAzimuth to be defined (default: false) |
+| includeInstantTerrestrialSolarRadiation | Create a channel for instant terrestrial solar radiation (default: false) |
 | includeVapourPressureDeficit  | Create a channel for vapour pressure deficit (VPD) (default: false) |
 | includeCape                   | Create a channel for Convective available potential energy (CAPE)  (default: false) |
 | includeEvapotranspiration     | Create a channel for evapotranspiration (default: false) |
@@ -201,7 +211,15 @@ The channels are placed in groups named `forecastHourly` for [time series suppor
 | direct-radiation           | Number:Intensity     |  Direct solar radiation as average of the preceding hour. |
 | direct-normal-irradiance   | Number:Intensity     |  Direct solar irradiance as average of the preceding hour. |
 | diffuse-radiation          | Number:Intensity     |  Diffuse solar radiation as average of the preceding hour.  |
-| vapour-pressure-deficit    | Number:Pressure      | For high VPD (>1.6), water transpiration of plants increases. For low VPD (<0.4), transpiration decreases |
+| global-tilted-irradiance   | Number:Intensity     |  Global tilted irradiance as average of the preceding hour.  |
+| terrestrial-solar-radiation| Number:Intensity     |  Terrestrial solar radiation as average of the preceding hour.  |
+| shortwave-radiation-instant        | Number:Intensity     |  Shortwave solar radiation at the indicated time. |
+| direct-radiation-instant           | Number:Intensity     |  Direct solar radiation at the indicated time. |
+| direct-normal-irradiance-instant   | Number:Intensity     |  Direct solar irradiance at the indicated time. |
+| diffuse-radiation-instant          | Number:Intensity     |  Diffuse solar radiation at the indicated time.  |
+| global-tilted-irradiance-instant   | Number:Intensity     |  Global tilted irradiance at the indicated time.  |
+| terrestrial-solar-radiation-instant| Number:Intensity     |  Terrestrial solar radiation at the indicated time.  |
+| vapour-pressure-deficit    | Number:Pressure      |  For high VPD (>1.6), water transpiration of plants increases. For low VPD (<0.4), transpiration decreases |
 | cape                       | Number               |  Convective available potential energy |
 | evapotranspiration         | Number:Length        |  Evapotranspiration from land surface and plants that weather models assumes for this location. | |
 | et0-fao-evapotranspiration | Number:Length        |  Based on FAO-56 Penman-Monteith equations ET₀ is calculated from temperature, wind speed, humidity and solar radiation. |
@@ -258,14 +276,22 @@ The channels are placed in a group named `forecastMinutely15` as a [time series]
 | humidity                   | Number:Dimensionless |  Forecast atmospheric relative humidity |
 | dew-point                  | Number:Temperature   |  Forecasted dew-point temperature. |
 | apparent-temperature       | Number:Temperature   |  Forecast apparent temperature. |
-| shortwave-radiation        | Number:Intensity     |  Shortwave solar radiation as average of the preceding hour. |
-| direct-radiation           | Number:Intensity     |  Direct solar radiation as average of the preceding hour. |
-| direct-normal-irradiance   | Number:Intensity     |  Direct solar irradiance as average of the preceding hour. |
-| diffuse-radiation          | Number:Intensity     |  Diffuse solar radiation as average of the preceding hour.  |
-| precipitation              | Number:Length        |  Total precipitation (rain, showers, snow) sum of the preceding hour |
-| snow                       | Number:Length        |  Snow volume of the last hour. |
-| rain                       | Number:Length        |  Rain volume of the last hour. |
-| showers                    | Number:Length        |  Showers from convective precipitation from the preceding hour |
+| shortwave-radiation        | Number:Intensity     |  Shortwave solar radiation as average of the preceding 15 minutes. |
+| direct-radiation           | Number:Intensity     |  Direct solar radiation as average of the preceding 15 minutes. |
+| direct-normal-irradiance   | Number:Intensity     |  Direct solar irradiance as average of the preceding 15 minutes. |
+| diffuse-radiation          | Number:Intensity     |  Diffuse solar radiation as average of the preceding 15 minutes.  |
+| global-tilted-irradiance   | Number:Intensity     |  Global tilted irradiance as average of the preceding 15 minutes.  |
+| terrestrial-solar-radiation| Number:Intensity     |  Terrestrial solar radiation as average of the preceding 15 minutes.  |
+| shortwave-radiation-instant        | Number:Intensity     |  Shortwave solar radiation at the indicated time. |
+| direct-radiation-instant           | Number:Intensity     |  Direct solar radiation at the indicated time. |
+| direct-normal-irradiance-instant   | Number:Intensity     |  Direct solar irradiance at the indicated time. |
+| diffuse-radiation-instant          | Number:Intensity     |  Diffuse solar radiation at the indicated time.  |
+| global-tilted-irradiance-instant   | Number:Intensity     |  Global tilted irradiance at the indicated time.  |
+| terrestrial-solar-radiation-instant| Number:Intensity     |  Terrestrial solar radiation at the indicated time.  |
+| precipitation              | Number:Length        |  Total precipitation (rain, showers, snow) sum of the preceding 15 minutes |
+| snow                       | Number:Length        |  Snow volume of the last 15 minutes. |
+| rain                       | Number:Length        |  Rain volume of the last 15 minutes. |
+| showers                    | Number:Length        |  Showers from convective precipitation from the preceding 15 minutes |
 | snow-depth                 | Number:Length        | Snow depth on the ground |
 | freezing-level-height      | Number:Length        | Altitude above sea level of the 0°C level |
 | cape                       | Number               |  Convective available potential energy |
