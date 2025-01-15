@@ -445,7 +445,7 @@ const forecastEnd = forecastStart.plusDays(6);
 
 // retrieve historic states from the time series item
 const dailyWMOCodeItem = items.weather_forecast_WMO_code_Daily;
-const dailyWMOCodeHistoricItems = dailyWMOCodeItem.history.getAllStatesBetween(forecastStart, forecastEnd);
+const dailyWMOCodeHistoricItems = dailyWMOCodeItem.persistence.getAllStatesBetween(forecastStart, forecastEnd);
 
 // Declare a method that returns an numeric value from an historic item state.
 // This avoids duplicating this code should you want to work on multiple items at once, like what is done
@@ -478,6 +478,8 @@ for (let forecastIndex = 0; forecastIndex < dailyWMOCodeHistoricItems.length; fo
   // ...
 }
 ```
+
+> **_NOTE:_** The above code is compatible with OpenHAB 4.3 and upper. If you use an earlier version, replace the `persistence` property on `dailyWMOCodeItem` with `history` 
 
 ## Transformation profiles
 
