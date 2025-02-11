@@ -51,6 +51,7 @@ import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.Fore
 import com.obones.binding.openmeteo.internal.utils.Localization;
 import com.openmeteo.sdk.Variable;
 import com.openmeteo.sdk.VariableWithValues;
+import com.openmeteo.sdk.VariablesWithTime;
 import com.openmeteo.sdk.WeatherApiResponse;
 
 /***
@@ -961,12 +962,19 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
     }
 
     @Override
-    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex) {
-        State channelState = super.getForecastState(channelId, values, valueIndex);
+    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex,
+            @Nullable VariablesWithTime forecast) {
+        State channelState = super.getForecastState(channelId, values, valueIndex, forecast);
 
         if (channelId.equals(CHANNEL_FORECAST_ICON_ID)) {
             int weatherCode = channelState.as(DecimalType.class).intValue();
-            State isDayState = super.getForecastState(CHANNEL_FORECAST_IS_DAY, values, valueIndex);
+
+            StringBuilder isDayChannelId = new StringBuilder(CHANNEL_FORECAST_IS_DAY);
+            VariableWithValues isDayValues = getVariableValues(isDayChannelId, forecast);
+
+            State isDayState = (isDayValues != null)
+                    ? super.getForecastState(CHANNEL_FORECAST_IS_DAY, isDayValues, valueIndex, forecast)
+                    : UnDefType.UNDEF;
 
             return getIconIdState(weatherCode, (isDayState == OnOffType.ON));
         }

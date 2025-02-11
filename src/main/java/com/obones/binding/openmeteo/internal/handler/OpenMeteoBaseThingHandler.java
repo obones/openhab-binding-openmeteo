@@ -414,7 +414,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
                 int valuesLength = Math.max(values.valuesLength(), values.valuesInt64Length());
                 for (int valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
                     Instant timestamp = Instant.ofEpochSecond(time);
-                    State state = getForecastState(channelId.toString(), values, valueIndex);
+                    State state = getForecastState(channelId.toString(), values, valueIndex, forecast);
                     timeSeries.add(timestamp, state);
 
                     time += forecast.interval();
@@ -464,7 +464,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
             } else {
                 VariableWithValues values = getVariableValues(channelId, forecast);
                 if (values != null) {
-                    state = getForecastState(channelId.toString(), values, index);
+                    state = getForecastState(channelId.toString(), values, index, forecast);
                 } else {
                     logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
                 }
@@ -541,7 +541,8 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
     protected abstract State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue);
 
-    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex) {
+    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex,
+            @Nullable VariablesWithTime forecast) {
         @Nullable
         Float floatValue = null;
         if (valueIndex == null)
