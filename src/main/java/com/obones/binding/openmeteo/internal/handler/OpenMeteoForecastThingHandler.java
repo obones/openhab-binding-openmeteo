@@ -976,7 +976,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                     ? super.getForecastState(CHANNEL_FORECAST_IS_DAY, isDayValues, valueIndex, forecast)
                     : UnDefType.UNDEF;
 
-            return getIconIdState(weatherCode, (isDayState == OnOffType.ON));
+            return getIconIdState(weatherCode, (isDayState != OnOffType.OFF));
         }
 
         return channelState;
