@@ -192,39 +192,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
     }
 
     private void addCurrentFields(ForecastValue forecastValue, ArrayList<String> fields) {
-        switch (forecastValue) {
-            // those fields are not available in the current conditions
-            case DEW_POINT:
-            case SHORTWAVE_RADIATION:
-            case DIRECT_RADIATION:
-            case DIRECT_NORMAL_IRRADIANCE:
-            case DIFFUSE_RADIATION:
-            case GLOBAL_TILTED_IRRADIANCE:
-            case TERRESTRIAL_SOLAR_RADIATION:
-            case INSTANT_SHORTWAVE_RADIATION:
-            case INSTANT_DIRECT_RADIATION:
-            case INSTANT_DIRECT_NORMAL_IRRADIANCE:
-            case INSTANT_DIFFUSE_RADIATION:
-            case INSTANT_GLOBAL_TILTED_IRRADIANCE:
-            case INSTANT_TERRESTRIAL_SOLAR_RADIATION:
-            case VAPOUR_PRESSURE_DEFICIT:
-            case CAPE:
-            case EVAPOTRANSPIRATION:
-            case ET0_EVAPOTRANSPIRATION:
-            case PRECIPITATION_PROBABILITY:
-            case SNOW_DEPTH:
-            case FREEZING_LEVEL_HEIGHT:
-            case VISIBILITY:
-            case SUNRISE:
-            case SUNSET:
-            case SUNSHINE_DURATION:
-            case DAYLIGHT_DURATION:
-            case UV_INDEX:
-            case UV_INDEX_CLEAR_SKY:
-                return;
-            default:
-                fields.add(getForecastValueFieldName(forecastValue));
-        }
+        addHourlyFields(forecastValue, fields);
     }
 
     private void addMinutely15Fields(ForecastValue forecastValue, ArrayList<String> fields) {
@@ -439,23 +407,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
     }
 
     private void addCurrentFields(AirQualityValue airQualityValue, ArrayList<String> fields) {
-        switch (airQualityValue) {
-            // those fields are not available in the current conditions
-            case EUROPEAN_AQI_PM_2_5:
-            case EUROPEAN_AQI_PM_10:
-            case EUROPEAN_AQI_NITROGEN_DIOXIDE:
-            case EUROPEAN_AQI_OZONE:
-            case EUROPEAN_AQI_SULPHUR_DIOXIDE:
-            case US_AQI_PM_2_5:
-            case US_AQI_PM_10:
-            case US_AQI_NITROGEN_DIOXIDE:
-            case US_AQI_OZONE:
-            case US_AQI_SULPHUR_DIOXIDE:
-            case US_AQI_CARBON_MONOXIDE:
-                return;
-            default:
-                fields.add(getAirQualityValueFieldName(airQualityValue));
-        }
+        addHourlyFields(airQualityValue, fields);
     }
 
     public WeatherApiResponse getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,

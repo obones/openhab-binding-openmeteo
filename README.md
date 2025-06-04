@@ -310,26 +310,7 @@ The channels are placed in a group named `forecastMinutely15` as a [time series]
 
 ### Current weather conditions
 
-The channels are placed in a group named `current`.
-
-| Channel ID                 | Item Type            | Description |
-|----------------------------|----------------------|-----------------------------------|
-| time-stamp                 | DateTime             |  The date time for which the current observations were computed |
-| temperature                | Number:Temperature   |  Forecast outdoor temperature |
-| humidity                   | Number:Dimensionless |  Forecast atmospheric relative humidity |
-| apparent-temperature       | Number:Temperature   |  Forecast apparent temperature. |
-| is-day                     | Switch               |  Active if daylight, inactive at night |
-| precipitation              | Number:Length        |  Total precipitation (rain, showers, snow) sum of the preceding hour |
-| rain                       | Number:Length        |  Rain volume of the last hour. |
-| showers                    | Number:Length        |  Showers from convective precipitation from the preceding hour |
-| snow                       | Number:Length        |  Snow volume of the last hour. |
-| weather-code               | Number               |  Weather condition as a numeric code. Follow WMO weather interpretation codes.  |
-| icon-id                    | String               |  Weather condition as an Icon Id. Follows OpenWeatherMap icon Ids. |
-| cloudiness                 | Number:Dimensionless |  Forecast cloudiness. |
-| pressure                   | Number:Pressure      |  Forecast barometric surface pressure |
-| wind-speed                 | Number:Speed         |  Forecast wind speed |
-| wind-direction             | Number:Angle         |  Forecast wind direction |
-| gust-speed                 | Number:Speed         |  Forecast gust speed. |
+The channels are placed in a group named `current` and are the same as for the hourly weather forecast.
 
 ### Hourly air quality forecast
 
@@ -384,31 +365,7 @@ The channels are placed in groups named `forecastHourly` with [time series suppo
 
 ### Current air quality conditions
 
-The channels are placed in a group named `current`.
-
-| Channel ID                              | Item Type            | Description |
-|-----------------------------------------|----------------------|-----------------------------------|
-| uv-index                                | Number               | UV Index starting from 0 |
-| uv-index-clear-sky                      | Number               | UV Index starting from 0 assuming cloud free conditions |
-| particulate-10                          | Number:Density       | Particulate matter with diameter smaller than 10 µm close to surface (10 meter above ground) |
-| particulate-2_5                         | Number:Density       | Particulate matter with diameter smaller than 2.5 µm close to surface (10 meter above ground) |
-| carbon-monoxide                         | Number:Density       | Carbon Monoxide CO concentration close to surface (10 meter above ground) |
-| nitrogen-dioxide                        | Number:Density       | Nitrogen Dioxide NO2 concentration close to surface (10 meter above ground) |
-| sulphur-dioxide                         | Number:Density       | Sulphur Dioxide SO2 concentration close to surface (10 meter above ground) |
-| ozone                                   | Number:Density       | Ozone O3 concentration close to surface (10 meter above ground) |
-| aerosol-optical-depth                   | Number:Dimensionless | Aerosol optical depth at 550 nm of the entire atmosphere to indicate haze |
-| dust                                    | Number:Density       | Saharan dust particles close to surface level (10 meter above ground). |
-| ammonia                                 | Number:Density       | Ammonia NH3 concentration close to surface (10 meter above ground), Europe only |
-| alder-pollen                            | Number               | Alder Pollen, Europe only |
-| birch-pollen                            | Number               | Birch Pollen, Europe only |
-| mugwort-pollen                          | Number               | Mugwort Pollen, Europe only |
-| grass-pollen                            | Number               | Grass Pollen, Europe only |
-| olive-pollen                            | Number               | Olive Pollen, Europe only |
-| ragweed-pollen                          | Number               | Ragweed Pollen, Europe only |
-| european-aqi                            | Number               | European AQI. Ranges from 0-20 (good), 20-40 (fair), 40-60 (moderate), 60-80 (poor), 80-100 (very poor) and exceeds 100 for extremely poor conditions. |
-| european-aqi-as-string                  | String               | European AQI as a human readable string. Possible values are good, fair, moderate, poor, very poor and  extremely poor conditions. |
-| us-aqi                                  | Number               | United States AQI. Ranges from 0-50 (good), 51-100 (moderate), 101-150 (unhealthy for sensitive groups), 151-200 (unhealthy), 201-300 (very unhealthy) and 301-500 (hazardous). |
-| us-aqi-as-string                        | String               | United States AQI as a human readable string. Possible values are good, moderate, unhealthy for sensitive groups, unhealthy, very unhealthy and hazardous. |
+The channels are placed in a group named `current` and are the same as for the hourly air quality forecast.
 
 ## Persisting Time Series
 

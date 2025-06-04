@@ -448,73 +448,11 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
     protected ThingBuilder initializeCurrentGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
             ThingUID thingUID, OpenMeteoForecastThingConfiguration config) {
 
-        Object[] labelArguments = { localization.getText("channel-type.openmeteo.forecast.label-suffix.current") };
+        String labelSuffix = localization.getText("channel-type.openmeteo.forecast.label-suffix.current");
         String channelGroupId = CHANNEL_GROUP_CURRENT;
 
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TIME_STAMP,
-                CHANNEL_TYPE_UID_TIME_STAMP, config.includeTimeStamp, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_TEMPERATURE,
-                SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, config.includeTemperature, //
-                "channel-type.openmeteo.forecast.temperature.label",
-                "channel-type.openmeteo.forecast.temperature.description", //
-                labelArguments, null);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_HUMIDITY,
-                SYSTEM_CHANNEL_TYPE_UID_ATMOSPHERIC_HUMIDITY, config.includeHumidity, //
-                "channel-type.openmeteo.forecast.humidity.label",
-                "channel-type.openmeteo.forecast.humidity.description", //
-                labelArguments, null);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_APPARENT_TEMPERATURE,
-                CHANNEL_TYPE_UID_APPARENT_TEMPERATURE, config.includeApparentTemperature, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_IS_DAY,
-                CHANNEL_TYPE_UID_IS_DAY, config.includeIsDay, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRECIPITATION,
-                CHANNEL_TYPE_UID_PRECIPITATION, config.includePrecipitation, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_RAIN,
-                CHANNEL_TYPE_UID_RAIN, config.includeRain, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SHOWERS,
-                CHANNEL_TYPE_UID_SHOWERS, config.includeShowers, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_SNOW,
-                CHANNEL_TYPE_UID_SNOW, config.includeSnow, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WEATHER_CODE,
-                CHANNEL_TYPE_UID_WEATHER_CODE, config.includeWeatherCode, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_ICON_ID,
-                CHANNEL_TYPE_UID_ICON_ID, config.includeIconId, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUDINESS,
-                CHANNEL_TYPE_UID_CLOUDINESS, config.includeCloudiness, labelArguments);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_PRESSURE,
-                SYSTEM_CHANNEL_TYPE_UID_BAROMETRIC_PRESSURE, config.includePressure, //
-                "channel-type.openmeteo.forecast.pressure.label",
-                "channel-type.openmeteo.forecast.pressure.description", //
-                labelArguments, null);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
-                SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
-                "channel-type.openmeteo.forecast.wind-speed.label",
-                "channel-type.openmeteo.forecast.wind-speed.description", //
-                labelArguments, null);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_DIRECTION,
-                SYSTEM_CHANNEL_TYPE_UID_WIND_DIRECTION, config.includeWindDirection, //
-                "channel-type.openmeteo.forecast.wind-direction.label",
-                "channel-type.openmeteo.forecast.wind-direction.description", //
-                labelArguments, null);
-
-        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_GUST_SPEED,
-                CHANNEL_TYPE_UID_GUST_SPEED, config.includeGustSpeed, labelArguments);
-
-        return builder;
+        return initializeHourlyGroupOptionalChannels(callback, builder, thingUID, config, channelGroupId, labelSuffix,
+                false);
     }
 
     private void initializeMinutely15GroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
