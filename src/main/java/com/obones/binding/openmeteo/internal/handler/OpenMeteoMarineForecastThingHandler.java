@@ -1,0 +1,196 @@
+package com.obones.binding.openmeteo.internal.handler;
+
+import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
+
+import java.util.EnumSet;
+import java.util.Optional;
+
+import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.core.i18n.CommunicationException;
+import org.openhab.core.i18n.ConfigurationException;
+import org.openhab.core.i18n.TimeZoneProvider;
+import org.openhab.core.library.types.PointType;
+import org.openhab.core.thing.ChannelUID;
+import org.openhab.core.thing.Thing;
+import org.openhab.core.thing.ThingUID;
+import org.openhab.core.thing.binding.ThingHandlerCallback;
+import org.openhab.core.thing.binding.builder.ThingBuilder;
+import org.openhab.core.thing.type.ChannelTypeRegistry;
+import org.openhab.core.types.State;
+import org.openhab.core.types.UnDefType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.obones.binding.openmeteo.internal.config.OpenMeteoMarineForecastThingConfiguration;
+import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
+import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection.MarineForecastValue;
+import com.obones.binding.openmeteo.internal.utils.Localization;
+import com.openmeteo.sdk.Variable;
+import com.openmeteo.sdk.WeatherApiResponse;
+
+/***
+ * The{@link OpenMeteoMarineForecastThingHandler} is responsible for updating marine weather forecast related channels,
+ * which are retrieved via {@link OpenMeteoBridgeHandler}.
+ *
+ * @author Olivier Sannier - Initial contribution
+ */
+@NonNullByDefault
+public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandler {
+    private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
+
+    public OpenMeteoMarineForecastThingHandler(Thing thing, Localization localization,
+            final TimeZoneProvider timeZoneProvider, ChannelTypeRegistry channelTypeRegistry) {
+        super(thing, localization, timeZoneProvider, channelTypeRegistry);
+        logger.trace("OpenMeteoMarineForecastHandler(thing={},localization={}) constructor called.", thing,
+                localization);
+    }
+
+    protected void initializeChannels(ThingHandlerCallback callback, ThingBuilder builder, ThingUID thingUID) {
+        OpenMeteoMarineForecastThingConfiguration config = getConfigAs(OpenMeteoMarineForecastThingConfiguration.class);
+
+        if (config.hourlyTimeSeries) {
+            String labelSuffix = localization
+                    .getText("channel-type.openmeteo.marine-forecast.label-suffix.hourly.time-series");
+            initializeHourlyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_HOURLY_TIME_SERIES,
+                    labelSuffix);
+        }
+
+        if (config.dailyTimeSeries) {
+            String labelSuffix = localization
+                    .getText("channel-type.openmeteo.marine-forecast.label-suffix.daily.time-series");
+            initializeDailyGroupOptionalChannels(callback, builder, thingUID, config, CHANNEL_GROUP_DAILY_TIME_SERIES,
+                    labelSuffix);
+        }
+
+        if (config.current) {
+            initializeCurrentGroupOptionalChannels(callback, builder, thingUID, config);
+        }
+    }
+
+    protected ThingBuilder initializeHourlyGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, OpenMeteoMarineForecastThingConfiguration config, String channelGroupId,
+            String labelSuffix) {
+
+        Object[] labelArguments = { labelSuffix };
+
+        return builder;
+    }
+
+    protected ThingBuilder initializeCurrentGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, OpenMeteoMarineForecastThingConfiguration config) {
+
+        String labelSuffix = localization.getText("channel-type.openmeteo.marine-forecast.label-suffix.current");
+        String channelGroupId = CHANNEL_GROUP_CURRENT;
+
+        return initializeHourlyGroupOptionalChannels(callback, builder, thingUID, config, channelGroupId, labelSuffix);
+    }
+
+    protected ThingBuilder initializeDailyGroupOptionalChannels(ThingHandlerCallback callback, ThingBuilder builder,
+            ThingUID thingUID, OpenMeteoMarineForecastThingConfiguration config, String channelGroupId,
+            String labelSuffix) {
+
+        Object[] labelArguments = { labelSuffix };
+
+        return builder;
+    }
+
+    protected void updateChannel(ChannelUID channelUID) {
+        String channelGroupId = Optional.ofNullable(channelUID.getGroupId()).orElse("");
+        logger.debug("OpenMeteoMarineForecastThingHandler: updateChannel {}, groupID {}", channelUID, channelGroupId);
+
+        switch (channelGroupId) {
+            case CHANNEL_GROUP_HOURLY_TIME_SERIES:
+                updateHourlyTimeSeries(channelUID);
+                break;
+            case CHANNEL_GROUP_DAILY_TIME_SERIES:
+                updateDailyTimeSeries(channelUID);
+                break;
+            case CHANNEL_GROUP_CURRENT:
+                updateCurrentChannel(channelUID);
+                break;
+            case CHANNEL_GROUP_MINUTELY_15:
+                updateMinutely15TImeSeries(channelUID);
+                break;
+        }
+    }
+
+    protected WeatherApiResponse requestData(OpenMeteoConnection connection, PointType location)
+            throws CommunicationException, ConfigurationException {
+        OpenMeteoMarineForecastThingConfiguration config = getConfigAs(OpenMeteoMarineForecastThingConfiguration.class);
+
+        return connection.getMarineForecast(location, getMarineForecastValues(),
+                (config.hourlyTimeSeries) ? config.hourlyHours : null, //
+                (config.dailyTimeSeries) ? config.dailyDays : null, //
+                config.current);
+    }
+
+    private EnumSet<OpenMeteoConnection.MarineForecastValue> getMarineForecastValues() {
+        EnumSet<OpenMeteoConnection.MarineForecastValue> result = EnumSet
+                .noneOf(OpenMeteoConnection.MarineForecastValue.class);
+        OpenMeteoMarineForecastThingConfiguration config = getConfigAs(OpenMeteoMarineForecastThingConfiguration.class);
+
+        if (config.includeWaveHeight)
+            result.add(MarineForecastValue.WAVE_HEIGHT);
+        if (config.includeWindWaveHeight)
+            result.add(MarineForecastValue.WIND_WAVE_HEIGHT);
+        if (config.includeSwellWaveHeight)
+            result.add(MarineForecastValue.SWELL_WAVE_HEIGHT);
+        if (config.includeSecondarySwellWaveHeight)
+            result.add(MarineForecastValue.SECONDARY_SWELL_WAVE_HEIGHT);
+        if (config.includeTertiarySwellWaveHeight)
+            result.add(MarineForecastValue.TERTIARY_SWELL_WAVE_HEIGHT);
+        if (config.includeWaveDirection)
+            result.add(MarineForecastValue.WAVE_DIRECTION);
+        if (config.includeWindWaveDirection)
+            result.add(MarineForecastValue.WIND_WAVE_DIRECTION);
+        if (config.includeSwellWaveDirection)
+            result.add(MarineForecastValue.SWELL_WAVE_DIRECTION);
+        if (config.includeSecondarySwellWaveDirection)
+            result.add(MarineForecastValue.SECONDARY_SWELL_WAVE_DIRECTION);
+        if (config.includeTertiarySwellWaveDirection)
+            result.add(MarineForecastValue.TERTIARY_SWELL_WAVE_DIRECTION);
+        if (config.includeWavePeriod)
+            result.add(MarineForecastValue.WAVE_PERIOD);
+        if (config.includeWindWavePeriod)
+            result.add(MarineForecastValue.WIND_WAVE_PERIOD);
+        if (config.includeSwellWavePeriod)
+            result.add(MarineForecastValue.SWELL_WAVE_PERIOD);
+        if (config.includeSecondarySwellWavePeriod)
+            result.add(MarineForecastValue.SECONDARY_SWELL_WAVE_PERIOD);
+        if (config.includeTertiarySwellWavePeriod)
+            result.add(MarineForecastValue.TERTIARY_SWELL_WAVE_PERIOD);
+        if (config.includeWindWavePeakPeriod)
+            result.add(MarineForecastValue.WIND_WAVE_PEAK_PERIOD);
+        if (config.includeSwellWavePeakPeriod)
+            result.add(MarineForecastValue.SWELL_WAVE_PEAK_PERIOD);
+        if (config.includeOceanCurrentVelocity)
+            result.add(MarineForecastValue.OCEAN_CURRENT_VELOCITY);
+        if (config.includeOceanCurrentDirection)
+            result.add(MarineForecastValue.OCEAN_CURRENT_DIRECTION);
+        if (config.includeSeaSurfaceTemperature)
+            result.add(MarineForecastValue.SEA_SURFACE_TEMPERATURE);
+        if (config.includeSeaLevelHeightMsl)
+            result.add(MarineForecastValue.SEA_LEVEL_HEIGHT_MSL);
+        if (config.includeInvertBarometerHeight)
+            result.add(MarineForecastValue.INVERT_BAROMETER_HEIGHT);
+
+        return result;
+    }
+
+    protected int getVariableIndex(String channelId) {
+        return Variable.undefined;
+    }
+
+    protected State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue) {
+        State state = UnDefType.UNDEF;
+
+        switch (channelId) {
+            default:
+                // This should not happen
+                logger.warn("Unknown channel id {} in weather data", channelId);
+                break;
+        }
+        return state;
+    }
+}

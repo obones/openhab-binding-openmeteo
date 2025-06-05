@@ -109,4 +109,32 @@ public interface OpenMeteoConnection {
 
     WeatherApiResponse getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
             @Nullable Integer hourlyHours, boolean current);
+
+    enum MarineForecastValue {
+        WAVE_HEIGHT,
+        WIND_WAVE_HEIGHT,
+        SWELL_WAVE_HEIGHT,
+        SECONDARY_SWELL_WAVE_HEIGHT,
+        TERTIARY_SWELL_WAVE_HEIGHT,
+        WAVE_DIRECTION,
+        WIND_WAVE_DIRECTION,
+        SWELL_WAVE_DIRECTION,
+        SECONDARY_SWELL_WAVE_DIRECTION,
+        TERTIARY_SWELL_WAVE_DIRECTION,
+        WAVE_PERIOD,
+        WIND_WAVE_PERIOD,
+        SWELL_WAVE_PERIOD,
+        SECONDARY_SWELL_WAVE_PERIOD,
+        TERTIARY_SWELL_WAVE_PERIOD,
+        WIND_WAVE_PEAK_PERIOD,
+        SWELL_WAVE_PEAK_PERIOD,
+        OCEAN_CURRENT_VELOCITY,
+        OCEAN_CURRENT_DIRECTION,
+        SEA_SURFACE_TEMPERATURE,
+        SEA_LEVEL_HEIGHT_MSL,
+        INVERT_BAROMETER_HEIGHT
+    }
+
+    WeatherApiResponse getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current);
 }

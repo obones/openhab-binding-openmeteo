@@ -436,4 +436,118 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         return getResponse(builder);
     }
+
+    private String getMarineForecastValueFieldName(MarineForecastValue marineForecastValue) {
+        switch (marineForecastValue) {
+            case WAVE_HEIGHT:
+                return "wave_height";
+            case WIND_WAVE_HEIGHT:
+                return "wind_wave_height";
+            case SWELL_WAVE_HEIGHT:
+                return "swell_wave_height";
+            case SECONDARY_SWELL_WAVE_HEIGHT:
+                return "secondary_swell_wave_height";
+            case TERTIARY_SWELL_WAVE_HEIGHT:
+                return "tertiary_swell_wave_height";
+            case WAVE_DIRECTION:
+                return "wave_direction";
+            case WIND_WAVE_DIRECTION:
+                return "wind_wave_direction";
+            case SWELL_WAVE_DIRECTION:
+                return "swell_wave_direction";
+            case SECONDARY_SWELL_WAVE_DIRECTION:
+                return "secondary_swell_wave_direction";
+            case TERTIARY_SWELL_WAVE_DIRECTION:
+                return "tertiary_swell_wave_direction";
+            case WAVE_PERIOD:
+                return "wave_period";
+            case WIND_WAVE_PERIOD:
+                return "wind_wave_period";
+            case SWELL_WAVE_PERIOD:
+                return "swell_wave_period";
+            case SECONDARY_SWELL_WAVE_PERIOD:
+                return "secondary_swell_wave_period";
+            case TERTIARY_SWELL_WAVE_PERIOD:
+                return "tertiary_swell_wave_period";
+            case WIND_WAVE_PEAK_PERIOD:
+                return "wind_wave_peak_period";
+            case SWELL_WAVE_PEAK_PERIOD:
+                return "swell_wave_peak_period";
+            case OCEAN_CURRENT_VELOCITY:
+                return "ocean_current_velocity";
+            case OCEAN_CURRENT_DIRECTION:
+                return "ocean_current_direction";
+            case SEA_SURFACE_TEMPERATURE:
+                return "sea_surface_temperature";
+            case SEA_LEVEL_HEIGHT_MSL:
+                return "sea_level_height_msl";
+            case INVERT_BAROMETER_HEIGHT:
+                return "invert_barometer_height";
+        }
+        return "";
+    }
+
+    private void addHourlyFields(MarineForecastValue marineForecastValue, ArrayList<String> fields) {
+        fields.add(getMarineForecastValueFieldName(marineForecastValue));
+    }
+
+    private void addDailyFields(MarineForecastValue marineForecastValue, ArrayList<String> fields) {
+        String fieldName = getMarineForecastValueFieldName(marineForecastValue);
+
+        switch (marineForecastValue) {
+            case WAVE_HEIGHT:
+            case WIND_WAVE_HEIGHT:
+            case SWELL_WAVE_HEIGHT:
+            case WAVE_PERIOD:
+            case WIND_WAVE_PERIOD:
+            case SWELL_WAVE_PERIOD:
+            case WIND_WAVE_PEAK_PERIOD:
+            case SWELL_WAVE_PEAK_PERIOD:
+                fields.add(fieldName + "_max");
+                break;
+            case WAVE_DIRECTION:
+            case WIND_WAVE_DIRECTION:
+            case SWELL_WAVE_DIRECTION:
+                fields.add(fieldName + "_dominant");
+                break;
+            default: // any other field is not supported in daily forecast
+                break;
+        }
+    }
+
+    private void addCurrentFields(MarineForecastValue marineForecastValue, ArrayList<String> fields) {
+        addHourlyFields(marineForecastValue, fields);
+    }
+
+    public WeatherApiResponse getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current) {
+        if (hourlyHours == null && dailyDays == null && !current) {
+            logger.warn("No point in getting a forecast if no elements are required");
+            return new WeatherApiResponse();
+        }
+
+        ArrayList<String> requiredHourlyFields = new ArrayList<>();
+        ArrayList<String> requiredDailyFields = new ArrayList<>();
+        ArrayList<String> requiredCurrentFields = new ArrayList<>();
+        for (MarineForecastValue marineForecastValue : marineForecastValues) {
+            addHourlyFields(marineForecastValue, requiredHourlyFields);
+            addDailyFields(marineForecastValue, requiredDailyFields);
+            addCurrentFields(marineForecastValue, requiredCurrentFields);
+        }
+
+        @Nullable
+        URI uri = getUri();
+        if (uri == null)
+            return new WeatherApiResponse();
+
+        UriBuilder builder = prepareUriBuilder(uri, "forecast", location, hourlyHours, requiredHourlyFields, current,
+                requiredCurrentFields);
+
+        if (dailyDays != null) {
+            builder.queryParam("forecast_days", dailyDays);
+            builder.queryParam("daily", String.join(",", requiredDailyFields));
+        }
+
+        return getResponse(builder);
+    }
 }
