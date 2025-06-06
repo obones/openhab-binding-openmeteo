@@ -584,5 +584,183 @@
 			<advanced>false</advanced>
 		</parameter>
 	</config-description>
+	<!-- -->
+	<!-- Open Meteo Marine Forecast -->
+	<!-- -->
+	<config-description uri="thing-type:openmeteo:marine-forecast">
+		<parameter name="location" type="text" required="true">
+			<context>location</context>
+			<label>@text/config.openmeteo.thing..location.label</label>
+			<description>@text/config.openmeteo.thing..location.description</description>
+		</parameter>
+
+		<!-- Hourly parameters -->
+		<parameter-group name="hourlyParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.hourlyParameters.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.hourlyParameters.description</description>
+		</parameter-group>
+
+		<parameter name="hourlyHours" type="integer" groupName="hourlyParameters" min="1" max="384" step="1">
+			<label>@text/config.openmeteo.thing.marine-forecast.hourlyHours.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.hourlyHours.description</description>
+			<advanced>false</advanced>
+			<default>48</default>
+		</parameter>
+		<parameter name="hourlyTimeSeries" type="boolean" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.hourlyTimeSeries.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.hourlyTimeSeries.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+
+		<!-- Daily parameters -->
+		<parameter-group name="dailyParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.dailyParameters.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.dailyParameters.description</description>
+		</parameter-group>
+
+		<parameter name="dailyDays" type="integer" groupName="dailyParameters" min="1" max="16" step="1">
+			<label>@text/config.openmeteo.thing.marine-forecast.dailyDays.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.dailyDays.description</description>
+			<advanced>false</advanced>
+			<default>5</default>
+		</parameter>
+		<parameter name="dailyTimeSeries" type="boolean" groupName="dailyParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.dailyTimeSeries.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.dailyTimeSeries.description</description>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+
+		<!-- Current parameters -->
+		<parameter-group name="currentParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.currentParameters.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.currentParameters.description</description>
+		</parameter-group>
+
+		<parameter name="current" type="boolean" groupName="currentParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.current.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.current.description</description>
+			<advanced>false</advanced>
+			<default>false</default>
+		</parameter>
+
+		<!-- Channel parameters -->
+		<parameter-group name="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.channelParameters.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.channelParameters.description</description>
+		</parameter-group>
+
+		<parameter name="includeWaveHeight" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeWaveHeight.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeWindWaveHeight" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeWindWaveHeight.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSwellWaveHeight" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSwellWaveHeight.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSecondarySwellWaveHeight" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSecondarySwellWaveHeight.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeTertiarySwellWaveHeight" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeTertiarySwellWaveHeight.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeWaveDirection" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeWaveDirection.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeWindWaveDirection" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeWindWaveDirection.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSwellWaveDirection" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSwellWaveDirection.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="boolean includeSecondarySwellWaveDirection" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSecondarySwellWaveDirection.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeTertiarySwellWaveDirection" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeTertiarySwellWaveDirection.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeWavePeriod" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeWavePeriod.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeWindWavePeriod" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeWindWavePeriod.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSwellWavePeriod" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSwellWavePeriod.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSecondarySwellWavePeriod" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSecondarySwellWavePeriod.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeTertiarySwellWavePeriod" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeTertiarySwellWavePeriod.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeWindWavePeakPeriod" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeWindWavePeakPeriod.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSwellWavePeakPeriod" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSwellWavePeakPeriod.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeOceanCurrentVelocity" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeOceanCurrentVelocity.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeOceanCurrentDirection" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeOceanCurrentDirection.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSeaSurfaceTemperature" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSeaSurfaceTemperature.label</label>
+			<advanced>false</advanced>
+			<default>true</default>
+		</parameter>
+		<parameter name="includeSeaLevelHeightMsl" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeSeaLevelHeightMsl.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+		<parameter name="includeInvertBarometerHeight" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.includeInvertBarometerHeight.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
+	</config-description>
 
 </config-description:config-descriptions>

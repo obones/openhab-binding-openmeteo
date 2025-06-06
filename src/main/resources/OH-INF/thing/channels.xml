@@ -421,6 +421,57 @@
 		</state>
 	</channel-type>
 
+	<!-- Channel Type - of Marine Forecast -->
+
+	<channel-type id="wave-height" advanced="false">
+		<item-type unitHint="m">Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.marine-forecast.wave-height.label</label>
+		<description>@text/channel-type.openmeteo.marine-forecast.wave-height.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="wave-direction" advanced="false">
+		<item-type unitHint="°">Number:Angle</item-type>
+		<label>@text/channel-type.openmeteo.marine-forecast.wave-direction.label</label>
+		<description>@text/channel-type.openmeteo.marine-forecast.wave-direction.description</description>
+		<state readOnly="true" min="0" max="360" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="wave-period" advanced="false">
+		<item-type unitHint="s">Number:Time</item-type>
+		<label>@text/channel-type.openmeteo.marine-forecast.wave-period.label</label>
+		<description>@text/channel-type.openmeteo.marine-forecast.wave-period.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="ocean-current-velocity" advanced="false">
+		<item-type unitHint="km/h">Number:Speed</item-type>
+		<label>@text/channel-type.openmeteo.marine-forecast.ocean-current-velocity.label</label>
+		<description>@text/channel-type.openmeteo.marine-forecast.ocean-current-velocity.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="ocean-current-direction" advanced="false">
+		<item-type unitHint="°">Number:Angle</item-type>
+		<label>@text/channel-type.openmeteo.marine-forecast.ocean-current-direction.label</label>
+		<description>@text/channel-type.openmeteo.marine-forecast.ocean-current-direction.description</description>
+		<state readOnly="true" min="0" max="360" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="sea-level-height-msl" advanced="false">
+		<item-type unitHint="m">Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.marine-forecast.sea-level-height-msl.label</label>
+		<description>@text/channel-type.openmeteo.marine-forecast.sea-level-height-msl.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
+	<channel-type id="invert-barometer-height" advanced="false">
+		<item-type unitHint="m">Number:Length</item-type>
+		<label>@text/channel-type.openmeteo.marine-forecast.invert-barometer-height.label</label>
+		<description>@text/channel-type.openmeteo.marine-forecast.invert-barometer-height.description</description>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+
 	<!-- Channel Group Type - of Forecast -->
 
 	<channel-group-type id="hourlyTimeSeries">
@@ -493,5 +544,22 @@
 	<channel-group-type id="air-quality-current">
 		<label>@text/channel-group-type.openmeteo.air-quality.current.label</label>
 		<description>@text/channel-group-type.openmeteo.air-quality.current.description</description>
+	</channel-group-type>
+
+	<!-- Channel Group Type - of Marine Forecast -->
+
+	<channel-group-type id="marine-forecast-hourlyTimeSeries">
+		<label>@text/channel-group-type.openmeteo.marine-forecast.hourlyTimeSeries.label</label>
+		<description>@text/channel-group-type.openmeteo.marine-forecast.hourlyTimeSeries.description</description>
+	</channel-group-type>
+
+	<channel-group-type id="marine-forecast-dailyTimeSeries">
+		<label>@text/channel-group-type.openmeteo.marine-forecast.dailyTimeSeries.label</label>
+		<description>@text/channel-group-type.openmeteo.marine-forecast.dailyTimeSeries.description</description>
+	</channel-group-type>
+
+	<channel-group-type id="marine-forecast-current">
+		<label>@text/channel-group-type.openmeteo.marine-forecast.current.label</label>
+		<description>@text/channel-group-type.openmeteo.marine-forecast.current.description</description>
 	</channel-group-type>
 </thing:thing-descriptions>
