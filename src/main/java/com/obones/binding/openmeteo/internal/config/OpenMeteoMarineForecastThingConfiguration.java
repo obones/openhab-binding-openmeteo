@@ -12,8 +12,6 @@ public class OpenMeteoMarineForecastThingConfiguration extends OpenMeteoBaseThin
 
     public boolean current = false;
 
-    public boolean includeTimeStamp = true;
-
     public boolean includeWaveHeight = true;
     public boolean includeWindWaveHeight = true;
     public boolean includeSwellWaveHeight = true;

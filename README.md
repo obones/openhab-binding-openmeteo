@@ -7,11 +7,13 @@ openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast servi
     - [Open Meteo bridge](#open-meteo-bridge)
     - [Weather forecast](#weather-forecast)
     - [Air quality forecast](#air-quality-forecast)
+    - [Marine forecast](#marine-forecast)
   - [Discovery](#discovery)
   - [Thing Configuration](#thing-configuration)
     - [Open Meteo bridge](#open-meteo-bridge-1)
     - [Weather forecast](#weather-forecast-1)
     - [Air quality forecast](#air-quality-forecast-1)
+    - [Marine conditions forecast](#marine-conditions-forecast)
   - [Properties](#properties)
   - [Channels](#channels)
     - [Open Meteo bridge](#open-meteo-bridge-2)
@@ -21,6 +23,9 @@ openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast servi
     - [Current weather conditions](#current-weather-conditions)
     - [Hourly air quality forecast](#hourly-air-quality-forecast)
     - [Current air quality conditions](#current-air-quality-conditions)
+    - [Hourly marine conditions forecast](#hourly-marine-conditions-forecast)
+    - [Daily marine conditions forecast](#daily-marine-conditions-forecast)
+    - [Current marine conditions](#current-marine-conditions)
   - [Persisting Time Series](#persisting-time-series)
     - [Configuration](#configuration)
     - [Usage](#usage)
@@ -28,7 +33,7 @@ openHAB binding for [Open Meteo](https://open-meteo.com/) weather forecast servi
 
 ## Supported Things
 
-There are three supported things.
+There are four supported things.
 
 ### Open Meteo bridge
 
@@ -47,11 +52,19 @@ Note: The first item in any forecast always include the current time period. For
 
 ### Air quality forecast
 
-The third thing `air-quality` supports the following air-quality forecasts for a specific location: hourly, daily. It also offers the current air-quality conditions, extrapolated from the hourly forecast.
+The third thing `air-quality` supports the following air-quality forecasts for a specific location: hourly. It also offers the current air-quality conditions, extrapolated from the hourly forecast.
 
 It requires coordinates of the location of your interest.
 
 You can add as many `air-quality` things for different locations to your setup as you like to observe.
+
+### Marine forecast
+
+The fourth thing `marine-forecast` supports the following marine forecasts for a specific location: hourly, daily. It also offers the current marine conditions, extrapolated from the hourly forecast.
+
+It requires coordinates of the location of your interest, which should not be too far from a sea/ocean.
+
+You can add as many `marine-forecast` things for different locations to your setup as you like to observe.
 
 ## Discovery
 
@@ -80,12 +93,15 @@ If the system location was to be changed, the background discovery would update 
 | hourlyHours      | Number of hours for hourly forecast. Optional, the default value is 48 (min="1", max="384", step="1").                         |
 | hourlyTimeSeries | Whether to create a hourly time series channel group or not. Time series are new in 4.1 (default = true)          |
 | hourlySplit      | Whether to create one channel group per future hour to accommodate widgets that are not capable of using time series. (default = false) |
+| pastHours        | Hours in the past to retrieve values for (default = unset) |
 | dailyDays        | Number of days for daily forecast (including todays forecast). Optional, the default value is 5 (min="1", max="16", step="1"). |
 | dailyTimeSeries  | Whether to create a daily time series channel group or not. Time series are new in 4.1 (default = true)          |
 | dailySplit       | Whether to create one channel group per future day to accommodate widgets that are not capable of using time series. (default = false) |
+| pastDays         | Days in the past to retrieve values for (default = unset) |
 | current          | Whether to create a channel group for the current weather conditions. (default = false) |
 | minutely15       | Whether to create a 15 minutely time series channel group or not. Time series are new in 4.1 (default = false) |
 | minutely15Steps  | Number of 15 minutes steps to get the forecast for. Optional, the default value is 48 (min="1" max="288" step="1") |
+| pastMinutely15Steps        | Minutely 15 steps in the past to retrieve values for (default = unset) |
 | panelTilt        | The solar panel tilt (0° horizontal) |
 | panelAzimuth     | The solar panel azimuth (0° S, -90° E, 90° W) |
 | includeTimeStamp           | Create a channel in split groups for the forecast date time |
@@ -145,6 +161,7 @@ Any change to the parameters will recreate channels and channel groups with the 
 | airQualityIndicatorsAsNumber | Create Air Quality Indicators as number channels, see Open Meteo's [documentation](https://open-meteo.com/en/docs) for ranges  (default: false) |
 | hourlyHours      | Number of hours for hourly forecast. Optional, the default value is 48 (min="1", max="168", step="1").                         |
 | hourlyTimeSeries | Whether to create a hourly time series channel group or not. Time series are new in 4.1 (default: true)          |
+| pastHours        | Hours in the past to retrieve values for (default = unset) |
 | current          | Whether to create a channel group for the current air quality conditions. (default: false) |
 | includePM10                       | Create a channel for Particulate Matter PM10 concentration (default: true) |
 | includePM2_5                      | Create a channel for Particulate Matter PM2.5 concentration (default: true) |
@@ -176,6 +193,41 @@ Any change to the parameters will recreate channels and channel groups with the 
 | includeUSAqiOzone                 | Create a channel for US Air Quality Ozone Indicator (only for hourly forecast, default: false) |
 | includeUSAqiSulphurDioxide        | Create a channel for US Air Quality Sulphur Dioxide Indicator (only for hourly forecast, default: false) |
 | includeUSAqiCarbonMonoxide        | Create a channel for US Air Quality Carbon Monoxide Indicator (only for hourly forecast, default: false) |
+
+### Marine conditions forecast
+
+| Parameter        | Description                                                                                                                    |
+|------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| location         | Location of marine conditions in geographical coordinates (latitude/longitude/altitude). **Mandatory**                                   |
+| hourlyHours      | Number of hours for hourly forecast. Optional, the default value is 48 (min="1", max="384", step="1").                         |
+| hourlyTimeSeries | Whether to create a hourly time series channel group or not. Time series are new in 4.1 (default = true)          |
+| pastHours        | Hours in the past to retrieve values for (default = unset) |
+| dailyDays        | Number of days for daily forecast (including todays forecast). Optional, the default value is 5 (min="1", max="16", step="1"). |
+| dailySplit       | Whether to create one channel group per future day to accommodate widgets that are not capable of using time series. (default = false) |
+| pastDays         | Days in the past to retrieve values for (default = unset) |
+| current          | Whether to create a channel group for the current marine conditions. (default = false) |
+| includeWaveHeight                  | Create a channel for Wave height of significant mean waves (default = true) |
+| includeWindWaveHeight              | Create a channel for Wave height of significant wind waves (default = true) |
+| includeSwellWaveHeight             | Create a channel for Wave height of significant swell waves (default = true) |
+| includeSecondarySwellWaveHeight    | Create a channel for Wave height of secondary swell waves (default = false) |
+| includeTertiarySwellWaveHeight     | Create a channel for Wave height of tertiary swell waves (default = false) |
+| includeWaveDirection               | Create a channel for Mean direction of significant mean waves (default = true) |
+| includeWindWaveDirection           | Create a channel for Mean direction of significant wind waves (default = true) |
+| includeSwellWaveDirection          | Create a channel for Mean direction of significant swell waves (default = true) |
+| includeSecondarySwellWaveDirection | Create a channel for Mean direction of secondary swell waves (default = false) |
+| includeTertiarySwellWaveDirection  | Create a channel for Mean direction of tertiary swell waves (default = false) |
+| includeWavePeriod                  | Create a channel for Period between mean waves (default = true) |
+| includeWindWavePeriod              | Create a channel for Period between wind waves (default = true) |
+| includeSwellWavePeriod             | Create a channel for Period between swell waves (default = true) |
+| includeSecondarySwellWavePeriod    | Create a channel for Period between secondary swell waves (default = false) |
+| includeTertiarySwellWavePeriod     | Create a channel for Period between tertiary swell waves (default = false) |
+| includeWindWavePeakPeriod          | Create a channel for Peak period between wind waves (default = true) |
+| includeSwellWavePeakPeriod         | Create a channel for Peak period between swell waves (default = true) |
+| includeOceanCurrentVelocity        | Create a channel for Velocity of ocean current (default = true) |
+| includeOceanCurrentDirection       | Create a channel for Direction following the flow of the current (default = true) |
+| includeSeaSurfaceTemperature       | Create a channel for Sea surface temperature (default = true) |
+| includeSeaLevelHeightMsl           | Create a channel for Seal level height (default = false) |
+| includeInvertBarometerHeight       | Create a channel for Invert barometer effect (default = false) |
 
 ## Properties
 
@@ -366,6 +418,59 @@ The channels are placed in groups named `forecastHourly` with [time series suppo
 ### Current air quality conditions
 
 The channels are placed in a group named `current` and are the same as for the hourly air quality forecast.
+
+### Hourly marine conditions forecast
+
+The channels are placed in groups named `forecastHourly` with [time series support](#persisting-time-series).
+
+| Channel ID                     | Item Type          | Description |
+|--------------------------------|--------------------|-----------------------------------|
+| time-stamp                     | DateTime           |  The forecast date time (only for split channels) |
+| mean-wave-height               | Number:Length      | Mean waves height |
+| wind-wave-height               | Number:Length      | Wind waves height |
+| swell-wave-height              | Number:Length      | Swell waves height |
+| secondary-swell-wave-height    | Number:Length      | Secondary swell waves height |
+| tertiary-swell-wave-height     | Number:Length      | Tertiary swell waves height |
+| mean-wave-direction            | Number:Angle       | Mean waves direction |
+| wind-wave-direction            | Number:Angle       | Wind waves direction |
+| swell-wave-direction           | Number:Angle       | Swell waves direction |
+| secondary-swell-wave-direction | Number:Angle       | Secondary swell waves direction |
+| tertiary-swell-wave-direction  | Number:Angle       | Tertiary swell waves direction |
+| mean-wave-period               | Number:Time        | Period between mean waves |
+| wind-wave-period               | Number:Time        | Period between wind waves |
+| swell-wave-period              | Number:Time        | Period between swell waves |
+| secondary-swell-wave-period    | Number:Time        | Period between secondary swell waves |
+| tertiary-swell-wave-period     | Number:Time        | Period between tertiary swell waves |
+| wind-wave-peak-period          | Number:Time        | Peak period between wind waves |
+| swell-wave-peak-period         | Number:Time        | Peak period between swell waves |
+| ocean-current-velocity         | Number:Speed       | Velocity of ocean current considering Eulerian, Waves and Tides |
+| ocean-current-direction        | Number:Angle       | Direction where the current is heading towards. 0° = Going north; 90° = Towards east |
+| sea-surface-temperature        | Number:Temperature | The sea surface temperature close to the water surface |
+| sea-level-height-msl           | Number:Length      | Sea level height which accounts for ocean tides, the inverted barometer effect, sea surface height, global mean steric variation, and global mean mass volume variation. |
+| invert-barometer-height        | Number:Length      | Invert barometer effect is the height low and high pressure systems effect the sea level height. This is already considered in Sea level height |
+
+### Daily marine conditions forecast
+
+The channels are placed in groups named `forecastDaily` with [time series support](#persisting-time-series).
+
+| Channel ID                     | Item Type          | Description |
+|--------------------------------|--------------------|-----------------------------------|
+| time-stamp                     | DateTime           |  The forecast date time (only for split channels) |
+| mean-wave-height               | Number:Length      | Mean waves maximum height for the day |
+| wind-wave-height               | Number:Length      | Wind waves maximum height for the day |
+| swell-wave-height              | Number:Length      | Swell waves maximum height for the day |
+| mean-wave-direction            | Number:Angle       | Mean waves dominant direction for the day |
+| wind-wave-direction            | Number:Angle       | Wind waves dominant direction for the day |
+| swell-wave-direction           | Number:Angle       | Swell waves dominant direction for the day |
+| mean-wave-period               | Number:Time        | Maximum period between mean waves for the day |
+| wind-wave-period               | Number:Time        | Maximum period between wind waves for the day |
+| swell-wave-period              | Number:Time        | Maximum period between swell waves for the day |
+| wind-wave-peak-period          | Number:Time        | Maximum period between swell waves for the day |
+| swell-wave-peak-period         | Number:Time        | Maximum period between wind waves for the day |
+
+### Current marine conditions
+
+The channels are placed in a group named `current` and are the same as for the hourly marine conditions forecast.
 
 ## Persisting Time Series
 

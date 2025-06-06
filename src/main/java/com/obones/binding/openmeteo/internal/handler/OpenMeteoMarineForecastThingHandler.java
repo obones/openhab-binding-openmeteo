@@ -1,6 +1,7 @@
 package com.obones.binding.openmeteo.internal.handler;
 
 import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
+import static org.openhab.core.thing.DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE;
 
 import java.util.EnumSet;
 import java.util.Optional;
@@ -74,6 +75,126 @@ public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandl
 
         Object[] labelArguments = { labelSuffix };
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WAVE_HEIGHT,
+                CHANNEL_TYPE_UID_WAVE_HEIGHT, config.includeWaveHeight, //
+                "channel.openmeteo.marine-forecast.mean-wave-height.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WIND_WAVE_HEIGHT,
+                CHANNEL_TYPE_UID_WAVE_HEIGHT, config.includeWindWaveHeight, //
+                "channel.openmeteo.marine-forecast.wind-wave-height.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_HEIGHT, CHANNEL_TYPE_UID_WAVE_HEIGHT, //
+                config.includeSwellWaveHeight, //
+                "channel.openmeteo.marine-forecast.swell-wave-height.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_HEIGHT, CHANNEL_TYPE_UID_WAVE_HEIGHT, //
+                config.includeSecondarySwellWaveHeight, //
+                "channel.openmeteo.marine-forecast.secondary-swell-wave-height.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_HEIGHT, CHANNEL_TYPE_UID_WAVE_HEIGHT, //
+                config.includeTertiarySwellWaveHeight, //
+                "channel.openmeteo.marine-forecast.tertiary-swell-wave-height.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WAVE_DIRECTION,
+                CHANNEL_TYPE_UID_WAVE_DIRECTION, config.includeWaveDirection, //
+                "channel.openmeteo.marine-forecast.mean-wave-direction.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_WIND_WAVE_DIRECTION, CHANNEL_TYPE_UID_WAVE_DIRECTION, //
+                config.includeWindWaveDirection, //
+                "channel.openmeteo.marine-forecast.wind-wave-direction.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_DIRECTION, CHANNEL_TYPE_UID_WAVE_DIRECTION, //
+                config.includeSwellWaveDirection, //
+                "channel.openmeteo.marine-forecast.swell-wave-direction.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_DIRECTION, CHANNEL_TYPE_UID_WAVE_DIRECTION, //
+                config.includeSecondarySwellWaveDirection, //
+                "channel.openmeteo.marine-forecast.secondary-swell-wave-direction.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_DIRECTION, CHANNEL_TYPE_UID_WAVE_DIRECTION, //
+                config.includeTertiarySwellWaveDirection, //
+                "channel.openmeteo.marine-forecast.tertiary-swell-wave-direction.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WAVE_PERIOD,
+                CHANNEL_TYPE_UID_WAVE_PERIOD, config.includeWavePeriod, //
+                "channel.openmeteo.marine-forecast.mean-wave-period.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WIND_WAVE_PERIOD,
+                CHANNEL_TYPE_UID_WAVE_PERIOD, config.includeWindWavePeriod, //
+                "channel.openmeteo.marine-forecast.wind-wave-period.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeSwellWavePeriod, //
+                "channel.openmeteo.marine-forecast.swell-wave-period.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeSecondarySwellWavePeriod, //
+                "channel.openmeteo.marine-forecast.secondary-swell-wave-period.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeTertiarySwellWavePeriod, //
+                "channel.openmeteo.marine-forecast.tertiary-swell-wave-period.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_WIND_WAVE_PEAK_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeWindWavePeakPeriod, //
+                "channel.openmeteo.marine-forecast.wind-wave-peak-period.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_PEAK_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeSwellWavePeakPeriod, //
+                "channel.openmeteo.marine-forecast.swell-wave-peak-period.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_VELOCITY, CHANNEL_TYPE_UID_OCEAN_CURRENT_VELOCITY, //
+                config.includeOceanCurrentVelocity, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_DIRECTION, CHANNEL_TYPE_UID_OCEAN_CURRENT_DIRECTION, //
+                config.includeOceanCurrentDirection, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SEA_SURFACE_TEMPERATURE, SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE, //
+                config.includeSeaSurfaceTemperature, //
+                "channel.openmeteo.marine-forecast.sea-surface-temperature.label", //
+                "channel.openmeteo.marine-forecast.sea-surface-temperature.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SEA_LEVEL_HEIGHT_MSL, CHANNEL_TYPE_UID_SEA_LEVEL_HEIGHT_MSL,
+                config.includeSeaLevelHeightMsl, labelArguments);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_INVERT_BAROMETER_HEIGHT, CHANNEL_TYPE_UID_INVERT_BAROMETER_HEIGHT,
+                config.includeInvertBarometerHeight, labelArguments);
+
         return builder;
     }
 
@@ -92,6 +213,67 @@ public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandl
 
         Object[] labelArguments = { labelSuffix };
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WAVE_HEIGHT,
+                CHANNEL_TYPE_UID_WAVE_HEIGHT, config.includeWaveHeight, //
+                "channel.openmeteo.marine-forecast.mean-wave-height-max.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WIND_WAVE_HEIGHT,
+                CHANNEL_TYPE_UID_WAVE_HEIGHT, config.includeWindWaveHeight, //
+                "channel.openmeteo.marine-forecast.wind-wave-height-max.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_HEIGHT, CHANNEL_TYPE_UID_WAVE_HEIGHT, //
+                config.includeSwellWaveHeight, //
+                "channel.openmeteo.marine-forecast.swell-wave-height-max.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WAVE_DIRECTION,
+                CHANNEL_TYPE_UID_WAVE_DIRECTION, config.includeWaveDirection, //
+                "channel.openmeteo.marine-forecast.mean-wave-direction-dominant.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_WIND_WAVE_DIRECTION, CHANNEL_TYPE_UID_WAVE_DIRECTION, //
+                config.includeWindWaveDirection, //
+                "channel.openmeteo.marine-forecast.wind-wave-direction-dominant.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_DIRECTION, CHANNEL_TYPE_UID_WAVE_DIRECTION, //
+                config.includeSwellWaveDirection, //
+                "channel.openmeteo.marine-forecast.swell-wave-direction-dominant.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WAVE_PERIOD,
+                CHANNEL_TYPE_UID_WAVE_PERIOD, config.includeWavePeriod, //
+                "channel.openmeteo.marine-forecast.mean-wave-period-max.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_MARINE_FORECAST_WIND_WAVE_PERIOD,
+                CHANNEL_TYPE_UID_WAVE_PERIOD, config.includeWindWavePeriod, //
+                "channel.openmeteo.marine-forecast.wind-wave-period-max.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeSwellWavePeriod, //
+                "channel.openmeteo.marine-forecast.swell-wave-period-max.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_WIND_WAVE_PEAK_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeWindWavePeakPeriod, //
+                "channel.openmeteo.marine-forecast.wind-wave-peak-period-max.label", null, //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId,
+                CHANNEL_MARINE_FORECAST_SWELL_WAVE_PEAK_PERIOD, CHANNEL_TYPE_UID_WAVE_PERIOD, //
+                config.includeSwellWavePeakPeriod, //
+                "channel.openmeteo.marine-forecast.swell-wave-peak-period-max.label", null, //
+                labelArguments, null);
+
         return builder;
     }
 
@@ -108,9 +290,6 @@ public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandl
                 break;
             case CHANNEL_GROUP_CURRENT:
                 updateCurrentChannel(channelUID);
-                break;
-            case CHANNEL_GROUP_MINUTELY_15:
-                updateMinutely15TImeSeries(channelUID);
                 break;
         }
     }
@@ -179,16 +358,84 @@ public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandl
     }
 
     protected int getVariableIndex(String channelId) {
-        return Variable.undefined;
+        return switch (channelId) {
+            case CHANNEL_MARINE_FORECAST_WAVE_HEIGHT -> Variable.wave_height;
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_HEIGHT -> Variable.wind_wave_height;
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_HEIGHT -> Variable.swell_wave_height;
+            case CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_HEIGHT -> 141; // secondary_swell_wave_height
+            case CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_HEIGHT -> 145; // tertiary_swell_wave_height
+            case CHANNEL_MARINE_FORECAST_WAVE_DIRECTION -> Variable.wave_direction;
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_DIRECTION -> Variable.wind_wave_direction;
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_DIRECTION -> Variable.swell_wave_direction;
+            case CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_DIRECTION -> 144; // secondary_swell_wave_direction
+            case CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_DIRECTION -> 148; // tertiary_swell_wave_direction
+            case CHANNEL_MARINE_FORECAST_WAVE_PERIOD -> Variable.wave_period;
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_PERIOD -> Variable.wind_wave_period;
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_PERIOD -> Variable.swell_wave_period;
+            case CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_PERIOD -> 142; // secondary_swell_wave_period
+            case CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_PERIOD -> 146; // tertiary_swell_wave_period
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_PEAK_PERIOD -> Variable.wind_wave_peak_period;
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_PEAK_PERIOD -> Variable.swell_wave_peak_period;
+            case CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_VELOCITY -> 108; // ocean_current_velocity
+            case CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_DIRECTION -> 109; // ocean_current_direction
+            case CHANNEL_MARINE_FORECAST_SEA_SURFACE_TEMPERATURE -> 133; // sea_surface_temperature
+            case CHANNEL_MARINE_FORECAST_SEA_LEVEL_HEIGHT_MSL -> 132; // sea_level_height_msl
+            case CHANNEL_MARINE_FORECAST_INVERT_BAROMETER_HEIGHT -> 134; // invert_barometer_height
+            default -> Variable.undefined;
+        };
     }
 
     protected State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue) {
         State state = UnDefType.UNDEF;
 
         switch (channelId) {
+            case CHANNEL_MARINE_FORECAST_WAVE_HEIGHT:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_HEIGHT:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_HEIGHT:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_HEIGHT:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_HEIGHT:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_WAVE_DIRECTION:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_DIRECTION:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_DIRECTION:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_DIRECTION:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_DIRECTION:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_WAVE_PERIOD:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_PERIOD:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_PERIOD:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_PERIOD:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_PERIOD:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_WIND_WAVE_PEAK_PERIOD:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SWELL_WAVE_PEAK_PERIOD:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_VELOCITY:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_DIRECTION:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SEA_SURFACE_TEMPERATURE:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_SEA_LEVEL_HEIGHT_MSL:
+                return getDecimalTypeState(floatValue);
+            case CHANNEL_MARINE_FORECAST_INVERT_BAROMETER_HEIGHT:
+                return getDecimalTypeState(floatValue);
             default:
                 // This should not happen
-                logger.warn("Unknown channel id {} in weather data", channelId);
+                logger.warn("Unknown channel id {} in marine weather data", channelId);
                 break;
         }
         return state;

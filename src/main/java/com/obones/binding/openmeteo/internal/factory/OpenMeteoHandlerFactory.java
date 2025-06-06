@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2023-2024 Olivier Sannier 
+ * Copyright (c) 2023-2024 Olivier Sannier
  ** See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -40,6 +40,7 @@ import com.obones.binding.openmeteo.internal.discovery.OpenMeteoDiscoveryService
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoAirQualityThingHandler;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoBridgeHandler;
 import com.obones.binding.openmeteo.internal.handler.OpenMeteoForecastThingHandler;
+import com.obones.binding.openmeteo.internal.handler.OpenMeteoMarineForecastThingHandler;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 
 /**
@@ -117,6 +118,12 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
         return new OpenMeteoAirQualityThingHandler(thing, localization, timeZoneProvider, channelTypeRegistry);
     }
 
+    private @Nullable ThingHandler createMarineForecastThingHandler(Thing thing) {
+        logger.trace("createMarineForecastThingHandler({}) called for thing named '{}'.", thing.getUID(),
+                thing.getLabel());
+        return new OpenMeteoMarineForecastThingHandler(thing, localization, timeZoneProvider, channelTypeRegistry);
+    }
+
     // Constructor
 
     @Activate
@@ -173,6 +180,8 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
             resultHandler = createForecastThingHandler(thing);
         } else if (THING_TYPE_OPENMETEO_AIR_QUALITY.equals(thingTypeUID)) {
             resultHandler = createAirQualityThingHandler(thing);
+        } else if (THING_TYPE_OPENMETEO_MARINE_FORECAST.equals(thingTypeUID)) {
+            resultHandler = createMarineForecastThingHandler(thing);
         } else {
             logger.warn("createHandler({}) failed: ThingHandler not found for {}.", thingTypeUID, thing.getLabel());
         }

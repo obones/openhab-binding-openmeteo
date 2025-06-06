@@ -48,6 +48,10 @@ public class OpenMeteoBindingConstants {
      * The Thing identification of an air quality indicators defined on the <B>OpenMeteo</B> bridge.
      */
     private static final String THING_OPENMETEO_AIR_QUALITY = "air-quality";
+    /**
+     * The Thing identification of a marine forecast defined on the <B>OpenMeteo</B> bridge.
+     */
+    private static final String THING_OPENMETEO_MARINE_FORECAST = "marine-forecast";
 
     // Channel group type ids
     private static final String CHANNEL_GROUP_TYPE_ID_HOURLY_TIME_SERIES = "hourlyTimeSeries";
@@ -68,6 +72,8 @@ public class OpenMeteoBindingConstants {
             THING_OPENMETEO_FORECAST);
     public static final ThingTypeUID THING_TYPE_OPENMETEO_AIR_QUALITY = new ThingTypeUID(BINDING_ID,
             THING_OPENMETEO_AIR_QUALITY);
+    public static final ThingTypeUID THING_TYPE_OPENMETEO_MARINE_FORECAST = new ThingTypeUID(BINDING_ID,
+            THING_OPENMETEO_MARINE_FORECAST);
 
     // List of all Channel Group Type UIDs
     public static final ChannelGroupTypeUID CHANNEL_GROUP_TYPE_HOURLY_TIME_SERIES = new ChannelGroupTypeUID(BINDING_ID,
@@ -85,8 +91,8 @@ public class OpenMeteoBindingConstants {
 
     // Definitions of different set of Things
     public static final Set<ThingTypeUID> SUPPORTED_THINGS_BRIDGE = new HashSet<>(Arrays.asList(THING_TYPE_BRIDGE));
-    public static final Set<ThingTypeUID> SUPPORTED_THINGS_ITEMS = new HashSet<>(
-            Arrays.asList(THING_TYPE_OPENMETEO_FORECAST, THING_TYPE_OPENMETEO_AIR_QUALITY));
+    public static final Set<ThingTypeUID> SUPPORTED_THINGS_ITEMS = new HashSet<>(Arrays.asList(
+            THING_TYPE_OPENMETEO_FORECAST, THING_TYPE_OPENMETEO_AIR_QUALITY, THING_TYPE_OPENMETEO_MARINE_FORECAST));
 
     // List of all bridge channel ids
 
@@ -387,4 +393,53 @@ public class OpenMeteoBindingConstants {
 
     public static final Set<ProfileTypeUID> SUPPORTED_PROFILE_TYPE_UIDS = new HashSet<>(
             Arrays.asList(EUROPEAN_AQI_PROFILE_TYPE_UID, US_AQI_PROFILE_TYPE_UID));
+
+    // List of all marine forecast channel/property ids
+    public static final String CHANNEL_MARINE_FORECAST_WAVE_HEIGHT = "mean-wave-height";
+    public static final String CHANNEL_MARINE_FORECAST_WIND_WAVE_HEIGHT = "wind-wave-height";
+    public static final String CHANNEL_MARINE_FORECAST_SWELL_WAVE_HEIGHT = "swell-wave-height";
+    public static final String CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_HEIGHT = "secondary-swell-wave-height";
+    public static final String CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_HEIGHT = "tertiary-swell-wave-height";
+    public static final String CHANNEL_MARINE_FORECAST_WAVE_DIRECTION = "mean-wave-direction";
+    public static final String CHANNEL_MARINE_FORECAST_WIND_WAVE_DIRECTION = "wind-wave-direction";
+    public static final String CHANNEL_MARINE_FORECAST_SWELL_WAVE_DIRECTION = "swell-wave-direction";
+    public static final String CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_DIRECTION = "secondary-swell-wave-direction";
+    public static final String CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_DIRECTION = "tertiary-swell-wave-direction";
+    public static final String CHANNEL_MARINE_FORECAST_WAVE_PERIOD = "mean-wave-period";
+    public static final String CHANNEL_MARINE_FORECAST_WIND_WAVE_PERIOD = "wind-wave-period";
+    public static final String CHANNEL_MARINE_FORECAST_SWELL_WAVE_PERIOD = "swell-wave-period";
+    public static final String CHANNEL_MARINE_FORECAST_SECONDARY_SWELL_WAVE_PERIOD = "secondary-swell-wave-period";
+    public static final String CHANNEL_MARINE_FORECAST_TERTIARY_SWELL_WAVE_PERIOD = "tertiary-swell-wave-period";
+    public static final String CHANNEL_MARINE_FORECAST_WIND_WAVE_PEAK_PERIOD = "wind-wave-peak-period";
+    public static final String CHANNEL_MARINE_FORECAST_SWELL_WAVE_PEAK_PERIOD = "swell-wave-peak-period";
+    public static final String CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_VELOCITY = "ocean-current-velocity";
+    public static final String CHANNEL_MARINE_FORECAST_OCEAN_CURRENT_DIRECTION = "ocean-current-direction";
+    public static final String CHANNEL_MARINE_FORECAST_SEA_SURFACE_TEMPERATURE = "sea-surface-temperature";
+    public static final String CHANNEL_MARINE_FORECAST_SEA_LEVEL_HEIGHT_MSL = "sea-level-height-msl";
+    public static final String CHANNEL_MARINE_FORECAST_INVERT_BAROMETER_HEIGHT = "invert-barometer-height";
+
+    // Marine forecast channel type ids
+    public static final String CHANNEL_TYPE_WAVE_HEIGHT = "wave-height";
+    public static final String CHANNEL_TYPE_WAVE_DIRECTION = "wave-direction";
+    public static final String CHANNEL_TYPE_WAVE_PERIOD = "wave-period";
+    public static final String CHANNEL_TYPE_OCEAN_CURRENT_VELOCITY = "ocean-current-velocity";
+    public static final String CHANNEL_TYPE_OCEAN_CURRENT_DIRECTION = "ocean-current-direction";
+    public static final String CHANNEL_TYPE_SEA_LEVEL_HEIGHT_MSL = "sea-level-height-msl";
+    public static final String CHANNEL_TYPE_INVERT_BAROMETER_HEIGHT = "invert-barometer-height";
+
+    // Marine forecast channel type UIDs
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_WAVE_HEIGHT = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_WAVE_HEIGHT);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_WAVE_DIRECTION = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_WAVE_DIRECTION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_WAVE_PERIOD = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_WAVE_PERIOD);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_OCEAN_CURRENT_VELOCITY = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_OCEAN_CURRENT_VELOCITY);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_OCEAN_CURRENT_DIRECTION = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_OCEAN_CURRENT_DIRECTION);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_SEA_LEVEL_HEIGHT_MSL = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_SEA_LEVEL_HEIGHT_MSL);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_INVERT_BAROMETER_HEIGHT = new ChannelTypeUID(BINDING_ID, //
+            CHANNEL_TYPE_INVERT_BAROMETER_HEIGHT);
 }
