@@ -540,8 +540,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (uri == null)
             return new WeatherApiResponse();
 
-        UriBuilder builder = prepareUriBuilder(uri, "forecast", location, hourlyHours, requiredHourlyFields, current,
+        UriBuilder builder = prepareUriBuilder(uri, "marine", location, hourlyHours, requiredHourlyFields, current,
                 requiredCurrentFields);
+
+        builder.host("marine-" + uri.getHost());
 
         if (dailyDays != null) {
             builder.queryParam("forecast_days", dailyDays);
