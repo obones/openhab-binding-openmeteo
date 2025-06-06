@@ -905,7 +905,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         State channelState = super.getForecastState(channelId, values, valueIndex, forecast);
 
         if (channelId.equals(CHANNEL_FORECAST_ICON_ID)) {
-            int weatherCode = channelState.as(DecimalType.class).intValue();
+            int weatherCode = Optional.ofNullable(channelState.as(DecimalType.class)) //
+                    .map(cs -> cs.intValue()) //
+                    .orElse(0);
 
             StringBuilder isDayChannelId = new StringBuilder(CHANNEL_FORECAST_IS_DAY);
             VariableWithValues isDayValues = getVariableValues(isDayChannelId, forecast);
