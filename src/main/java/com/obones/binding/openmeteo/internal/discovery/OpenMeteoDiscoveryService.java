@@ -77,7 +77,7 @@ public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
 
     @Override
     public void deactivate() {
-        removeOlderResults(Instant.now().toEpochMilli(), bridgeHandler.getThing().getUID());
+        removeOlderResults(Instant.now());
         super.deactivate();
     }
 

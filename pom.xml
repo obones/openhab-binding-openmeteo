@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -9,6 +9,26 @@
     <artifactId>org.openhab.addons.reactor.bundles</artifactId>
     <version>[4.1, 5.0]</version>
   </parent>
+
+  <artifactId>com.obones.binding.openmeteo</artifactId>
+
+  <version>0.3.1</version>
+
+  <name>openHAB Add-ons :: Bundles :: Open Meteo Binding</name>
+
+  <description>This binding integrates the Open Meteo weather foreceast service.</description>
+
+  <properties>
+    <!--
+      com.open-meteo depends on findbugs which has an invalid javax.annotation import requirement as it references a version
+      that does not exist
+      To workaround this, we replace the version requirement on the fly, as suggested on these pages:
+
+      https://github.com/LibrePDF/OpenPDF/issues/512
+      https://stackoverflow.com/questions/64568455/why-does-findbugs-jsr305-break-osgi-package-export-of-javax-annotations-in-redha
+    -->
+    <bnd.importpackage>javax.annotation;version="[1,4)"</bnd.importpackage>
+  </properties>
 
   <dependencies>
     <dependency>
@@ -26,24 +46,4 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-
-  <properties>
-    <!--
-      com.open-meteo depends on findbugs which has an invalid javax.annotation import requirement as it references a version
-      that does not exist
-      To workaround this, we replace the version requirement on the fly, as suggested on these pages:
-
-      https://github.com/LibrePDF/OpenPDF/issues/512
-      https://stackoverflow.com/questions/64568455/why-does-findbugs-jsr305-break-osgi-package-export-of-javax-annotations-in-redha
-    -->
-    <bnd.importpackage>javax.annotation;version="[1,4)"</bnd.importpackage>
-  </properties>
-
-  <artifactId>com.obones.binding.openmeteo</artifactId>
-
-  <name>openHAB Add-ons :: Bundles :: Open Meteo Binding</name>
-
-  <description>This binding integrates the Open Meteo weather foreceast service.</description>
-
-  <version>0.3.1</version>
 </project>
