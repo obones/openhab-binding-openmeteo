@@ -44,6 +44,7 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public boolean includeApparentTemperature = true;
     public boolean includePressure = true;
     public boolean includeCloudiness = true;
+    public boolean includeCloudCover = false;
     public boolean includeWindSpeed = true;
     public boolean includeWindDirection = true;
     public boolean includeGustSpeed = true;

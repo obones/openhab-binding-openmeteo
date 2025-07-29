@@ -170,6 +170,11 @@
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
+		<parameter name="includeCloudCover" type="boolean" groupName="channelParameters">
+			<label>@text/config.openmeteo.thing.forecast.includeCloudCover.label</label>
+			<advanced>true</advanced>
+			<default>false</default>
+		</parameter>
 		<parameter name="includeWindSpeed" type="boolean" groupName="channelParameters">
 			<label>@text/config.openmeteo.thing.forecast.includeWindSpeed.label</label>
 			<advanced>false</advanced>

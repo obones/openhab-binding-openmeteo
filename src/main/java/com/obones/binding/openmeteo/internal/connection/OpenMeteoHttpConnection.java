@@ -61,6 +61,12 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
                 return "surface_pressure";
             case CLOUDINESS:
                 return "cloud_cover";
+            case CLOUD_COVER_HIGH:
+                return "cloud_cover_high";
+            case CLOUD_COVER_MID:
+                return "cloud_cover_mid";
+            case CLOUD_COVER_LOW:
+                return "cloud_cover_low";
             case WIND_SPEED:
                 return "wind_speed_10m";
             case WING_DIRECTION:

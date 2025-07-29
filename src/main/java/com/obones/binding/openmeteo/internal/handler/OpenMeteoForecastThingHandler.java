@@ -186,6 +186,24 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUDINESS,
                 CHANNEL_TYPE_UID_CLOUDINESS, config.includeCloudiness, labelArguments);
 
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUD_COVER_HIGH,
+                CHANNEL_TYPE_UID_CLOUD_COVER, config.includeCloudCover, //
+                "channel-type.openmeteo.forecast.cloud-cover-high.label", //
+                "channel-type.openmeteo.forecast.cloud-cover-high.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUD_COVER_MID,
+                CHANNEL_TYPE_UID_CLOUD_COVER, config.includeCloudCover, //
+                "channel-type.openmeteo.forecast.cloud-cover-mid.label", //
+                "channel-type.openmeteo.forecast.cloud-cover-mid.description", //
+                labelArguments, null);
+
+        initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_CLOUD_COVER_LOW,
+                CHANNEL_TYPE_UID_CLOUD_COVER, config.includeCloudCover, //
+                "channel-type.openmeteo.forecast.cloud-cover-low.label", //
+                "channel-type.openmeteo.forecast.cloud-cover-low.description", //
+                labelArguments, null);
+
         initializeOptionalChannel(callback, builder, thingUID, channelGroupId, CHANNEL_FORECAST_WIND_SPEED,
                 SYSTEM_CHANNEL_TYPE_UID_WIND_SPEED, config.includeWindSpeed, //
                 "channel-type.openmeteo.forecast.wind-speed.label",
@@ -638,6 +656,11 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             result.add(ForecastValue.PRESSURE);
         if (config.includeCloudiness)
             result.add(ForecastValue.CLOUDINESS);
+        if (config.includeCloudCover) {
+            result.add(ForecastValue.CLOUD_COVER_HIGH);
+            result.add(ForecastValue.CLOUD_COVER_MID);
+            result.add(ForecastValue.CLOUD_COVER_LOW);
+        }
         if (config.includeWindSpeed)
             result.add(ForecastValue.WIND_SPEED);
         if (config.includeWindDirection)
@@ -857,6 +880,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             case CHANNEL_FORECAST_APPARENT_TEMPERATURE -> Variable.apparent_temperature;
             case CHANNEL_FORECAST_PRESSURE -> Variable.surface_pressure;
             case CHANNEL_FORECAST_CLOUDINESS -> Variable.cloud_cover;
+            case CHANNEL_FORECAST_CLOUD_COVER_HIGH -> Variable.cloud_cover_high;
+            case CHANNEL_FORECAST_CLOUD_COVER_MID -> Variable.cloud_cover_low;
+            case CHANNEL_FORECAST_CLOUD_COVER_LOW -> Variable.cloud_cover_mid;
             case CHANNEL_FORECAST_WIND_SPEED -> Variable.wind_speed;
             case CHANNEL_FORECAST_WIND_DIRECTION -> Variable.wind_direction;
             case CHANNEL_FORECAST_GUST_SPEED -> Variable.wind_gusts;
@@ -942,6 +968,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 state = getQuantityTypeState(floatValue, MetricPrefix.HECTO(SIUnits.PASCAL));
                 break;
             case CHANNEL_FORECAST_CLOUDINESS:
+            case CHANNEL_FORECAST_CLOUD_COVER_HIGH:
+            case CHANNEL_FORECAST_CLOUD_COVER_MID:
+            case CHANNEL_FORECAST_CLOUD_COVER_LOW:
                 state = getQuantityTypeState(floatValue, Units.PERCENT);
                 break;
             case CHANNEL_FORECAST_WIND_SPEED:

@@ -127,6 +127,9 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_FORECAST_APPARENT_TEMPERATURE_MAX = "apparent-temperature-max";
     public static final String CHANNEL_FORECAST_PRESSURE = "pressure";
     public static final String CHANNEL_FORECAST_CLOUDINESS = "cloudiness";
+    public static final String CHANNEL_FORECAST_CLOUD_COVER_HIGH = "cloud-cover-high";
+    public static final String CHANNEL_FORECAST_CLOUD_COVER_MID = "cloud-cover-mid";
+    public static final String CHANNEL_FORECAST_CLOUD_COVER_LOW = "cloud-cover-low";
     public static final String CHANNEL_FORECAST_WIND_SPEED = "wind-speed";
     public static final String CHANNEL_FORECAST_WIND_DIRECTION = "wind-direction";
     public static final String CHANNEL_FORECAST_GUST_SPEED = "gust-speed";
@@ -177,6 +180,7 @@ public class OpenMeteoBindingConstants {
     public static final String CHANNEL_TYPE_DEW_POINT = "dew-point";
     public static final String CHANNEL_TYPE_APPARENT_TEMPERATURE = "apparent-temperature";
     public static final String CHANNEL_TYPE_CLOUDINESS = "cloudiness";
+    public static final String CHANNEL_TYPE_CLOUD_COVER = "cloud-cover";
     public static final String CHANNEL_TYPE_GUST_SPEED = "gust-speed";
     public static final String CHANNEL_TYPE_SHORTWAVE_RADIATION = "shortwave-radiation";
     public static final String CHANNEL_TYPE_DIRECT_RADIATION = "direct-radiation";
@@ -215,6 +219,8 @@ public class OpenMeteoBindingConstants {
             CHANNEL_TYPE_APPARENT_TEMPERATURE);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_CLOUDINESS = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_CLOUDINESS);
+    public static final ChannelTypeUID CHANNEL_TYPE_UID_CLOUD_COVER = new ChannelTypeUID(BINDING_ID,
+            CHANNEL_TYPE_CLOUD_COVER);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_GUST_SPEED = new ChannelTypeUID(BINDING_ID,
             CHANNEL_TYPE_GUST_SPEED);
     public static final ChannelTypeUID CHANNEL_TYPE_UID_SHORTWAVE_RADIATION = new ChannelTypeUID(BINDING_ID,

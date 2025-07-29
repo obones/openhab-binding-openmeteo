@@ -35,6 +35,14 @@
 		<state readOnly="true" min="0" max="100" pattern="%d %unit%"/>
 	</channel-type>
 
+	<channel-type id="cloud-cover" advanced="true">
+		<item-type unitHint="%">Number:Dimensionless</item-type>
+		<label>@text/channel-type.openmeteo.forecast.cloud-cover.label</label>
+		<description>@text/channel-type.openmeteo.forecast.cloud-cover.description</description>
+		<category>Sun_Clouds</category>
+		<state readOnly="true" min="0" max="100" pattern="%d %unit%"/>
+	</channel-type>
+
 	<channel-type id="gust-speed" advanced="true">
 		<item-type>Number:Speed</item-type>
 		<label>@text/channel-type.openmeteo.forecast.gust-speed.label</label>
@@ -484,6 +492,9 @@
 			<channel id="apparent-temperature" typeId="apparent-temperature"/>
 			<channel id="pressure" typeId="system.barometric-pressure"/>
 			<channel id="cloudiness" typeId="cloudiness"/>
+			<channel id="cloud-cover-high" typeId="cloudiness"/>
+			<channel id="cloud-cover-mid" typeId="cloudiness"/>
+			<channel id="cloud-cover-low" typeId="cloudiness"/>
 			<channel id="wind-speed" typeId="system.wind-speed"/>
 			<channel id="wind-direction" typeId="system.wind-direction"/>
 			<channel id="gust-speed" typeId="gust-speed"/>

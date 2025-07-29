@@ -111,6 +111,7 @@ If the system location was to be changed, the background discovery would update 
 | includeApparentTemperature | Create a channel for apparent temperature, instant on hourly, min and max on daily (default: true) |
 | includePressure            | Create a channel for surface pressure (default: true) |
 | includeCloudiness          | Create a channel for cloudiness (default: true) |
+| includeCloudCover          | Create channels for high cloud cover, mid cloud cover and low cloud cover  (default: false) |
 | includeWindSpeed           | Create a channel for wind speed (default: true) |
 | includeWindDirection       | Create a channel for wind direction (default: true) |
 | includeGustSpeed           | Create a channel for gusts speed (default: true) |
@@ -258,6 +259,9 @@ The channels are placed in groups named `forecastHourly` for [time series suppor
 | apparent-temperature       | Number:Temperature   |  Forecast apparent temperature. |
 | pressure                   | Number:Pressure      |  Forecast barometric surface pressure |
 | cloudiness                 | Number:Dimensionless |  Forecast cloudiness. |
+| cloud-cover-high           | Number:Dimensionless |  Forecast high cloud cover. |
+| cloud-cover-mid            | Number:Dimensionless |  Forecast mid cloud cover. |
+| cloud-cover-low            | Number:Dimensionless |  Forecast low cloud cover. |
 | wind-speed                 | Number:Speed         |  Forecast wind speed |
 | wind-direction             | Number:Angle         |  Forecast wind direction |
 | gust-speed                 | Number:Speed         |  Forecast gust speed. |
@@ -541,7 +545,7 @@ for (let forecastIndex = 0; forecastIndex < dailyWMOCodeHistoricItems.length; fo
 }
 ```
 
-> **_NOTE:_** The above code is compatible with OpenHAB 4.3 and upper. If you use an earlier version, replace the `persistence` property on `dailyWMOCodeItem` with `history` 
+> **_NOTE:_** The above code is compatible with OpenHAB 4.3 and upper. If you use an earlier version, replace the `persistence` property on `dailyWMOCodeItem` with `history`
 
 ## Transformation profiles
 
