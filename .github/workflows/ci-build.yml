@@ -5,6 +5,8 @@ on:
 
 jobs:
   build:
+    env:
+      addon-path: 'openhab-addons/bundles/com.obones.binding.openmeteo'
     strategy:
       fail-fast: false
       matrix:
@@ -14,9 +16,13 @@ jobs:
         addons-ref: [ '4.1.x', '4.2.x', '4.3.x' ]
         include:
           - java: 21
+            addons-ref: 5.0.x
+            os: ubuntu-22.04
+            maven: 3.9.4
+          - java: 21
             addons-ref: main
             os: ubuntu-22.04
-            maven: 3.9.4 
+            maven: 3.9.4
     name: Build on ${{ matrix.addons-ref }} (Java ${{ matrix.java }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     permissions:
@@ -30,10 +36,15 @@ jobs:
           path: openhab-addons
           ref: ${{ matrix.addons-ref }}
 
-      - name: Checkout addon
+      - name: Checkout addon in ${{ env.addon-path }}
         uses: actions/checkout@v4
         with:
-          path: openhab-addons/bundles/com.obones.binding.openmeteo
+          path: ${{ env.addon-path }}
+
+      - name: Apply patches for version ${{ matrix.addons-ref }} from ${{ format('"{0}/patches/{1}.patch"', env.addon-path, matrix.addons-ref) }}
+        if: ${{ hashFiles(format('{0}/patches/{1}.patch', env.addon-path, matrix.addons-ref)) != '' }}
+        working-directory: ${{ env.addon-path }}
+        run: git apply patches/${{ matrix.addons-ref }}.patch
 
       - name: Set up Cache
         uses: actions/cache@v4
@@ -57,20 +68,21 @@ jobs:
           maven-version: ${{ matrix.maven }}
 
       - name: Build with maven
-        run: 'cd openhab-addons/bundles/com.obones.binding.openmeteo ; mvn clean install -DskipChecks'
+        working-directory: ${{ env.addon-path }}
+        run: mvn clean install -DskipChecks
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: com.obones.binding.openmeteo-openhab_${{ matrix.addons-ref }}-java_${{ matrix.java }}
           path: |
-            openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*.jar
-            !openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*-sources.jar
+            ${{ env.addon-path }}/target/com.obones.binding.openmeteo*.jar
+            !${{ env.addon-path }}/target/com.obones.binding.openmeteo*-sources.jar
 
       - name: Create attestation
         uses: actions/attest-build-provenance@v1
         with:
           subject-path: |
-            openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*.jar
-            !openhab-addons/bundles/com.obones.binding.openmeteo/target/com.obones.binding.openmeteo*-sources.jar
+            ${{ env.addon-path }}/target/com.obones.binding.openmeteo*.jar
+            !${{ env.addon-path }}/target/com.obones.binding.openmeteo*-sources.jar
 

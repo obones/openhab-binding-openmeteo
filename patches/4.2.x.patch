@@ -1,0 +1,25 @@
+diff --git a/pom.xml b/pom.xml
+index b0255b3..ed3e358 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
++  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+ 
+   <modelVersion>4.0.0</modelVersion>
+ 
+diff --git a/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java b/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java
+index e605c14..860498b 100644
+--- a/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java
++++ b/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java
+@@ -77,7 +77,7 @@ public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
+ 
+     @Override
+     public void deactivate() {
+-        removeOlderResults(Instant.now(), bridgeHandler.getThing().getUID());
++        removeOlderResults(Instant.now().toEpochMilli(), bridgeHandler.getThing().getUID());
+         super.deactivate();
+     }
+ 
