@@ -95,6 +95,18 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                     return false;
                 }
             }
+
+            if ((config.pastDays != null) && config.dailySplit) {
+                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                        "@text/offline.conf-error-no-past-days-with-split");
+                return false;
+            }
+
+            if ((config.pastHours != null) && config.hourlySplit) {
+                updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR,
+                        "@text/offline.conf-error-no-past-hours-with-split");
+                return false;
+            }
         }
 
         return result;
@@ -637,7 +649,8 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 (config.dailyTimeSeries || config.dailySplit) ? config.dailyDays : null, //
                 config.current, //
                 (config.minutely15) ? config.minutely15Steps : null, //
-                config.panelTilt, config.panelAzimuth);
+                config.panelTilt, config.panelAzimuth, //
+                config.pastHours, config.pastDays, config.pastMinutely15Steps);
     }
 
     private EnumSet<OpenMeteoConnection.ForecastValue> getForecastValues() {

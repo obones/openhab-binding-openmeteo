@@ -1,5 +1,7 @@
 package com.obones.binding.openmeteo.internal.config;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 public class OpenMeteoAirQualityThingConfiguration extends OpenMeteoBaseThingConfiguration {
     /*
      * Default values - should not be modified
@@ -9,6 +11,7 @@ public class OpenMeteoAirQualityThingConfiguration extends OpenMeteoBaseThingCon
 
     public int hourlyHours = 48;
     public boolean hourlyTimeSeries = true;
+    public @Nullable Integer pastHours = null;
 
     public boolean current = false;
 

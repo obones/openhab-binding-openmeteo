@@ -334,7 +334,8 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
 
         return connection.getAirQuality(location, getAirQualityValues(),
                 (config.hourlyTimeSeries) ? config.hourlyHours : null, //
-                config.current);
+                config.current, //
+                config.pastHours);
     }
 
     private EnumSet<OpenMeteoConnection.AirQualityValue> getAirQualityValues() {

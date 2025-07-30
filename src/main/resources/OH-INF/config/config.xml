@@ -71,6 +71,11 @@
 			<description>@text/config.openmeteo.thing.forecast.panelAzimuth.description</description>
 			<advanced>true</advanced>
 		</parameter>
+		<parameter name="pastHours" type="integer" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.forecast.pastHours.label</label>
+			<description>@text/config.openmeteo.thing.forecast.pastHours.description</description>
+			<advanced>true</advanced>
+		</parameter>
 
 		<!-- Daily parameters -->
 		<parameter-group name="dailyParameters">
@@ -95,6 +100,11 @@
 			<description>@text/config.openmeteo.thing.forecast.dailySplit.description</description>
 			<advanced>false</advanced>
 			<default>false</default>
+		</parameter>
+		<parameter name="pastDays" type="integer" groupName="dailyParameters">
+			<label>@text/config.openmeteo.thing.forecast.pastDays.label</label>
+			<description>@text/config.openmeteo.thing.forecast.pastDays.description</description>
+			<advanced>true</advanced>
 		</parameter>
 
 		<!-- Current parameters -->
@@ -127,6 +137,11 @@
 			<description>@text/config.openmeteo.thing.forecast.minutely15.description</description>
 			<advanced>true</advanced>
 			<default>false</default>
+		</parameter>
+		<parameter name="pastMinutely15Steps" type="integer" groupName="minutely15Parameters">
+			<label>@text/config.openmeteo.thing.forecast.pastMinutely15Steps.label</label>
+			<description>@text/config.openmeteo.thing.forecast.pastMinutely15Steps.description</description>
+			<advanced>true</advanced>
 		</parameter>
 
 		<!-- Channel parameters -->
@@ -399,6 +414,11 @@
 			<advanced>false</advanced>
 			<default>48</default>
 		</parameter>
+		<parameter name="pastHours" type="integer" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.air-quality.pastHours.label</label>
+			<description>@text/config.openmeteo.thing.air-quality.pastHours.description</description>
+			<advanced>true</advanced>
+		</parameter>
 
 		<!-- Current parameters -->
 		<parameter-group name="currentParameters">
@@ -617,6 +637,11 @@
 			<advanced>false</advanced>
 			<default>true</default>
 		</parameter>
+		<parameter name="pastHours" type="integer" groupName="hourlyParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.pastHours.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.pastHours.description</description>
+			<advanced>true</advanced>
+		</parameter>
 
 		<!-- Daily parameters -->
 		<parameter-group name="dailyParameters">
@@ -635,6 +660,11 @@
 			<description>@text/config.openmeteo.thing.marine-forecast.dailyTimeSeries.description</description>
 			<advanced>false</advanced>
 			<default>true</default>
+		</parameter>
+		<parameter name="pastDays" type="integer" groupName="dailyParameters">
+			<label>@text/config.openmeteo.thing.marine-forecast.pastDays.label</label>
+			<description>@text/config.openmeteo.thing.marine-forecast.pastDays.description</description>
+			<advanced>true</advanced>
 		</parameter>
 
 		<!-- Current parameters -->

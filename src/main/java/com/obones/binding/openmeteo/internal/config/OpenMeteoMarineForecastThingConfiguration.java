@@ -1,14 +1,18 @@
 package com.obones.binding.openmeteo.internal.config;
 
+import org.eclipse.jdt.annotation.Nullable;
+
 public class OpenMeteoMarineForecastThingConfiguration extends OpenMeteoBaseThingConfiguration {
     /*
      * Default values - should not be modified
      */
     public int hourlyHours = 48;
     public boolean hourlyTimeSeries = true;
+    public @Nullable Integer pastHours = null;
 
     public int dailyDays = 5;
     public boolean dailyTimeSeries = true;
+    public @Nullable Integer pastDays = null;
 
     public boolean current = false;
 

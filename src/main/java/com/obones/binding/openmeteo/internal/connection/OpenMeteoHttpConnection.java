@@ -239,7 +239,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
     }
 
     private UriBuilder prepareUriBuilder(URI baseURI, String path, PointType location, //
-            @Nullable Integer hourlyHours, ArrayList<String> requiredHourlyFields, //
+            @Nullable Integer hourlyHours, ArrayList<String> requiredHourlyFields, @Nullable Integer pastHours,
             boolean current, ArrayList<String> requiredCurrentFields) {
         UriBuilder builder = UriBuilder.fromUri(baseURI).path(path) //
                 .queryParam("format", "flatbuffers") //
@@ -259,6 +259,9 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (hourlyHours != null) {
             builder.queryParam("forecast_hours", hourlyHours);
             builder.queryParam("hourly", String.join(",", requiredHourlyFields));
+            if (pastHours != null) {
+                builder.queryParam("past_hours", pastHours);
+            }
         }
 
         if (current) {
@@ -295,7 +298,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
     public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
-            @Nullable Integer minutely15Steps, @Nullable Double panelTilt, @Nullable Double panelAzimuth) {
+            @Nullable Integer minutely15Steps, @Nullable Double panelTilt, @Nullable Double panelAzimuth,
+            @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable Integer pastMinutely15Steps) {
 
         if (hourlyHours == null && dailyDays == null && !current && minutely15Steps == null) {
             logger.warn("No point in getting a forecast if no elements are required");
@@ -318,17 +322,23 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (uri == null)
             return new WeatherApiResponse();
 
-        UriBuilder builder = prepareUriBuilder(uri, "forecast", location, hourlyHours, requiredHourlyFields, current,
-                requiredCurrentFields);
+        UriBuilder builder = prepareUriBuilder(uri, "forecast", location, hourlyHours, requiredHourlyFields, pastHours,
+                current, requiredCurrentFields);
 
         if (dailyDays != null) {
             builder.queryParam("forecast_days", dailyDays);
             builder.queryParam("daily", String.join(",", requiredDailyFields));
+            if (pastDays != null) {
+                builder.queryParam("past_days", pastDays);
+            }
         }
 
         if (minutely15Steps != null) {
             builder.queryParam("forecast_minutely_15", minutely15Steps);
             builder.queryParam("minutely_15", String.join(",", requiredMinutely15Fields));
+            if (pastMinutely15Steps != null) {
+                builder.queryParam("past_minutely_15", pastMinutely15Steps);
+            }
         }
 
         if (panelTilt != null) {
@@ -417,7 +427,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
     }
 
     public WeatherApiResponse getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
-            @Nullable Integer hourlyHours, boolean current) {
+            @Nullable Integer hourlyHours, boolean current, @Nullable Integer pastHours) {
         if (hourlyHours == null && !current) {
             logger.warn("No point in getting an air quality report if no elements are required");
             return new WeatherApiResponse();
@@ -435,8 +445,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (uri == null)
             return new WeatherApiResponse();
 
-        UriBuilder builder = prepareUriBuilder(uri, "air-quality", location, hourlyHours, requiredHourlyFields, current,
-                requiredCurrentFields);
+        UriBuilder builder = prepareUriBuilder(uri, "air-quality", location, hourlyHours, requiredHourlyFields,
+                pastHours, current, requiredCurrentFields);
 
         builder.host("air-quality-" + uri.getHost());
 
@@ -526,7 +536,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
     }
 
     public WeatherApiResponse getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
-            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current) {
+            @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current, //
+            @Nullable Integer pastHours, @Nullable Integer pastDays) {
         if (hourlyHours == null && dailyDays == null && !current) {
             logger.warn("No point in getting a forecast if no elements are required");
             return new WeatherApiResponse();
@@ -546,14 +557,17 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         if (uri == null)
             return new WeatherApiResponse();
 
-        UriBuilder builder = prepareUriBuilder(uri, "marine", location, hourlyHours, requiredHourlyFields, current,
-                requiredCurrentFields);
+        UriBuilder builder = prepareUriBuilder(uri, "marine", location, hourlyHours, requiredHourlyFields, pastHours,
+                current, requiredCurrentFields);
 
         builder.host("marine-" + uri.getHost());
 
         if (dailyDays != null) {
             builder.queryParam("forecast_days", dailyDays);
             builder.queryParam("daily", String.join(",", requiredDailyFields));
+            if (pastDays != null) {
+                builder.queryParam("past_days", pastDays);
+            }
         }
 
         return getResponse(builder);

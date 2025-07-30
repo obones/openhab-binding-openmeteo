@@ -24,15 +24,18 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public int hourlyHours = 48;
     public boolean hourlyTimeSeries = true;
     public boolean hourlySplit = false;
+    public @Nullable Integer pastHours = null;
 
     public int dailyDays = 5;
     public boolean dailyTimeSeries = true;
     public boolean dailySplit = false;
+    public @Nullable Integer pastDays = null;
 
     public boolean current = false;
 
     public boolean minutely15 = false;
     public int minutely15Steps = 48;
+    public @Nullable Integer pastMinutely15Steps = null;
 
     public @Nullable Double panelTilt = null;
     public @Nullable Double panelAzimuth = null;
