@@ -4,7 +4,7 @@
         "env": {
             "PATH": "${config:mvn_bin_path}",
             "JAVA_HOME": "${config:Custom_JAVA_HOME}",
-            "dist" : "com.obones.binding.openmeteo-0.3.1.jar"
+            "dist" : "com.obones.binding.openmeteo-0.4.0.jar"
         }
     },
     "tasks": [
