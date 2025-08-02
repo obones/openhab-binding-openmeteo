@@ -16,7 +16,7 @@ import static org.openhab.core.thing.DefaultSystemChannelTypeProvider.*;
 
 import java.text.DecimalFormat;
 import java.util.EnumSet;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -758,7 +758,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
      * @param channelUID UID of the channel
      */
     protected void updateChannel(ChannelUID channelUID) {
-        String channelGroupId = Optional.ofNullable(channelUID.getGroupId()).orElse("");
+        String channelGroupId = Objects.requireNonNullElse(channelUID.getGroupId(), "");
         logger.debug("OpenMeteoForecastThingHandler: updateChannel {}, groupID {}", channelUID, channelGroupId);
 
         switch (channelGroupId) {
@@ -944,9 +944,11 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
         State channelState = super.getForecastState(channelId, values, valueIndex, forecast);
 
         if (channelId.equals(CHANNEL_FORECAST_ICON_ID)) {
-            int weatherCode = Optional.ofNullable(channelState.as(DecimalType.class)) //
-                    .map(cs -> cs.intValue()) //
-                    .orElse(0);
+            int weatherCode = 0;
+            DecimalType decimalState = channelState.as(DecimalType.class);
+            if (decimalState != null) {
+                weatherCode = decimalState.intValue();
+            }
 
             StringBuilder isDayChannelId = new StringBuilder(CHANNEL_FORECAST_IS_DAY);
             VariableWithValues isDayValues = getVariableValues(isDayChannelId, forecast);

@@ -15,7 +15,7 @@ package com.obones.binding.openmeteo.internal.handler;
 import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 
 import java.util.EnumSet;
-import java.util.Optional;
+import java.util.Objects;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -315,7 +315,7 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
     }
 
     protected void updateChannel(ChannelUID channelUID) {
-        String channelGroupId = Optional.ofNullable(channelUID.getGroupId()).orElse("");
+        String channelGroupId = Objects.requireNonNullElse(channelUID.getGroupId(), "");
         logger.debug("OpenMeteoForecastThingHandler: updateChannel {}, groupID {}", channelUID, channelGroupId);
 
         switch (channelGroupId) {

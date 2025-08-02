@@ -4,7 +4,7 @@ import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 import static org.openhab.core.thing.DefaultSystemChannelTypeProvider.SYSTEM_CHANNEL_TYPE_UID_OUTDOOR_TEMPERATURE;
 
 import java.util.EnumSet;
-import java.util.Optional;
+import java.util.Objects;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
@@ -278,7 +278,7 @@ public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandl
     }
 
     protected void updateChannel(ChannelUID channelUID) {
-        String channelGroupId = Optional.ofNullable(channelUID.getGroupId()).orElse("");
+        String channelGroupId = Objects.requireNonNullElse(channelUID.getGroupId(), "");
         logger.debug("OpenMeteoMarineForecastThingHandler: updateChannel {}, groupID {}", channelUID, channelGroupId);
 
         switch (channelGroupId) {
