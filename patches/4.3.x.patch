@@ -1,5 +1,5 @@
 diff --git a/pom.xml b/pom.xml
-index b0255b3..ed3e358 100644
+index 596c980..bc1b286 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,6 +1,6 @@
@@ -11,13 +11,13 @@ index b0255b3..ed3e358 100644
    <modelVersion>4.0.0</modelVersion>
  
 diff --git a/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java b/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java
-index e605c14..860498b 100644
+index 51fc56f..def67e2 100644
 --- a/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java
 +++ b/src/main/java/com/obones/binding/openmeteo/internal/discovery/OpenMeteoDiscoveryService.java
-@@ -77,7 +77,7 @@ public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
- 
+@@ -78,7 +78,7 @@ public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
      @Override
      public void deactivate() {
+         logger.debug("Removing older discovery services.");
 -        removeOlderResults(Instant.now(), bridgeHandler.getThing().getUID());
 +        removeOlderResults(Instant.now().toEpochMilli(), bridgeHandler.getThing().getUID());
          super.deactivate();
