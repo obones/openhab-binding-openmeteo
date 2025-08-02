@@ -13,6 +13,7 @@ package com.obones.binding.openmeteo.internal.factory;
 
 import static com.obones.binding.openmeteo.internal.OpenMeteoBindingConstants.*;
 
+import java.util.Dictionary;
 import java.util.Hashtable;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
@@ -54,8 +55,7 @@ import com.obones.binding.openmeteo.internal.utils.Localization;
 public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
     private @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(ThingHandlerFactory.class);
 
-    private @Nullable ServiceRegistration<?> discoveryServiceRegistration = null;
-    private @Nullable OpenMeteoDiscoveryService discoveryService = null;
+    private Dictionary<OpenMeteoBridgeHandler, OpenMeteoDiscoveryServiceAndRegistration> serviceAndRegistrations = new Hashtable<>();
 
     private @NonNullByDefault({}) LocaleProvider localeProvider;
     private @NonNullByDefault({}) TranslationProvider i18nProvider;
@@ -77,28 +77,21 @@ public class OpenMeteoHandlerFactory extends BaseThingHandlerFactory {
     private void registerDeviceDiscoveryService(OpenMeteoBridgeHandler bridgeHandler) {
         logger.trace("registerDeviceDiscoveryService({}) called.", bridgeHandler);
 
-        OpenMeteoDiscoveryService discoveryService = this.discoveryService;
-        if (discoveryService == null) {
-            discoveryService = this.discoveryService = new OpenMeteoDiscoveryService(bridgeHandler, locationProvider,
-                    localeProvider, i18nProvider);
-        }
-        if (discoveryServiceRegistration == null) {
-            discoveryServiceRegistration = bundleContext.registerService(DiscoveryService.class.getName(),
-                    discoveryService, new Hashtable<>());
-        }
+        serviceAndRegistrations.remove(bridgeHandler);
+
+        OpenMeteoDiscoveryService discoveryService = new OpenMeteoDiscoveryService(bridgeHandler, locationProvider,
+                localeProvider, i18nProvider);
+        ServiceRegistration<?> discoveryServiceRegistration = bundleContext
+                .registerService(DiscoveryService.class.getName(), discoveryService, new Hashtable<>());
+
+        serviceAndRegistrations.put(bridgeHandler,
+                new OpenMeteoDiscoveryServiceAndRegistration(discoveryService, discoveryServiceRegistration));
     }
 
     private synchronized void unregisterDeviceDiscoveryService(OpenMeteoBridgeHandler bridgeHandler) {
         logger.trace("unregisterDeviceDiscoveryService({}) called.", bridgeHandler);
 
-        OpenMeteoDiscoveryService discoveryService = this.discoveryService;
-        if (discoveryService != null) {
-            ServiceRegistration<?> discoveryServiceRegistration = this.discoveryServiceRegistration;
-            if (discoveryServiceRegistration != null) {
-                discoveryServiceRegistration.unregister();
-                this.discoveryServiceRegistration = null;
-            }
-        }
+        serviceAndRegistrations.remove(bridgeHandler);
     }
 
     private @Nullable ThingHandler createBridgeHandler(Thing thing) {
