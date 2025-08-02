@@ -2,11 +2,13 @@ name: Build Open Meteo binding
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   build:
     env:
       addon-path: 'openhab-addons/bundles/com.obones.binding.openmeteo'
+      is-release: startsWith(${{ github.ref }}, '/refs/tags/v')
     strategy:
       fail-fast: false
       matrix:
@@ -73,6 +75,7 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
+        if: ${{ env.is-release }}
         with:
           name: com.obones.binding.openmeteo-openhab_${{ matrix.addons-ref }}-java_${{ matrix.java }}
           path: |
@@ -81,6 +84,7 @@ jobs:
 
       - name: Create attestation
         uses: actions/attest-build-provenance@v1
+        if: ${{ env.is-release }}
         with:
           subject-path: |
             ${{ env.addon-path }}/target/com.obones.binding.openmeteo*.jar
