@@ -8,7 +8,7 @@ jobs:
   build:
     env:
       addon-path: 'openhab-addons/bundles/com.obones.binding.openmeteo'
-      is-release: startsWith(${{ github.ref }}, '/refs/tags/v')
+      is-release: ${{ startsWith(github.ref, '/refs/tags/v') }}
     strategy:
       fail-fast: false
       matrix:
