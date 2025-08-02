@@ -77,6 +77,7 @@ public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
 
     @Override
     public void deactivate() {
+        logger.debug("Removing older discovery services.");
         removeOlderResults(Instant.now(), bridgeHandler.getThing().getUID());
         super.deactivate();
     }
@@ -134,6 +135,7 @@ public class OpenMeteoDiscoveryService extends AbstractDiscoveryService {
         String locationString = location.toFullString();
         ThingUID bridgeUID = bridgeHandler.getThing().getUID();
 
+        logger.debug("Creating results for {} with bridge {}.", locationString, bridgeUID.getAsString());
         createWeatherForecastResult(locationString, bridgeUID);
         createAirQualityResult(locationString, bridgeUID);
     }
