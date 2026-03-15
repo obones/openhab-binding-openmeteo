@@ -518,15 +518,17 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
     }
 
     protected State getDecimalTypeState(@Nullable Float value) {
-        return (value == null) ? UnDefType.UNDEF : new DecimalType(value);
+        return ((value == null || !Float.isFinite(value))) ? UnDefType.UNDEF : new DecimalType(value);
     }
 
     protected State getQuantityTypeState(@Nullable Number value, Unit<?> unit) {
-        return (value == null) ? UnDefType.UNDEF : new QuantityType<>(value, unit);
+        return ((value == null) || !Double.isFinite(value.doubleValue())) ? UnDefType.UNDEF
+                : new QuantityType<>(value, unit);
     }
 
     protected State getQuantityTypeState(@Nullable Float value, int multiplier, Unit<?> unit) {
-        return (value == null) ? UnDefType.UNDEF : new QuantityType<>(value * multiplier, unit);
+        return ((value == null || !Float.isFinite(value))) ? UnDefType.UNDEF
+                : new QuantityType<>(value * multiplier, unit);
     }
 
     protected State getDateTimeTypeState(@Nullable Long value) {
