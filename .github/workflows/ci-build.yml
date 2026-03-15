@@ -22,9 +22,13 @@ jobs:
             os: ubuntu-22.04
             maven: 3.9.4
           - java: 21
-            addons-ref: main
+            addons-ref: 5.1.x
             os: ubuntu-22.04
             maven: 3.9.4
+          - java: 21
+            addons-ref: main
+            os: ubuntu-22.04
+            maven: 3.9.6
     name: Build on ${{ matrix.addons-ref }} (Java ${{ matrix.java }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     permissions:
