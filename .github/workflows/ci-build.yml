@@ -36,14 +36,14 @@ jobs:
       attestations: write
     steps:
       - name: Checkout openhab-addons
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: openhab/openhab-addons
           path: openhab-addons
           ref: ${{ matrix.addons-ref }}
 
       - name: Checkout addon in ${{ env.addon-path }}
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: ${{ env.addon-path }}
 
@@ -53,7 +53,7 @@ jobs:
         run: git apply patches/${{ matrix.addons-ref }}.patch
 
       - name: Set up Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.m2/repository
@@ -63,7 +63,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Set up Java ${{ matrix.java }}
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
