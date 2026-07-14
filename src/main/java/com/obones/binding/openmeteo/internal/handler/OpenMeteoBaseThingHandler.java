@@ -419,7 +419,14 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
                 for (int valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
                     Instant timestamp = Instant.ofEpochSecond(time);
                     State state = getForecastState(channelId.toString(), values, valueIndex, forecast);
-                    timeSeries.add(timestamp, state);
+
+                    if (state == UnDefType.NULL || state == UnDefType.UNDEF) {
+                        logger.debug("state is NULL or UNDEF for channel '{}' of group '{}' at time {}.", channelId,
+                                channelGroupId, timestamp.toString());
+                    } else {
+                        logger.debug("adding state {} at timestamp {}", state, timestamp);
+                        timeSeries.add(timestamp, state);
+                    }
 
                     time += forecast.interval();
                 }
