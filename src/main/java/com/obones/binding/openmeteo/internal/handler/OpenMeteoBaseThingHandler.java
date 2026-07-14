@@ -406,9 +406,13 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
         String channelGroupId = channelUID.getGroupId();
 
-        if (forecast != null) {
+        if (forecast == null) {
+            logger.debug("Forecast is null for {}", channelUID);
+        } else {
             VariableWithValues values = getVariableValues(channelId, forecast);
-            if (values != null) {
+            if (values == null) {
+                logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
+            } else {
                 TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
                 long time = forecast.time();
                 int valuesLength = Math.max(values.valuesLength(), values.valuesInt64Length());
@@ -423,29 +427,33 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
                 logger.debug("Update channel '{}' of group '{}' with new time-series '{}'.", channelId, channelGroupId,
                         timeSeries);
                 sendTimeSeries(channelUID, timeSeries);
-            } else {
-                logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
             }
         }
     }
 
     protected void updateHourlyTimeSeries(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData != null) {
+        if (forecastData == null) {
+            logger.debug("forecastData is null for {}", channelUID);
+        } else {
             updateForecastTimeSeries(channelUID, forecastData.hourly());
         }
     }
 
     protected void updateDailyTimeSeries(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData != null) {
+        if (forecastData == null) {
+            logger.debug("forecastData is null for {}", channelUID);
+        } else {
             updateForecastTimeSeries(channelUID, forecastData.daily());
         }
     }
 
     protected void updateMinutely15TImeSeries(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData != null) {
+        if (forecastData == null) {
+            logger.debug("forecastData is null for {}", channelUID);
+        } else {
             updateForecastTimeSeries(channelUID, forecastData.minutely15());
         }
     }
@@ -455,7 +463,9 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
         String channelGroupId = channelUID.getGroupId();
 
-        if (forecast != null) {
+        if (forecast == null) {
+            logger.debug("forecast is null for {}", channelUID);
+        } else {
             @Nullable
             State state = null;
 
@@ -480,7 +490,9 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
     protected void updateCurrentChannel(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData != null) {
+        if (forecastData == null) {
+            logger.debug("forecastData is null for {}", channelUID);
+        } else {
             updateForecastChannel(channelUID, forecastData.current(), null);
         }
     }
