@@ -70,8 +70,8 @@ You can add as many `marine-forecast` things for different locations to your set
 
 If a system location is set the following things will be automatically discovered for this location:
 
-* a "System OpenMeteo weather forecast" (`forecast`) thing
-* a "System OpenMeteo air quality report" (`air-quality`) thing
+- a "System OpenMeteo weather forecast" (`forecast`) thing
+- a "System OpenMeteo air quality report" (`air-quality`) thing
 
 If the system location was to be changed, the background discovery would update the configuration of the things accordingly within one minute.
 
@@ -279,7 +279,7 @@ The channels are placed in groups named `forecastHourly` for [time series suppor
 | terrestrial-solar-radiation-instant| Number:Intensity     |  Terrestrial solar radiation at the indicated time.  |
 | vapour-pressure-deficit    | Number:Pressure      |  For high VPD (>1.6), water transpiration of plants increases. For low VPD (<0.4), transpiration decreases |
 | cape                       | Number               |  Convective available potential energy |
-| evapotranspiration         | Number:Length        |  Evapotranspiration from land surface and plants that weather models assumes for this location. | |
+| evapotranspiration         | Number:Length        |  Evapotranspiration from land surface and plants that weather models assumes for this location. |
 | et0-fao-evapotranspiration | Number:Length        |  Based on FAO-56 Penman-Monteith equations ET₀ is calculated from temperature, wind speed, humidity and solar radiation. |
 | precipitation                  | Number:Length        |  Total precipitation (rain, showers, snow) sum of the preceding hour |
 | snow                           | Number:Length        |  Snow volume of the last hour. |
@@ -296,7 +296,6 @@ The channels are placed in groups named `forecastHourly` for [time series suppor
 ### Daily weather forecast
 
 The channels are placed in groups named `forecastDaily` for [time series support](#persisting-time-series), and  `forecastDayToday`, `forecastDayTomorrow`, `forecastDay02` to `forecastDay16` for split channels support.
-
 
 | Channel ID                     | Item Type            | Description |
 |--------------------------------|----------------------|-----------------------------------|
@@ -418,7 +417,6 @@ The channels are placed in groups named `forecastHourly` with [time series suppo
 | us-aqi-as-string-sulphur-dioxide        | String               | United States Sulphur Dioxide concentration as a human readable string. Same values as United States AQI |
 | us-aqi-as-string-carbon-monoxide        | String               | United States Carbon Monoxide concentration as a human readable string. Same values as United States AQI |
 
-
 ### Current air quality conditions
 
 The channels are placed in a group named `current` and are the same as for the hourly air quality forecast.
@@ -487,15 +485,16 @@ Make sure you have a persistence service installed and ready for use.
 
 To configure persisting forecast data, first create and link Items to those channels with time series support (as usual).
 Next, enable persistence for these Items using the `forecast` persistence strategy:
-* Settings, Add-ons Settings, Your persistence addon, Configure persistence
-* Add configuration
-* Select group/items from the forecast
-* Select the `forecast` strategy
-* Save your configuration
+
+- Settings, Add-ons Settings, Your persistence addon, Configure persistence
+- Add configuration
+- Select group/items from the forecast
+- Select the `forecast` strategy
+- Save your configuration
 
 Finally, open the UI, search for one of the newly created Items, open the analyzer and select a future time range.
 
-Please note that if you apply a strategy to some items, the “default strategy” will no longer apply and you’ll need to create a “catch all” strategy yourself, as discussed [here](https://community.openhab.org/t/default-persistence-strategy-is-not-applied-if-a-group-configuration-is-defined/155022/3 )
+Please note that if you apply a strategy to some items, the “default strategy” will no longer apply and you’ll need to create a “catch all” strategy yourself, as discussed in this [post](https://community.openhab.org/t/default-persistence-strategy-is-not-applied-if-a-group-configuration-is-defined/155022/3 )
 
 ### Usage
 
