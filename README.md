@@ -84,6 +84,10 @@ If the system location was to be changed, the background discovery would update 
 | refreshInterval | Specifies the refresh interval (in minutes). Optional, the default value is 60, the minimum value is 1. |
 | baseURI         | The base URI to connect to. The default value is fine for connecting to the free tier API.              |
 | apikey          | API key to access the OpenMeteo API.                                                                    |
+| proxyHost       | Network name of the proxy to use. Leave empty for no proxy                                              |
+| proxyPort       | Port onto which the proxy is listening                                                                  |
+| proxyUser       | User to connect to the proxy. Leave empty if not needed                                                 |
+| proxyPassword   | Password to connect to the proxy. Leave empty if not needed                                             |
 
 ### Weather forecast
 
