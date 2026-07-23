@@ -310,7 +310,8 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
     public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
             @Nullable Integer minutely15Steps, @Nullable Double panelTilt, @Nullable Double panelAzimuth,
-            @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable Integer pastMinutely15Steps) {
+            @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable Integer pastMinutely15Steps,
+            @Nullable String models) {
 
         if (hourlyHours == null && dailyDays == null && !current && minutely15Steps == null) {
             logger.warn("No point in getting a forecast if no elements are required");
@@ -358,6 +359,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         if (panelAzimuth != null) {
             builder.queryParam("azimuth", panelAzimuth);
+        }
+
+        if (models != null && !models.isBlank()) {
+            builder.queryParam("models", models);
         }
 
         return getResponse(builder);
@@ -548,7 +553,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
     public WeatherApiResponse getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current, //
-            @Nullable Integer pastHours, @Nullable Integer pastDays) {
+            @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable String models) {
         if (hourlyHours == null && dailyDays == null && !current) {
             logger.warn("No point in getting a forecast if no elements are required");
             return new WeatherApiResponse();
@@ -579,6 +584,10 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             if (pastDays != null) {
                 builder.queryParam("past_days", pastDays);
             }
+        }
+
+        if (models != null && !models.isBlank()) {
+            builder.queryParam("models", models);
         }
 
         return getResponse(builder);

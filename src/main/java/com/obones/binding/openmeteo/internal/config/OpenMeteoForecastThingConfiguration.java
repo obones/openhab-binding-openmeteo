@@ -40,6 +40,8 @@ public class OpenMeteoForecastThingConfiguration extends OpenMeteoBaseThingConfi
     public @Nullable Double panelTilt = null;
     public @Nullable Double panelAzimuth = null;
 
+    public @Nullable String models = null;
+
     public boolean includeTimeStamp = true;
     public boolean includeTemperature = true;
     public boolean includeHumidity = true;

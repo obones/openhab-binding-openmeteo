@@ -61,6 +61,13 @@
 			<description>@text/config.openmeteo.thing..location.description</description>
 		</parameter>
 
+		<parameter name="models" type="text">
+			<context>models</context>
+			<label>@text/config.openmeteo.thing..models.label</label>
+			<description>@text/config.openmeteo.thing..models.description</description>
+			<advanced>true</advanced>
+		</parameter>
+
 		<!-- Hourly parameters -->
 		<parameter-group name="hourlyParameters">
 			<label>@text/config.openmeteo.thing.forecast.hourlyParameters.label</label>
@@ -641,6 +648,13 @@
 			<context>location</context>
 			<label>@text/config.openmeteo.thing..location.label</label>
 			<description>@text/config.openmeteo.thing..location.description</description>
+		</parameter>
+
+		<parameter name="models" type="text">
+			<context>models</context>
+			<label>@text/config.openmeteo.thing..models.label</label>
+			<description>@text/config.openmeteo.thing..models.description</description>
+			<advanced>true</advanced>
 		</parameter>
 
 		<!-- Hourly parameters -->

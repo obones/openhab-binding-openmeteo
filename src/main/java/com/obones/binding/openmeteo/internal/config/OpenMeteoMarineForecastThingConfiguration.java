@@ -16,6 +16,8 @@ public class OpenMeteoMarineForecastThingConfiguration extends OpenMeteoBaseThin
 
     public boolean current = false;
 
+    public @Nullable String models = null;
+
     public boolean includeWaveHeight = true;
     public boolean includeWindWaveHeight = true;
     public boolean includeSwellWaveHeight = true;

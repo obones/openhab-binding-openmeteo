@@ -302,7 +302,8 @@ public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandl
                 (config.hourlyTimeSeries) ? config.hourlyHours : null, //
                 (config.dailyTimeSeries) ? config.dailyDays : null, //
                 config.current, //
-                config.pastHours, config.pastDays);
+                config.pastHours, config.pastDays, //
+                config.models);
     }
 
     private EnumSet<OpenMeteoConnection.MarineForecastValue> getMarineForecastValues() {

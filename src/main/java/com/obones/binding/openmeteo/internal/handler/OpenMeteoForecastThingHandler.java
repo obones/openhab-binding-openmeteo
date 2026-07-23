@@ -650,7 +650,8 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 config.current, //
                 (config.minutely15) ? config.minutely15Steps : null, //
                 config.panelTilt, config.panelAzimuth, //
-                config.pastHours, config.pastDays, config.pastMinutely15Steps);
+                config.pastHours, config.pastDays, config.pastMinutely15Steps, //
+                config.models);
     }
 
     private EnumSet<OpenMeteoConnection.ForecastValue> getForecastValues() {
