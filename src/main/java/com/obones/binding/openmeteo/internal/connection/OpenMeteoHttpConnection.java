@@ -22,7 +22,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
-import org.openhab.core.io.net.http.HttpUtil;
 import org.openhab.core.library.types.PointType;
 import org.openhab.core.library.types.RawType;
 import org.slf4j.Logger;
@@ -41,10 +40,19 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
     private String baseURI;
     private String APIKey;
+    private @Nullable String proxyHost;
+    private @Nullable Integer proxyPort;
+    private @Nullable String proxyUser;
+    private @Nullable String proxyPassword;
 
-    public OpenMeteoHttpConnection(String baseURI, String APIKey) {
+    public OpenMeteoHttpConnection(String baseURI, String APIKey, @Nullable String proxyHost,
+            @Nullable Integer proxyPort, @Nullable String proxyUser, @Nullable String proxyPassword) {
         this.baseURI = baseURI;
         this.APIKey = APIKey;
+        this.proxyHost = proxyHost;
+        this.proxyPort = proxyPort;
+        this.proxyUser = proxyUser;
+        this.proxyPassword = proxyPassword;
     }
 
     private String getForecastValueFieldName(ForecastValue forecastValue) {
@@ -274,8 +282,11 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
     private WeatherApiResponse getResponse(UriBuilder builder) {
         String url = builder.build().toString();
 
+        // We should really be using HttpUtil.downloadData here, but it does not allow for passing
+        // custom proxy parameters, so we had to "copy over" the code that we needed from HttpUtil
+        // into our own specialized class.
         logger.debug("Calling OpenMeteo on {}", url);
-        RawType data = HttpUtil.downloadData(url, null, false, -1);
+        RawType data = OpenMeteoHttpUtil.downloadData(url, proxyHost, proxyPort, proxyUser, proxyPassword);
         if (data == null) {
             logger.warn("Data was null");
             return new WeatherApiResponse();

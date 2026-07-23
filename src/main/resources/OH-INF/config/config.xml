@@ -26,6 +26,30 @@
 			<description>@text/config.openmeteo.bridge.refreshInterval.description</description>
 			<default>60</default>
 		</parameter>
+		<parameter name="proxyHost" type="text">
+			<label>@text/config.openmeteo.bridge.proxyHost.label</label>
+			<description>@text/config.openmeteo.bridge.proxyHost.description</description>
+			<default></default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="proxyPort" type="integer">
+			<label>@text/config.openmeteo.bridge.proxyPort.label</label>
+			<description>@text/config.openmeteo.bridge.proxyPort.description</description>
+			<default>8080</default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="proxyUser" type="text">
+			<label>@text/config.openmeteo.bridge.proxyUser.label</label>
+			<description>@text/config.openmeteo.bridge.proxyUser.description</description>
+			<default></default>
+			<advanced>true</advanced>
+		</parameter>
+		<parameter name="proxyPassword" type="text">
+			<label>@text/config.openmeteo.bridge.proxyPassword.label</label>
+			<description>@text/config.openmeteo.bridge.proxyPassword.description</description>
+			<default></default>
+			<advanced>true</advanced>
+		</parameter>
 	</config-description>
 	<!-- -->
 	<!-- Open Meteo Forecast -->

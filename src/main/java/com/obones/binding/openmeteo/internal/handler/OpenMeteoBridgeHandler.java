@@ -1,10 +1,10 @@
 /**
- * Copyright (c) 2023-2024 Olivier Sannier 
+ * Copyright (c) 2023-2024 Olivier Sannier
  ** See the NOTICE file(s) distributed with this work for additional
  * information.
  *
- * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. 
- * If a copy of the MPL was not distributed with this file, 
+ * This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.
+ * If a copy of the MPL was not distributed with this file,
  * you can obtain one at https://mozilla.org/MPL/2.0/.
  *
  * SPDX-License-Identifier: MPL-2.0
@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.obones.binding.openmeteo.internal.config.OpenMeteoBridgeConfiguration;
-import com.obones.binding.openmeteo.internal.connection.OpenMeteoConnection;
 import com.obones.binding.openmeteo.internal.connection.OpenMeteoHttpConnection;
 import com.obones.binding.openmeteo.internal.utils.Localization;
 
@@ -67,7 +66,7 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
     public Localization localization;
 
     private @Nullable ScheduledFuture<?> refreshJob;
-    private @Nullable OpenMeteoConnection connection;
+    private @Nullable OpenMeteoHttpConnection connection;
 
     private static final long INITIAL_DELAY_IN_SECONDS = 15;
 
@@ -75,7 +74,6 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
      * ************************
      * ***** Constructors *****
      */
-
     public OpenMeteoBridgeHandler(final Bridge bridge, Localization localization) {
         super(bridge);
         logger.trace("OpenMeteoBridgeHandler(constructor with bridge={}, localization={}) called.", bridge,
@@ -99,7 +97,8 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
 
         OpenMeteoBridgeConfiguration config = getConfigAs(OpenMeteoBridgeConfiguration.class);
 
-        connection = new OpenMeteoHttpConnection(config.baseURI, config.APIKey);
+        connection = new OpenMeteoHttpConnection(config.baseURI, config.APIKey, config.proxyHost, config.proxyPort,
+                config.proxyUser, config.proxyPassword);
 
         ScheduledFuture<?> localRefreshJob = refreshJob;
         if (localRefreshJob == null || localRefreshJob.isCancelled()) {
