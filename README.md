@@ -108,6 +108,7 @@ If the system location was to be changed, the background discovery would update 
 | pastMinutely15Steps        | Minutely 15 steps in the past to retrieve values for (default = unset) |
 | panelTilt        | The solar panel tilt (0° horizontal) |
 | panelAzimuth     | The solar panel azimuth (0° S, -90° E, 90° W) |
+| models           | Comma separated list of models to query in priority order, leave empty for best match. See OpenMeteo documentation for details. |
 | includeTimeStamp           | Create a channel in split groups for the forecast date time |
 | includeTemperature         | Create channels for temperature, instant on hourly, min and max on daily (default: true) |
 | includeHumidity            | Create a channel for humidity (default: true) |
@@ -211,6 +212,7 @@ Any change to the parameters will recreate channels and channel groups with the 
 | dailySplit       | Whether to create one channel group per future day to accommodate widgets that are not capable of using time series. (default = false) |
 | pastDays         | Days in the past to retrieve values for (default = unset) |
 | current          | Whether to create a channel group for the current marine conditions. (default = false) |
+| models           | Comma separated list of models to query in priority order, leave empty for best match. See OpenMeteo documentation for details. |
 | includeWaveHeight                  | Create a channel for Wave height of significant mean waves (default = true) |
 | includeWindWaveHeight              | Create a channel for Wave height of significant wind waves (default = true) |
 | includeSwellWaveHeight             | Create a channel for Wave height of significant swell waves (default = true) |
