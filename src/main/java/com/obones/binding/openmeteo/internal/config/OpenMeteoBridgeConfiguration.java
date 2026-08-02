@@ -12,6 +12,7 @@
  */
 package com.obones.binding.openmeteo.internal.config;
 
+import com.obones.binding.openmeteo.internal.connection.ProxyType;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 
 @NonNullByDefault
@@ -24,6 +25,7 @@ public class OpenMeteoBridgeConfiguration {
     public String APIKey = "";
     public int refreshInterval;
 
+    public ProxyType proxyType = ProxyType.HTTP;
     public String proxyHost = "";
     public Integer proxyPort = 8080;
     public String proxyUser = "";

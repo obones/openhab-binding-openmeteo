@@ -26,6 +26,16 @@
 			<description>@text/config.openmeteo.bridge.refreshInterval.description</description>
 			<default>60</default>
 		</parameter>
+		<parameter name="proxyType" type="text" required="true">
+			<label>@text/config.openmeteo.bridge.proxyType.label</label>
+			<description>@text/config.openmeteo.bridge.proxyType.description</description>
+			<default>none</default>
+			<advanced>true</advanced>
+			<options>
+				<option value="HTTP">HTTP</option>
+				<option value="SOCKS">Socks</option>
+			</options>
+		</parameter>
 		<parameter name="proxyHost" type="text">
 			<label>@text/config.openmeteo.bridge.proxyHost.label</label>
 			<description>@text/config.openmeteo.bridge.proxyHost.description</description>

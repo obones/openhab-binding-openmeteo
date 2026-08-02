@@ -97,8 +97,8 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
 
         OpenMeteoBridgeConfiguration config = getConfigAs(OpenMeteoBridgeConfiguration.class);
 
-        connection = new OpenMeteoHttpConnection(config.baseURI, config.APIKey, config.proxyHost, config.proxyPort,
-                config.proxyUser, config.proxyPassword);
+        connection = new OpenMeteoHttpConnection(config.baseURI, config.APIKey, config.proxyType, config.proxyHost,
+                config.proxyPort, config.proxyUser, config.proxyPassword);
 
         ScheduledFuture<?> localRefreshJob = refreshJob;
         if (localRefreshJob == null || localRefreshJob.isCancelled()) {

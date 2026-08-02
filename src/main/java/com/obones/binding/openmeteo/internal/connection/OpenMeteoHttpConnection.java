@@ -40,15 +40,18 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
     private String baseURI;
     private String APIKey;
+    private @Nullable ProxyType proxyType;
     private @Nullable String proxyHost;
     private @Nullable Integer proxyPort;
     private @Nullable String proxyUser;
     private @Nullable String proxyPassword;
 
-    public OpenMeteoHttpConnection(String baseURI, String APIKey, @Nullable String proxyHost,
-            @Nullable Integer proxyPort, @Nullable String proxyUser, @Nullable String proxyPassword) {
+    public OpenMeteoHttpConnection(String baseURI, String APIKey, @Nullable ProxyType proxyType,
+            @Nullable String proxyHost, @Nullable Integer proxyPort, @Nullable String proxyUser,
+            @Nullable String proxyPassword) {
         this.baseURI = baseURI;
         this.APIKey = APIKey;
+        this.proxyType = proxyType;
         this.proxyHost = proxyHost;
         this.proxyPort = proxyPort;
         this.proxyUser = proxyUser;
@@ -286,7 +289,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         // custom proxy parameters, so we had to "copy over" the code that we needed from HttpUtil
         // into our own specialized class.
         logger.debug("Calling OpenMeteo on {}", url);
-        RawType data = OpenMeteoHttpUtil.downloadData(url, proxyHost, proxyPort, proxyUser, proxyPassword);
+        RawType data = OpenMeteoHttpUtil.downloadData(url, proxyType, proxyHost, proxyPort, proxyUser, proxyPassword);
         if (data == null) {
             logger.warn("Data was null");
             return new WeatherApiResponse();

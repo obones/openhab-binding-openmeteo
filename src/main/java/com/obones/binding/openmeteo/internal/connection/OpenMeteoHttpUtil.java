@@ -7,11 +7,13 @@ import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.HttpProxy;
 import org.eclipse.jetty.client.ProxyConfiguration;
+import org.eclipse.jetty.client.Socks4Proxy;
 import org.eclipse.jetty.client.api.AuthenticationStore;
 import org.eclipse.jetty.client.api.ContentResponse;
 import org.eclipse.jetty.client.api.Request;
@@ -44,14 +46,14 @@ public class OpenMeteoHttpUtil {
         OpenMeteoHttpUtil.httpClientFactory = null;
     }
 
-    private static ContentResponse executeUrlAndGetResponse(String url, int timeout, @Nullable String proxyHost,
-            @Nullable Integer proxyPort, @Nullable String proxyUser, @Nullable String proxyPassword)
+    private static ContentResponse executeUrlAndGetResponse(String url, int timeout, @Nullable ProxyType proxyType,
+            @Nullable String proxyHost, @Nullable Integer proxyPort, @Nullable String proxyUser,
+            @Nullable String proxyPassword)
             throws IOException {
         var localHttpClientFactory = httpClientFactory;
         if (localHttpClientFactory == null)
             throw new IllegalStateException("Http client factory not available");
 
-        HttpClient httpClient = localHttpClientFactory.getCommonHttpClient();
         URI uri = null;
 
         try {
@@ -61,62 +63,94 @@ public class OpenMeteoHttpUtil {
             throw new IOException(e);
         }
 
-        HttpProxy proxy = null;
-        if (proxyHost != null && !proxyHost.isBlank() && proxyPort != null) {
+        // TODO: store the client somewhere and do not create it for every request
+        final HttpClient httpClient = localHttpClientFactory.createHttpClient("OpenMeteo");
+        ProxyConfiguration.Proxy proxy = null;
+        BasicAuthentication authentication = null;
+        if (proxyType != null && proxyHost != null && !proxyHost.isBlank() && proxyPort != null) {
             AuthenticationStore authStore = httpClient.getAuthenticationStore();
             ProxyConfiguration proxyConfig = httpClient.getProxyConfiguration();
             List<ProxyConfiguration.Proxy> proxies = proxyConfig.getProxies();
-            proxy = new HttpProxy(proxyHost, proxyPort);
+            proxy = switch (proxyType) {
+                case HTTP -> {
+                    logger.warn("HTTP proxy is used {}:{}", proxyHost, proxyPort);
+                    yield new HttpProxy(proxyHost, proxyPort);
+                }
+                case SOCKS -> {
+                    logger.warn("Socks proxy is used {}:{}", proxyHost, proxyPort);
+                    yield new Socks4Proxy(proxyHost, proxyPort);
+                }
+            };
             proxies.add(proxy);
-            authStore.addAuthentication(
-                    new BasicAuthentication(proxy.getURI(), "<<ANY_REALM>>", proxyUser, proxyPassword));
+            if (StringUtils.isNotBlank(proxyUser) && StringUtils.isNotBlank(proxyPassword)) {
+                authentication = new BasicAuthentication(proxy.getURI(), "<<ANY_REALM>>", proxyUser, proxyPassword);
+                authStore.addAuthentication(authentication);
+            }
         }
 
-        HttpMethod method = HttpMethod.GET;
-        Request request = httpClient.newRequest(uri).method(method).timeout(timeout, TimeUnit.MILLISECONDS);
-
-        if (uri.getUserInfo() != null) {
-            String[] userInfo = uri.getUserInfo().split(":");
-            String user = userInfo[0];
-            String password = userInfo[1];
-            Base64.Encoder var10000 = Base64.getEncoder();
-            String var10001 = user + ":" + password;
-            String basicAuthentication = "Basic " + var10000.encodeToString(var10001.getBytes());
-            request.header(HttpHeader.AUTHORIZATION, basicAuthentication);
-        }
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("About to execute {}", request.getURI());
-        }
-
-        ContentResponse result;
         try {
-            ContentResponse response = request.send();
-            int statusCode = response.getStatus();
-            if (logger.isDebugEnabled() && statusCode >= 400) {
-                String statusLine = statusCode + " " + response.getReason();
-                logger.debug("Method failed: {}", statusLine);
+            httpClient.start();
+            HttpMethod method = HttpMethod.GET;
+            Request request = httpClient.newRequest(uri).method(method).timeout(timeout, TimeUnit.MILLISECONDS);
+
+            if (uri.getUserInfo() != null) {
+                String[] userInfo = uri.getUserInfo().split(":");
+                String user = userInfo[0];
+                String password = userInfo[1];
+                Base64.Encoder var10000 = Base64.getEncoder();
+                String var10001 = user + ":" + password;
+                String basicAuthentication = "Basic " + var10000.encodeToString(var10001.getBytes());
+                request.header(HttpHeader.AUTHORIZATION, basicAuthentication);
             }
 
-            result = response;
-        } catch (Exception e) {
-            throw new IOException(e);
+            if (logger.isDebugEnabled()) {
+                logger.debug("About to execute {}", request.getURI());
+            }
+
+            ContentResponse result;
+            try {
+                ContentResponse response = request.send();
+                int statusCode = response.getStatus();
+                if (logger.isDebugEnabled() && statusCode >= 400) {
+                    String statusLine = statusCode + " " + response.getReason();
+                    logger.debug("Method failed: {}", statusLine);
+                }
+
+                result = response;
+            } catch (Exception e) {
+                logger.error("Method", e);
+                throw new IOException(e);
+            }
+
+            return result;
+        } catch (final IOException | RuntimeException e) {
+            throw e;
+        } catch (final Exception e) {
+            logger.error("Unable to init http client", e);
+            throw new RuntimeException(e);
         } finally {
             if (proxy != null) {
                 httpClient.getProxyConfiguration().getProxies().remove(proxy);
             }
-
+            if (authentication != null) {
+                httpClient.getAuthenticationStore().removeAuthentication(authentication);
+            }
+            try {
+                if(httpClient.isStarted()) {
+                    httpClient.stop();
+                }
+            } catch (final Exception e) {
+                logger.error("Unable to stop http client", e);
+            }
         }
-
-        return result;
     }
 
-    public static @Nullable RawType downloadData(String url, @Nullable String proxyHost, @Nullable Integer proxyPort,
-            @Nullable String proxyUser, @Nullable String proxyPassword) {
+    public static @Nullable RawType downloadData(String url, @Nullable ProxyType proxyType,  @Nullable String proxyHost,
+            @Nullable Integer proxyPort, @Nullable String proxyUser, @Nullable String proxyPassword) {
         RawType rawData = null;
         try {
-            ContentResponse response = OpenMeteoHttpUtil.executeUrlAndGetResponse(url, 5000, proxyHost, proxyPort,
-                    proxyUser, proxyPassword);
+            ContentResponse response = OpenMeteoHttpUtil.executeUrlAndGetResponse(url, 5000, proxyType,
+                    proxyHost, proxyPort, proxyUser, proxyPassword);
             byte[] data = response.getContent();
             if (data == null) {
                 data = new byte[0];
