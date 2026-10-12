@@ -70,7 +70,7 @@ jobs:
           java-version: ${{ matrix.java }}
 
       - name: Set up Maven ${{ matrix.maven }}
-        uses: stCarolas/setup-maven@v5
+        uses: stCarolas/setup-maven@v5.1
         with:
           maven-version: ${{ matrix.maven }}
 
