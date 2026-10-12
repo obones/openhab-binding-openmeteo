@@ -73,7 +73,7 @@ public interface OpenMeteoConnection {
         UV_INDEX_CLEAR_SKY
     }
 
-    WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
+    WeatherApiResponse[] getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
             @Nullable Integer minutely15Steps, @Nullable Double panelTilt, @Nullable Double panelAzimuth,
             @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable Integer pastMinutely15Steps,
@@ -112,7 +112,7 @@ public interface OpenMeteoConnection {
         US_AQI_CARBON_MONOXIDE
     }
 
-    WeatherApiResponse getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
+    WeatherApiResponse[] getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
             @Nullable Integer hourlyHours, boolean current, @Nullable Integer pastHours);
 
     enum MarineForecastValue {
@@ -140,7 +140,7 @@ public interface OpenMeteoConnection {
         INVERT_BAROMETER_HEIGHT
     }
 
-    WeatherApiResponse getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
+    WeatherApiResponse[] getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current, //
             @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable String models);
 }

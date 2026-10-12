@@ -328,7 +328,7 @@ public class OpenMeteoAirQualityThingHandler extends OpenMeteoBaseThingHandler {
         }
     }
 
-    protected WeatherApiResponse requestData(OpenMeteoConnection connection, PointType location)
+    protected WeatherApiResponse[] requestData(OpenMeteoConnection connection, PointType location)
             throws CommunicationException, ConfigurationException {
         OpenMeteoAirQualityThingConfiguration config = getConfigAs(OpenMeteoAirQualityThingConfiguration.class);
 

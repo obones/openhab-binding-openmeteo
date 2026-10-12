@@ -18,8 +18,11 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
 
 import javax.measure.Unit;
 
@@ -79,7 +82,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
     protected @NonNullByDefault({}) final Logger logger = LoggerFactory.getLogger(OpenMeteoBridgeHandler.class);
     protected ChannelTypeRegistry channelTypeRegistry;
-    protected @Nullable WeatherApiResponse forecastData = null;
+    protected WeatherApiResponse[] forecastData = new WeatherApiResponse[0];
     protected final TimeZoneProvider timeZoneProvider;
 
     public Localization localization;
@@ -356,7 +359,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         }
     }
 
-    protected abstract WeatherApiResponse requestData(OpenMeteoConnection connection, PointType location)
+    protected abstract WeatherApiResponse[] requestData(OpenMeteoConnection connection, PointType location)
             throws CommunicationException, ConfigurationException;
 
     /**
@@ -402,23 +405,23 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
      */
     protected abstract void updateChannel(ChannelUID channelUID);
 
-    protected void updateForecastTimeSeries(ChannelUID channelUID, @Nullable VariablesWithTime forecast) {
+    protected void updateForecastTimeSeries(ChannelUID channelUID, VariablesWithTime[] forecast) {
         StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
         String channelGroupId = channelUID.getGroupId();
 
-        if (forecast == null) {
-            logger.debug("Forecast is null for {}", channelUID);
+        if (forecast.length == 0) {
+            logger.debug("Forecast is empty for {}", channelUID);
         } else {
-            VariableWithValues values = getVariableValues(channelId, forecast);
-            if (values == null) {
+            VariableWithValues[] valuesArray = getVariableValuesArray(channelId, forecast);
+            if (valuesArray.length == 0) {
                 logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
             } else {
                 TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
-                long time = forecast.time();
-                int valuesLength = Math.max(values.valuesLength(), values.valuesInt64Length());
+                long time = forecast[0].time();
+                int valuesLength = Math.max(valuesArray[0].valuesLength(), valuesArray[0].valuesInt64Length());
                 for (int valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
                     Instant timestamp = Instant.ofEpochSecond(time);
-                    State state = getForecastState(channelId.toString(), values, valueIndex, forecast);
+                    State state = getForecastState(channelId.toString(), valuesArray, valueIndex, forecast);
 
                     if (state == UnDefType.NULL || state == UnDefType.UNDEF) {
                         logger.debug("state is NULL or UNDEF for channel '{}' of group '{}' at time {}.", channelId,
@@ -428,7 +431,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
                         timeSeries.add(timestamp, state);
                     }
 
-                    time += forecast.interval();
+                    time += forecast[valueIndex].interval();
                 }
 
                 logger.debug("Update channel '{}' of group '{}' with new time-series '{}'.", channelId, channelGroupId,
@@ -438,50 +441,55 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
         }
     }
 
+    protected VariablesWithTime[] getVariablesWithTimes(
+            Function<? super WeatherApiResponse, ? super VariablesWithTime> mapper) {
+        return Arrays.stream(forecastData).map(mapper).toArray(VariablesWithTime[]::new);
+    }
+
     protected void updateHourlyTimeSeries(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData == null) {
-            logger.debug("forecastData is null for {}", channelUID);
+        if (forecastData.length == 0) {
+            logger.debug("forecastData is empty for {}", channelUID);
         } else {
-            updateForecastTimeSeries(channelUID, forecastData.hourly());
+            updateForecastTimeSeries(channelUID, getVariablesWithTimes(x -> x.hourly()));
         }
     }
 
     protected void updateDailyTimeSeries(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData == null) {
-            logger.debug("forecastData is null for {}", channelUID);
+        if (forecastData.length == 0) {
+            logger.debug("forecastData is empty for {}", channelUID);
         } else {
-            updateForecastTimeSeries(channelUID, forecastData.daily());
+            updateForecastTimeSeries(channelUID, getVariablesWithTimes(x -> x.daily()));
         }
     }
 
     protected void updateMinutely15TImeSeries(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData == null) {
-            logger.debug("forecastData is null for {}", channelUID);
+        if (forecastData.length == 0) {
+            logger.debug("forecastData is empty for {}", channelUID);
         } else {
-            updateForecastTimeSeries(channelUID, forecastData.minutely15());
+            updateForecastTimeSeries(channelUID, getVariablesWithTimes(x -> x.minutely15()));
         }
     }
 
-    protected void updateForecastChannel(ChannelUID channelUID, @Nullable VariablesWithTime forecast,
-            @Nullable Integer index) {
+    protected void updateForecastChannel(ChannelUID channelUID, VariablesWithTime[] forecast, @Nullable Integer index) {
         StringBuilder channelId = new StringBuilder(channelUID.getIdWithoutGroup());
         String channelGroupId = channelUID.getGroupId();
 
-        if (forecast == null) {
-            logger.debug("forecast is null for {}", channelUID);
+        if (forecast.length == 0) {
+            logger.debug("forecast is empty for {}", channelUID);
         } else {
             @Nullable
             State state = null;
 
             if (CHANNEL_FORECAST_TIME_STAMP.contentEquals(channelId)) {
-                state = getDateTimeTypeState(forecast.time() + ((index == null) ? 0 : index) * forecast.interval());
+                state = getDateTimeTypeState(
+                        forecast[0].time() + ((index == null) ? 0 : index) * forecast[0].interval());
             } else {
-                VariableWithValues values = getVariableValues(channelId, forecast);
-                if (values != null) {
-                    state = getForecastState(channelId.toString(), values, index, forecast);
+                VariableWithValues[] valuesArray = getVariableValuesArray(channelId, forecast);
+                if (valuesArray.length != 0) {
+                    state = getForecastState(channelId.toString(), valuesArray, index, forecast);
                 } else {
                     logger.warn("No values for channel '{}' of group '{}'", channelId, channelGroupId);
                 }
@@ -497,43 +505,53 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
     protected void updateCurrentChannel(ChannelUID channelUID) {
         var forecastData = this.forecastData;
-        if (forecastData == null) {
-            logger.debug("forecastData is null for {}", channelUID);
+        if (forecastData.length == 0) {
+            logger.debug("forecastData is empty for {}", channelUID);
         } else {
-            updateForecastChannel(channelUID, forecastData.current(), null);
+            updateForecastChannel(channelUID, getVariablesWithTimes(x -> x.current()), null);
         }
     }
 
     protected abstract int getVariableIndex(String channelId);
 
-    protected @Nullable VariableWithValues getVariableValues(StringBuilder channelId,
-            @Nullable VariablesWithTime variablesWithTime) {
-        if (variablesWithTime != null && variablesWithTime.variablesLength() > 0) {
-            int aggregation = Aggregation.none;
-            int suffixPosition = -1;
-            if ((suffixPosition = channelId.lastIndexOf("-min")) >= 0) {
-                aggregation = Aggregation.minimum;
-                channelId.setLength(suffixPosition);
-            } else if ((suffixPosition = channelId.lastIndexOf("-max")) >= 0) {
-                aggregation = Aggregation.maximum;
-                channelId.setLength(suffixPosition);
-            } else if ((suffixPosition = channelId.lastIndexOf("-mean")) >= 0) {
-                aggregation = Aggregation.mean;
-                channelId.setLength(suffixPosition);
-            } else if ((suffixPosition = channelId.lastIndexOf("-sum")) >= 0) {
-                aggregation = Aggregation.sum;
-                channelId.setLength(suffixPosition);
-            } else if ((suffixPosition = channelId.lastIndexOf("-dominant")) >= 0) {
-                aggregation = Aggregation.dominant;
-                channelId.setLength(suffixPosition);
+    protected VariableWithValues[] getVariableValuesArray(StringBuilder channelId,
+            @Nullable VariablesWithTime[] variablesWithTimeArray) {
+
+        var result = new ArrayList<VariableWithValues>();
+        for (int variablesWithTimeIndex = 0; variablesWithTimeIndex < variablesWithTimeArray.length; variablesWithTimeIndex++) {
+            var variablesWithTime = variablesWithTimeArray[variablesWithTimeIndex];
+
+            if (variablesWithTime != null && variablesWithTime.variablesLength() > 0) {
+                int aggregation = Aggregation.none;
+                int suffixPosition = -1;
+                if ((suffixPosition = channelId.lastIndexOf("-min")) >= 0) {
+                    aggregation = Aggregation.minimum;
+                    channelId.setLength(suffixPosition);
+                } else if ((suffixPosition = channelId.lastIndexOf("-max")) >= 0) {
+                    aggregation = Aggregation.maximum;
+                    channelId.setLength(suffixPosition);
+                } else if ((suffixPosition = channelId.lastIndexOf("-mean")) >= 0) {
+                    aggregation = Aggregation.mean;
+                    channelId.setLength(suffixPosition);
+                } else if ((suffixPosition = channelId.lastIndexOf("-sum")) >= 0) {
+                    aggregation = Aggregation.sum;
+                    channelId.setLength(suffixPosition);
+                } else if ((suffixPosition = channelId.lastIndexOf("-dominant")) >= 0) {
+                    aggregation = Aggregation.dominant;
+                    channelId.setLength(suffixPosition);
+                }
+
+                int variable = getVariableIndex(channelId.toString());
+
+                var variableWithValues = new VariablesSearch(variablesWithTime).variable(variable)
+                        .aggregation(aggregation).first();
+
+                if (variableWithValues != null)
+                    result.add(variableWithValues);
             }
-
-            int variable = getVariableIndex(channelId.toString());
-
-            return new VariablesSearch(variablesWithTime).variable(variable).aggregation(aggregation).first();
         }
 
-        return null;
+        return result.toArray(new VariableWithValues[0]);
     }
 
     protected State getDecimalTypeState(@Nullable Float value) {
@@ -562,19 +580,28 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
 
     protected abstract State getForecastState(String channelId, @Nullable Float floatValue, @Nullable Long longValue);
 
-    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex,
-            @Nullable VariablesWithTime forecast) {
+    protected State getForecastState(String channelId, VariableWithValues[] valuesArray, @Nullable Integer valueIndex,
+            VariablesWithTime[] forecast) {
         @Nullable
         Float floatValue = null;
-        if (valueIndex == null)
-            floatValue = values.value();
-        else if (valueIndex < values.valuesLength())
-            floatValue = values.values(valueIndex);
-
         @Nullable
         Long longValue = null;
-        if ((valueIndex != null) && (valueIndex < values.valuesInt64Length()))
-            longValue = values.valuesInt64(valueIndex);
+
+        int valuesArrayIndex = 0;
+        while (((floatValue == null) || (Double.isNaN(floatValue))) && (longValue == null)
+                && (valuesArrayIndex < valuesArray.length)) {
+            VariableWithValues values = valuesArray[valuesArrayIndex];
+
+            if (valueIndex == null)
+                floatValue = values.value();
+            else if (valueIndex < values.valuesLength())
+                floatValue = values.values(valueIndex);
+
+            if ((valueIndex != null) && (valueIndex < values.valuesInt64Length()))
+                longValue = values.valuesInt64(valueIndex);
+
+            valuesArrayIndex++;
+        }
 
         return getForecastState(channelId, floatValue, longValue);
     }

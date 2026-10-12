@@ -279,7 +279,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         return builder;
     }
 
-    private WeatherApiResponse getResponse(UriBuilder builder) {
+    private WeatherApiResponse[] getResponse(UriBuilder builder) {
         String url = builder.build().toString();
 
         // We should really be using HttpUtil.downloadData here, but it does not allow for passing
@@ -289,13 +289,41 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         RawType data = OpenMeteoHttpUtil.downloadData(url, proxyHost, proxyPort, proxyUser, proxyPassword);
         if (data == null) {
             logger.warn("Data was null");
-            return new WeatherApiResponse();
+            return new WeatherApiResponse[0];
         }
 
-        ByteBuffer buffer = ByteBuffer.wrap(data.getBytes()).order(ByteOrder.LITTLE_ENDIAN);
+        var bytes = data.getBytes();
+        logger.debug("Bytes length: {}", bytes.length);
 
-        // first 4 bytes are the buffer length and must be ignored
-        return WeatherApiResponse.getRootAsWeatherApiResponse(buffer.position(4));
+        ByteBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
+
+        var readLength = buffer.getInt(0);
+        logger.debug("Read length: {}", readLength);
+
+        double forecastCountDbl = bytes.length / (readLength + 4);
+        logger.debug("Estimated forecast count: {}", forecastCountDbl);
+
+        int forecastCount = 1;
+        int forecastSize = bytes.length;
+        if (forecastCountDbl % 1 == 0) {
+            forecastCount = Math.floorDiv(bytes.length, readLength);
+            forecastSize /= forecastCount;
+        } else {
+            logger.warn("Forecast count is not an integer, only reading first one ({} / {} = {})", bytes.length,
+                    readLength, forecastCountDbl);
+        }
+
+        logger.debug("Real forecast count: {}", forecastCount);
+        logger.debug("Forecast size: {}", forecastSize);
+
+        WeatherApiResponse[] responses = new WeatherApiResponse[forecastCount];
+        for (int responseIndex = 0; responseIndex < forecastCount; responseIndex++) {
+            responses[responseIndex] = WeatherApiResponse
+                    // first 4 bytes are the forecast length and must be ignored
+                    .getRootAsWeatherApiResponse(buffer.position(responseIndex * forecastSize + 4));
+        }
+
+        return responses;
     }
 
     private @Nullable URI getUri() {
@@ -307,7 +335,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         }
     }
 
-    public WeatherApiResponse getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
+    public WeatherApiResponse[] getForecast(PointType location, EnumSet<ForecastValue> forecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current,
             @Nullable Integer minutely15Steps, @Nullable Double panelTilt, @Nullable Double panelAzimuth,
             @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable Integer pastMinutely15Steps,
@@ -315,7 +343,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         if (hourlyHours == null && dailyDays == null && !current && minutely15Steps == null) {
             logger.warn("No point in getting a forecast if no elements are required");
-            return new WeatherApiResponse();
+            return new WeatherApiResponse[0];
         }
 
         ArrayList<String> requiredHourlyFields = new ArrayList<>();
@@ -332,7 +360,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         @Nullable
         URI uri = getUri();
         if (uri == null)
-            return new WeatherApiResponse();
+            return new WeatherApiResponse[0];
 
         UriBuilder builder = prepareUriBuilder(uri, "forecast", location, hourlyHours, requiredHourlyFields, pastHours,
                 current, requiredCurrentFields);
@@ -442,11 +470,11 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         addHourlyFields(airQualityValue, fields);
     }
 
-    public WeatherApiResponse getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
+    public WeatherApiResponse[] getAirQuality(PointType location, EnumSet<AirQualityValue> airQualityValues,
             @Nullable Integer hourlyHours, boolean current, @Nullable Integer pastHours) {
         if (hourlyHours == null && !current) {
             logger.warn("No point in getting an air quality report if no elements are required");
-            return new WeatherApiResponse();
+            return new WeatherApiResponse[0];
         }
 
         ArrayList<String> requiredHourlyFields = new ArrayList<>();
@@ -459,7 +487,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         @Nullable
         URI uri = getUri();
         if (uri == null)
-            return new WeatherApiResponse();
+            return new WeatherApiResponse[0];
 
         UriBuilder builder = prepareUriBuilder(uri, "air-quality", location, hourlyHours, requiredHourlyFields,
                 pastHours, current, requiredCurrentFields);
@@ -551,12 +579,12 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         addHourlyFields(marineForecastValue, fields);
     }
 
-    public WeatherApiResponse getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
+    public WeatherApiResponse[] getMarineForecast(PointType location, EnumSet<MarineForecastValue> marineForecastValues,
             @Nullable Integer hourlyHours, @Nullable Integer dailyDays, boolean current, //
             @Nullable Integer pastHours, @Nullable Integer pastDays, @Nullable String models) {
         if (hourlyHours == null && dailyDays == null && !current) {
             logger.warn("No point in getting a forecast if no elements are required");
-            return new WeatherApiResponse();
+            return new WeatherApiResponse[0];
         }
 
         ArrayList<String> requiredHourlyFields = new ArrayList<>();
@@ -571,7 +599,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
         @Nullable
         URI uri = getUri();
         if (uri == null)
-            return new WeatherApiResponse();
+            return new WeatherApiResponse[0];
 
         UriBuilder builder = prepareUriBuilder(uri, "marine", location, hourlyHours, requiredHourlyFields, pastHours,
                 current, requiredCurrentFields);

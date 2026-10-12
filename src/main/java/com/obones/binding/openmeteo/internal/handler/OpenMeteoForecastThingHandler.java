@@ -640,7 +640,7 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
                 CHANNEL_TYPE_UID_ICON_ID, config.includeIconId, labelArguments);
     }
 
-    protected WeatherApiResponse requestData(OpenMeteoConnection connection, PointType location)
+    protected WeatherApiResponse[] requestData(OpenMeteoConnection connection, PointType location)
             throws CommunicationException, ConfigurationException {
         OpenMeteoForecastThingConfiguration config = getConfigAs(OpenMeteoForecastThingConfiguration.class);
 
@@ -806,8 +806,8 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
      */
     private void updateHourlyChannel(ChannelUID channelUID, int index) {
         var forecastData = this.forecastData;
-        if (forecastData != null) {
-            updateForecastChannel(channelUID, forecastData.hourly(), index);
+        if (forecastData.length > 0) {
+            updateForecastChannel(channelUID, getVariablesWithTimes(x -> x.hourly()), index);
         }
     }
 
@@ -819,8 +819,8 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
      */
     private void updateDailyChannel(ChannelUID channelUID, int index) {
         var forecastData = this.forecastData;
-        if (forecastData != null) {
-            updateForecastChannel(channelUID, forecastData.daily(), index);
+        if (forecastData.length > 0) {
+            updateForecastChannel(channelUID, getVariablesWithTimes(x -> x.daily()), index);
         }
     }
 
@@ -940,9 +940,9 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
     }
 
     @Override
-    protected State getForecastState(String channelId, VariableWithValues values, @Nullable Integer valueIndex,
-            @Nullable VariablesWithTime forecast) {
-        State channelState = super.getForecastState(channelId, values, valueIndex, forecast);
+    protected State getForecastState(String channelId, VariableWithValues[] valuesArray, @Nullable Integer valueIndex,
+            VariablesWithTime forecast[]) {
+        State channelState = super.getForecastState(channelId, valuesArray, valueIndex, forecast);
 
         if (channelId.equals(CHANNEL_FORECAST_ICON_ID)) {
             int weatherCode = 0;
@@ -952,10 +952,10 @@ public class OpenMeteoForecastThingHandler extends OpenMeteoBaseThingHandler {
             }
 
             StringBuilder isDayChannelId = new StringBuilder(CHANNEL_FORECAST_IS_DAY);
-            VariableWithValues isDayValues = getVariableValues(isDayChannelId, forecast);
+            VariableWithValues[] isDayValuesArray = getVariableValuesArray(isDayChannelId, forecast);
 
-            State isDayState = (isDayValues != null)
-                    ? super.getForecastState(CHANNEL_FORECAST_IS_DAY, isDayValues, valueIndex, forecast)
+            State isDayState = (isDayValuesArray.length != 0)
+                    ? super.getForecastState(CHANNEL_FORECAST_IS_DAY, isDayValuesArray, valueIndex, forecast)
                     : UnDefType.UNDEF;
 
             return getIconIdState(weatherCode, (isDayState != OnOffType.OFF));

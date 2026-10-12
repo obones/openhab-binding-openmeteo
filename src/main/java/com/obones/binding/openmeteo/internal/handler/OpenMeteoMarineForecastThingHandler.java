@@ -294,7 +294,7 @@ public class OpenMeteoMarineForecastThingHandler extends OpenMeteoBaseThingHandl
         }
     }
 
-    protected WeatherApiResponse requestData(OpenMeteoConnection connection, PointType location)
+    protected WeatherApiResponse[] requestData(OpenMeteoConnection connection, PointType location)
             throws CommunicationException, ConfigurationException {
         OpenMeteoMarineForecastThingConfiguration config = getConfigAs(OpenMeteoMarineForecastThingConfiguration.class);
 
