@@ -427,6 +427,54 @@ The channels are placed in groups named `forecastHourly` with [time series suppo
 
 The channels are placed in a group named `current` and are the same as for the hourly air quality forecast.
 
+### Daily pollen peaks from hourly forecasts
+
+The air quality Thing already exposes hourly pollen forecasts as time series. To calculate a daily peak, enable `hourlyTimeSeries` and the desired pollen species (for example, `includeGrassPollen`) on the Thing. Set `hourlyHours` high enough to reach the end of the last desired local calendar day (typically 96 hours for today and the next three days; allow another hour across a daylight saving time fallback). No separate daily channels are needed.
+
+For example, link the hourly grass forecast to an Item in an `.items` file (replace `home:pollen` with your Bridge and Thing IDs):
+
+```text
+Number Pollen_GrassHourly "Grass pollen forecast" { channel="openmeteo:air-quality:home:pollen:forecastHourly#grass-pollen" }
+Number Pollen_GrassToday "Grass pollen peak today [%.1f]"
+Number Pollen_GrassTomorrow "Grass pollen peak tomorrow [%.1f]"
+Number Pollen_GrassDay2 "Grass pollen peak in two days [%.1f]"
+Number Pollen_GrassDay3 "Grass pollen peak in three days [%.1f]"
+```
+
+Persist the hourly Item with the `forecast` strategy in a persistence service that supports future states, such as InMemory. For a file-based setup, install the InMemory persistence add-on and put this in `$OPENHAB_CONF/persistence/inmemory.persist`:
+
+```text
+Items {
+    Pollen_GrassHourly : strategy = forecast
+}
+```
+
+Run the following JavaScript Scripting code from a scheduled rule after the forecast has refreshed. It queries InMemory explicitly, so another persistence service can remain the default. Repeat the pattern for other enabled pollen species:
+
+```javascript
+const { items, time } = require('openhab');
+const hourly = items.getItem('Pollen_GrassHourly');
+const startOfToday = time.toZDT('00:00'); // openHAB's local time zone
+const dailyItems = [
+  'Pollen_GrassToday', 'Pollen_GrassTomorrow',
+  'Pollen_GrassDay2', 'Pollen_GrassDay3'
+];
+
+for (let day = 0; day < dailyItems.length; day++) {
+  const start = startOfToday.plusDays(day);
+  const end = startOfToday.plusDays(day + 1).minusNanos(1);
+  const states = hourly.persistence.getAllStatesBetween(start, end, 'inmemory');
+  // Guard against maximumBetween falling back to the current Item state
+  // when there is no forecast value in this day's interval.
+  const peak = states.length
+    ? hourly.persistence.maximumBetween(start, end, 'inmemory')?.numericState
+    : null;
+  items.getItem(dailyItems[day]).postUpdate(peak == null ? 'UNDEF' : String(peak));
+}
+```
+
+Each peak uses only hourly values available for that local calendar day. The first and last days may contain fewer forecast hours; a day without persisted values stays `UNDEF`. The local day boundaries also follow daylight saving time changes. Keep historical observations in separate Items rather than combining the `forecast` strategy with historical persistence strategies on the same Item.
+
 ### Hourly marine conditions forecast
 
 The channels are placed in groups named `forecastHourly` with [time series support](#persisting-time-series).
