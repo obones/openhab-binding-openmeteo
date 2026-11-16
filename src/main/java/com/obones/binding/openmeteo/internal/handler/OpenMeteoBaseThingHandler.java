@@ -418,6 +418,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
             } else {
                 TimeSeries timeSeries = new TimeSeries(TimeSeries.Policy.REPLACE);
                 long time = forecast[0].time();
+                int interval = forecast[0].interval();
                 int valuesLength = Math.max(valuesArray[0].valuesLength(), valuesArray[0].valuesInt64Length());
                 for (int valueIndex = 0; valueIndex < valuesLength; valueIndex++) {
                     Instant timestamp = Instant.ofEpochSecond(time);
@@ -431,7 +432,7 @@ public abstract class OpenMeteoBaseThingHandler extends BaseThingHandler {
                         timeSeries.add(timestamp, state);
                     }
 
-                    time += forecast[valueIndex].interval();
+                    time += interval;
                 }
 
                 logger.debug("Update channel '{}' of group '{}' with new time-series '{}'.", channelId, channelGroupId,
