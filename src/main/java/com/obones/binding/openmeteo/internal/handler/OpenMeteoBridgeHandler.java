@@ -165,17 +165,23 @@ public class OpenMeteoBridgeHandler extends BaseBridgeHandler {
     }
 
     private void updateThings() {
-        ThingStatus status = ThingStatus.ONLINE;
+        try {
+            ThingStatus status = ThingStatus.ONLINE;
 
-        updateState(CHANNEL_BRIDGE_LAST_UPDATED, new DateTimeType(ZonedDateTime.now()));
+            updateState(CHANNEL_BRIDGE_LAST_UPDATED, new DateTimeType(ZonedDateTime.now()));
 
-        List<Thing> children = getThing().getThings().stream().filter(Thing::isEnabled).collect(Collectors.toList());
-        if (!children.isEmpty()) {
-            for (Thing thing : children) {
-                updateThing((OpenMeteoBaseThingHandler) thing.getHandler(), thing);
+            List<Thing> children = getThing().getThings().stream().filter(Thing::isEnabled)
+                    .collect(Collectors.toList());
+            if (!children.isEmpty()) {
+                for (Thing thing : children) {
+                    updateThing((OpenMeteoBaseThingHandler) thing.getHandler(), thing);
+                }
             }
+            updateStatus(status);
+        } catch (Throwable th) {
+            // we MUST catch any throwable or future executions of the scheduled task would be suppressed
+            logger.error("Exception while updating things", th);
         }
-        updateStatus(status);
     }
 
     private ThingStatus updateThing(@Nullable OpenMeteoBaseThingHandler handler, Thing thing) {
