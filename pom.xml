@@ -16,7 +16,7 @@
 
   <name>openHAB Add-ons :: Bundles :: Open Meteo Binding</name>
 
-  <description>This binding integrates the Open Meteo weather foreceast service.</description>
+  <description>This binding integrates the Open Meteo weather forecast service.</description>
 
   <properties>
     <!--
