@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
@@ -318,9 +319,32 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         WeatherApiResponse[] responses = new WeatherApiResponse[forecastCount];
         for (int responseIndex = 0; responseIndex < forecastCount; responseIndex++) {
-            responses[responseIndex] = WeatherApiResponse
-                    // first 4 bytes are the forecast length and must be ignored
-                    .getRootAsWeatherApiResponse(buffer.position(responseIndex * forecastSize + 4));
+            int responsePosition = responseIndex * forecastSize + 4;
+            try {
+                responses[responseIndex] = WeatherApiResponse
+                        // first 4 bytes are the forecast length and must be ignored
+                        .getRootAsWeatherApiResponse(buffer.position(responsePosition));
+            } catch (Throwable th) {
+                // reset the position to the start of a forecast and dump at most 70 characters/hex bytes
+                buffer.position(responsePosition - 4);
+                byte[] dumpedContent = new byte[Math.min(70, buffer.remaining())];
+                buffer.get(dumpedContent);
+
+                var dumpedHexStringBuilder = new StringBuilder();
+                for (int dumpedIndex = 0; dumpedIndex < dumpedContent.length; dumpedIndex++) {
+                    var dumpedByte = dumpedContent[dumpedIndex];
+
+                    dumpedHexStringBuilder.append(String.format("%02x ", dumpedByte));
+                }
+
+                var dumpedString = new String(dumpedContent, StandardCharsets.ISO_8859_1);
+
+                logger.error("Invalid content received from API");
+                logger.error("    -> {}", dumpedString);
+                logger.error("    -> {}", dumpedHexStringBuilder.toString());
+
+                throw th;
+            }
         }
 
         return responses;
