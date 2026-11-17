@@ -298,35 +298,25 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
         ByteBuffer buffer = ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN);
 
-        var readLength = buffer.getInt(0);
-        logger.debug("Read length: {}", readLength);
-
-        double forecastCountDbl = bytes.length / (readLength + 4);
-        logger.debug("Estimated forecast count: {}", forecastCountDbl);
-
-        int forecastCount = 1;
-        int forecastSize = bytes.length;
-        if (forecastCountDbl % 1 == 0) {
-            forecastCount = Math.floorDiv(bytes.length, readLength);
-            forecastSize /= forecastCount;
-        } else {
-            logger.warn("Forecast count is not an integer, only reading first one ({} / {} = {})", bytes.length,
-                    readLength, forecastCountDbl);
-        }
-
-        logger.debug("Real forecast count: {}", forecastCount);
-        logger.debug("Forecast size: {}", forecastSize);
-
-        WeatherApiResponse[] responses = new WeatherApiResponse[forecastCount];
-        for (int responseIndex = 0; responseIndex < forecastCount; responseIndex++) {
-            int responsePosition = responseIndex * forecastSize + 4;
+        var responses = new ArrayList<WeatherApiResponse>();
+        while (buffer.hasRemaining()) {
+            int originalPosition = buffer.position();
             try {
-                responses[responseIndex] = WeatherApiResponse
-                        // first 4 bytes are the forecast length and must be ignored
-                        .getRootAsWeatherApiResponse(buffer.position(responsePosition));
+                int responseSize = buffer.getInt();
+                logger.debug("Response {}: originalPosition = {}, responseSize = {}", responses.size(),
+                        originalPosition, responseSize);
+                if (responseSize > buffer.remaining())
+                    throw new Error(
+                            String.format("Incoherent response size for %d, larger than remaining bytes (%d > %d)",
+                                    responses.size(), responseSize, buffer.remaining()));
+
+                responses.add(WeatherApiResponse.getRootAsWeatherApiResponse(buffer));
+
+                // We must set the next position ourselves, getRootAsWeatherApiResponse does not advance it
+                buffer.position(originalPosition + 4 + responseSize);
             } catch (Throwable th) {
-                // reset the position to the start of a forecast and dump at most 70 characters/hex bytes
-                buffer.position(responsePosition - 4);
+                // reset the position to the start of the forecast and dump at most 70 characters/hex bytes
+                buffer.position(originalPosition);
                 byte[] dumpedContent = new byte[Math.min(70, buffer.remaining())];
                 buffer.get(dumpedContent);
 
@@ -339,7 +329,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
 
                 var dumpedString = new String(dumpedContent, StandardCharsets.ISO_8859_1);
 
-                logger.error("Invalid content received from API");
+                logger.error("Invalid content received from API in response {}", responses.size());
                 logger.error("    -> {}", dumpedString);
                 logger.error("    -> {}", dumpedHexStringBuilder.toString());
 
@@ -347,7 +337,7 @@ public class OpenMeteoHttpConnection implements OpenMeteoConnection {
             }
         }
 
-        return responses;
+        return responses.toArray(WeatherApiResponse[]::new);
     }
 
     private @Nullable URI getUri() {
